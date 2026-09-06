@@ -200,7 +200,6 @@
   <div id="login-overlay" class="fixed inset-0 z-[100] flex items-center justify-center bg-[#157347]/90 p-4 backdrop-blur-md">
     <div class="w-full max-w-md rounded-2xl bg-white p-8 shadow-2xl border border-emerald-100">
       <div class="text-center mb-6">
-        <!-- LOGO LOGIN DIGANTI DENGAN GAMBAR LOGO MADRASAH -->
         <img 
           src="https://lh3.googleusercontent.com/d/1yN9yLh-L9MuZ5zaTxwi-bib--xeMC1z_" 
           alt="Logo Madrasah Diniyah" 
@@ -234,9 +233,7 @@
    <header class="site-width relative overflow-hidden rounded-[1.75rem] floating-header bg-[#157347] text-white" data-template-id="floating-header">
     <div class="hero-orb" aria-hidden="true"></div>
     <div class="relative flex flex-col gap-5 px-6 py-7 sm:px-9 sm:py-8 md:flex-row md:items-center md:justify-between">
-     <!-- SISI KIRI: LOGO & JUDUL -->
      <div class="flex items-center gap-4">
-      <!-- LOGO GOOGLE DRIVE -->
       <img 
         src="https://lh3.googleusercontent.com/d/1yN9yLh-L9MuZ5zaTxwi-bib--xeMC1z_" 
         alt="Logo Madrasah Diniyah" 
@@ -251,7 +248,6 @@
       </div>
      </div>
 
-     <!-- SISI KANAN: DIREKTORI COUNT & LOGOUT -->
      <div class="flex flex-wrap items-center gap-3 self-start md:self-auto">
       <div class="inline-flex items-center gap-3 rounded-2xl border border-white/20 bg-white/10 px-4 py-3 text-white backdrop-blur-sm">
        <i data-lucide="users-round" width="22" height="22" aria-hidden="true"></i>
@@ -291,19 +287,16 @@
         </div>
         
         <div class="flex flex-wrap items-center gap-2">
-          <!-- Tombol Tambah Khifidz (Khusus Tab Khifidz) -->
           <button id="add-khifidz-button" type="button" class="hidden inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200">
             <i data-lucide="plus-circle" width="16" height="16" aria-hidden="true"></i>
             <span>Tambah Khifidz</span>
           </button>
 
-          <!-- Tombol Export Excel -->
           <button id="export-button" type="button" class="canva-button inline-flex items-center justify-center gap-2 rounded-xl bg-[#157347] px-4 py-2.5 text-sm font-bold text-white transition hover:bg-[#0e5635] focus:outline-none focus:ring-4 focus:ring-emerald-200"> 
             <i data-lucide="file-spreadsheet" width="16" height="16" aria-hidden="true"></i> 
             <span>Export Excel</span> 
           </button>
           
-          <!-- Tombol Reset Data -->
           <button id="reset-button" type="button" data-template-id="reset-button" class="canva-button inline-flex items-center justify-center gap-2 rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-bold text-gray-700 transition hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-emerald-200"> 
             <i data-lucide="rotate-ccw" width="16" height="16" aria-hidden="true"></i> 
             <span>Reset Data</span> 
@@ -311,8 +304,14 @@
         </div>
        </div>
 
-       <div class="grid gap-3 md:grid-cols-3 xl:grid-cols-4">
-        <div class="md:col-span-1 xl:col-span-2">
+       <div class="grid gap-3 md:grid-cols-3 xl:grid-cols-5">
+        <div>
+         <label class="canva-text mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#173b2b]" for="academic-year-filter">Tahun Ajaran</label> 
+         <select id="academic-year-filter" class="canva-dropdown filter-control text-sm font-bold border-emerald-300 bg-emerald-50/50"> 
+         </select>
+        </div>
+
+        <div class="md:col-span-1 xl:col-span-1">
          <label data-template-id="quick-label" class="canva-text mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#173b2b]" for="quick-search">Pencarian Cepat</label>
          <div class="relative">
           <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 text-[#71907b]" width="18" height="18" aria-hidden="true"></i> 
@@ -327,13 +326,23 @@
          </select>
         </div>
 
+        <!-- DROPDOWN ROMBEL (KHUSUS KHIFIDZ SANTRI) -->
+        <div id="rombel-filter-container" class="hidden">
+         <label class="canva-text mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#173b2b]" for="rombel-filter">Filter Rombel</label> 
+         <select id="rombel-filter" class="canva-dropdown filter-control text-sm"> 
+          <option value="">Semua Rombel</option> 
+          <option value="Putra">Putra</option> 
+          <option value="Putri">Putri</option> 
+         </select>
+        </div>
+
         <!-- DROPDOWN SEMESTER (KHUSUS KHIFIDZ SANTRI) -->
         <div id="semester-filter-container" class="hidden">
          <label class="canva-text mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#173b2b]" for="semester-filter">Filter Semester</label> 
          <select id="semester-filter" class="canva-dropdown filter-control text-sm"> 
           <option value="">Semua Semester</option> 
-          <option value="1">Semester 1</option> 
-          <option value="2">Semester 2</option> 
+          <option value="Semester 1">Semester 1</option> 
+          <option value="Semester 2">Semester 2</option> 
          </select>
         </div>
        </div>
@@ -394,7 +403,6 @@
       </div>
       
       <form id="edit-form" class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <!-- Input Dinamis Terisi Lewat JS -->
       </form>
 
       <div class="mt-6 flex items-center justify-end gap-3 border-t border-gray-200 pt-4">
@@ -443,24 +451,6 @@
         </div>
 
         <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">Semester</label>
-          <select id="add-semester" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
-            <option value="">Pilih Semester</option>
-            <option value="1">Semester 1</option>
-            <option value="2">Semester 2</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">Penerima</label>
-          <select id="add-penerima" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
-            <option value="">Pilih Penerima</option>
-            <option value="Adi">Adi</option>
-            <option value="Samsul">Samsul</option>
-          </select>
-        </div>
-
-        <div>
           <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">Rombel</label>
           <select id="add-rombel" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
             <option value="">Pilih Rombel</option>
@@ -470,11 +460,25 @@
         </div>
 
         <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">Penerima</label>
+          <select id="add-penerima" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+            <option value="">Pilih Rombel Terlebih Dahulu</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">Semester</label>
+          <select id="add-semester" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+            <option value="">Pilih Semester</option>
+            <option value="Semester 1">Semester 1</option>
+            <option value="Semester 2">Semester 2</option>
+          </select>
+        </div>
+
+        <div>
           <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">Nadzoman</label>
           <select id="add-nadzoman" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
-            <option value="">Pilih Nadzoman</option>
-            <option value="nahwu">nahwu</option>
-            <option value="fiqih">fiqih</option>
+            <option value="">Pilih Semester Terlebih Dahulu</option>
           </select>
         </div>
       </form>
@@ -494,35 +498,109 @@
   <script src="/_sdk/5629ea66dc55d54f.editing_sdk.js" integrity="sha512-snPYzGvgiTEMUBOb+HlCBkFeiM0IRX4hcgA78wvalhC0WnJtaX+RCbosPWtNqZsZ7sZ9NwN0oePZYa+IlMwa+w=="></script>
   
   <script>
-    // KREDENSIAL LOGIN (Dapat disesuaikan)
     const AUTH_USER = "admin";
     const AUTH_PASS = "admin";
 
-    // LINK WEB APP APPS SCRIPT TERBARU
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzGi_rCy0Y6C0Wf0Ix5evkRivdH4sAocy_arPACHFXGLJtBoWn3MkKA8rUd_WtpZxUr/exec";
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx84kAIzZSRBp8skV0dP1UPjhQbyVA56PPTtfahwlMZRByG-Rxy0KfTAIlXmEXJV7C_/exec";
+
+    // MAPPING BULAN
+    const NAMA_BULAN = [
+      "", "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+      "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+    ];
+
+    function formatBulan(val) {
+      if (!val) return "";
+      const num = parseInt(val, 10);
+      if (!isNaN(num) && num >= 1 && num <= 12) {
+        return NAMA_BULAN[num];
+      }
+      return val;
+    }
+
+    // DAFTAR PENERIMA BERDASARKAN ROMBEL
+    const PENERIMA_OPTIONS = {
+      "Putra": [
+        "Ust. Muh. Haidar Hadziq",
+        "Ust. M. Syarifudin Zuhri",
+        "Ust. M. Syaifulloh Faqeh",
+        "Ust. Nur M. Iqbal K.",
+        "Ust. Muhammad Sirojul Abidin",
+        "Gus Naf'an Salim",
+        "Ust. M. Khusni Mubarrok",
+        "Ust. M. Amir Afandi Najhan",
+        "Ust. M. Nanang Mahbuby",
+        "Ust. Mohammad Ainun Najib",
+        "Ust. Fiqi Hasanahdlo",
+        "Ust. Sidiq Dwi Resmana",
+        "Ust. Moh. Taufiq"
+      ],
+      "Putri": [
+        "Ustdzh. Farihah Mar'atul Khiyaroh Taufiq",
+        "Ustdzh. Ababilur Rohmah",
+        "Ustdzh. Mufarrochah",
+        "Ustdzh. Siti Makiyatul Madania",
+        "Ustdzh. Nabilla Fatimatuuzzahro",
+        "Ustdzh. Miftakhul Jannah",
+        "Ustdzh. Intan Akmaliyah",
+        "Ustdzh. An Nisa' Hayatun Nufus",
+        "Ustdzh. Nur Afifa Ramadayani ",
+        "Ustdzh. Rizqi Sabila",
+        "Ustdzh. Fatimah Nayyiratus Sadiyah"
+      ]
+    };
+
+    // DAFTAR NADZOMAN BERDASARKAN SEMESTER
+    const NADZOMAN_OPTIONS = {
+      "Semester 1": [
+        "Birrul Walidaikum",
+        "Tuhfatul Athfal",
+        "Awamilul Jurjani",
+        "Durrotul Yatimah",
+        "Nahwu Jawan",
+        "Imrithi",
+        "Alfiyah Ibnu Malik",
+        "Jauharul Maknun",
+        "Sullamul Munawroq"
+      ],
+      "Semester 2": [
+        "Alaa Laa",
+        "Aqidatul Awam",
+        "Tashrif Isthilahi",
+        "Tashrif Lughowy",
+        "Nahwu Jawan",
+        "Imrithi",
+        "Alfiyah Ibnu Malik",
+        "Jauharul Maknun",
+        "Sullamul Munawroq"
+      ]
+    };
 
     const SOURCES = {
-      biodata: {
-        url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTnZX7kiCDnZo6XbSffno9lWVrjFtuFvMqF25hkH0jKcIGw8utrIMjELtsExeSIEWQqplXh9Lv3Fn3/pub?gid=0&single=true&output=csv",
-        headers: [
-          "STATUS", "ABSEN", "ID YYS", "NO INDUK", "NAMA", "KELAS", "TEMPAT LAHIR",
-          "TANGGAL LAHIR", "BULAN LAHIR", "TAHUN LAHIR", "NAMA AYAH", "PEKERJAAN",
-          "NAMA IBU", "PEKERJAAN", "TGL MASUK", "BLN MASUK", "THN MASUK",
-          "KLS AWAL MASUK", "JALAN", "NO/RT/RW", "DUSUN", "DESA/KELURAHAN",
-          "KECAMATAN", "KABUPATEN/KOTA", "PROVINSI"
-        ]
+      "1447/1448": {
+        biodata: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTnZX7kiCDnZo6XbSffno9lWVrjFtuFvMqF25hkH0jKcIGw8utrIMjELtsExeSIEWQqplXh9Lv3Fn3/pub?gid=0&single=true&output=csv",
+        khifidz: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTnZX7kiCDnZo6XbSffno9lWVrjFtuFvMqF25hkH0jKcIGw8utrIMjELtsExeSIEWQqplXh9Lv3Fn3/pub?gid=860545&single=true&output=csv"
       },
-      khifidz: {
-        url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTnZX7kiCDnZo6XbSffno9lWVrjFtuFvMqF25hkH0jKcIGw8utrIMjELtsExeSIEWQqplXh9Lv3Fn3/pub?gid=860545&single=true&output=csv",
-        headers: []
+      "1448/1449": {
+        biodata: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTnZX7kiCDnZo6XbSffno9lWVrjFtuFvMqF25hkH0jKcIGw8utrIMjELtsExeSIEWQqplXh9Lv3Fn3/pub?gid=1731638678&single=true&output=csv",
+        khifidz: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTnZX7kiCDnZo6XbSffno9lWVrjFtuFvMqF25hkH0jKcIGw8utrIMjELtsExeSIEWQqplXh9Lv3Fn3/pub?gid=1752319511&single=true&output=csv"
       }
     };
 
+    const BIODATA_DEFAULT_HEADERS = [
+      "STATUS", "ABSEN", "ID YYS", "NO INDUK", "NAMA", "KELAS", "TEMPAT LAHIR",
+      "TANGGAL LAHIR", "BULAN LAHIR", "TAHUN LAHIR", "NAMA AYAH", "PEKERJAAN",
+      "NAMA IBU", "PEKERJAAN", "TGL MASUK", "BLN MASUK", "THN MASUK",
+      "KLS AWAL MASUK", "JALAN", "NO/RT/RW", "DUSUN", "DESA/KELURAHAN",
+      "KECAMATAN", "KABUPATEN/KOTA", "PROVINSI"
+    ];
+
     const state = {
+      activeYear: "1447/1448",
       activeTab: "biodata",
-      loaded: { biodata: false, khifidz: false },
-      data: { biodata: [], khifidz: [] },
-      headers: { biodata: SOURCES.biodata.headers, khifidz: [] },
+      loaded: {},
+      data: {},
+      headers: {},
       page: 1,
       pageSize: 10
     };
@@ -532,6 +610,9 @@
       khifidzTab: document.getElementById("khifidz-tab"),
       search: document.getElementById("quick-search"),
       classFilter: document.getElementById("class-filter"),
+      academicYearFilter: document.getElementById("academic-year-filter"),
+      rombelFilter: document.getElementById("rombel-filter"),
+      rombelContainer: document.getElementById("rombel-filter-container"),
       semesterFilter: document.getElementById("semester-filter"),
       semesterContainer: document.getElementById("semester-filter-container"),
       addKhifidzBtn: document.getElementById("add-khifidz-button"),
@@ -554,7 +635,6 @@
       cancelBtn: document.getElementById("cancel-btn"),
       saveBtn: document.getElementById("save-btn"),
       
-      // Elemen Modal Tambah Khifidz
       addModal: document.getElementById("add-khifidz-modal"),
       addForm: document.getElementById("add-khifidz-form"),
       closeAddModalBtn: document.getElementById("close-add-modal"),
@@ -571,7 +651,6 @@
       addNadzoman: document.getElementById("add-nadzoman"),
       noIndukMsg: document.getElementById("no-induk-msg"),
 
-      // Elemen Fitur Login
       loginOverlay: document.getElementById("login-overlay"),
       loginForm: document.getElementById("login-form"),
       loginUser: document.getElementById("login-user"),
@@ -580,14 +659,25 @@
       logoutBtn: document.getElementById("logout-button")
     };
 
-    // LOGIKA AUTENTIKASI LOGIN
+    function initAcademicYearDropdown() {
+      els.academicYearFilter.innerHTML = "";
+      Object.keys(SOURCES).forEach(year => {
+        const opt = document.createElement("option");
+        opt.value = year;
+        opt.textContent = `Tahun Ajaran ${year} H`;
+        els.academicYearFilter.appendChild(opt);
+      });
+      els.academicYearFilter.value = state.activeYear;
+    }
+
     function checkAuth() {
       const isLoggedIn = localStorage.getItem("isLoggedIn");
       if (isLoggedIn === "true") {
         els.loginOverlay.classList.add("hidden");
         if (els.logoutBtn) els.logoutBtn.classList.remove("hidden");
-        if (!state.loaded.biodata) {
-          loadData("biodata");
+        const cacheKey = `${state.activeYear}_${state.activeTab}`;
+        if (!state.loaded[cacheKey]) {
+          loadData(state.activeYear, state.activeTab);
         }
       } else {
         els.loginOverlay.classList.remove("hidden");
@@ -677,18 +767,23 @@
       els.tableMessage.classList.add("hidden");
     }
 
-    async function loadData(tabName) {
-      if (state.loaded[tabName]) {
+    async function loadData(year, tabName) {
+      const cacheKey = `${year}_${tabName}`;
+
+      if (state.loaded[cacheKey]) {
         render();
         return;
       }
 
       els.headerCount.textContent = "Memuat data...";
-      els.resultSummary.textContent = "Menghubungkan ke spreadsheet...";
-      setMessage("Memuat spreadsheet", "Mohon tunggu sebentar, data sedang disiapkan.");
+      els.resultSummary.textContent = `Menghubungkan ke spreadsheet ${year}...`;
+      setMessage("Memuat spreadsheet", `Mohon tunggu, memuat data ${tabName} tahun ajaran ${year}.`);
 
       try {
-        const response = await fetch(SOURCES[tabName].url, { cache: "no-store" });
+        const sourceUrl = SOURCES[year] && SOURCES[year][tabName];
+        if (!sourceUrl) throw new Error(`Tautan spreadsheet untuk Tahun Ajaran ${year} belum dikonfigurasi.`);
+
+        const response = await fetch(sourceUrl, { cache: "no-store" });
         if (!response.ok) throw new Error("Spreadsheet tidak dapat diakses.");
 
         const csvText = await response.text();
@@ -697,7 +792,7 @@
         if (csvRows.length < 1) throw new Error("Spreadsheet tidak memiliki data yang dapat ditampilkan.");
 
         const sourceHeaders = csvRows[0].map((header, index) => header || `Kolom ${index + 1}`);
-        const headers = tabName === "biodata" ? SOURCES.biodata.headers : sourceHeaders;
+        const headers = tabName === "biodata" ? BIODATA_DEFAULT_HEADERS : sourceHeaders;
 
         const records = csvRows.slice(1)
           .filter(row => row.some(value => String(value).trim() !== ""))
@@ -710,9 +805,9 @@
             return record;
           });
 
-        state.headers[tabName] = headers;
-        state.data[tabName] = records;
-        state.loaded[tabName] = true;
+        state.headers[cacheKey] = headers;
+        state.data[cacheKey] = records;
+        state.loaded[cacheKey] = true;
         populateFilters();
         render();
       } catch (error) {
@@ -720,14 +815,9 @@
         els.resultSummary.textContent = "Gagal memuat data.";
         setMessage(
           "Spreadsheet belum dapat dimuat",
-          `${error.message || "Terjadi kendala saat mengambil data."} Pastikan tautan spreadsheet telah dipublikasikan untuk umum dan koneksi internet tersedia.`
+          `${error.message || "Terjadi kendala saat mengambil data."} Pastikan tautan spreadsheet telah dipublikasikan untuk umum.`
         );
       }
-    }
-
-    function optionText(columnName) {
-      const firstOption = { class: "Semua Kelas", year: "Semua Tahun", district: "Semua Kecamatan" };
-      return firstOption[columnName];
     }
 
     function fillSelect(select, values, defaultLabel) {
@@ -749,8 +839,9 @@
     }
 
     function populateFilters() {
-      const headers = state.headers[state.activeTab];
-      const data = state.data[state.activeTab];
+      const cacheKey = `${state.activeYear}_${state.activeTab}`;
+      const headers = state.headers[cacheKey] || [];
+      const data = state.data[cacheKey] || [];
       const classHeader = findHeader(headers, ["Kelas", "Kls", "KELAS"]);
 
       const valuesFor = header => header
@@ -758,40 +849,52 @@
           .sort((a, b) => a.localeCompare(b, "id"))
         : [];
 
-      fillSelect(els.classFilter, valuesFor(classHeader), optionText("class"));
+      fillSelect(els.classFilter, valuesFor(classHeader), "Semua Kelas");
       els.classFilter.closest("div").classList.toggle("hidden", !classHeader);
 
-      // KONTROL KHUSUS TAB KHIFIDZ
       if (state.activeTab === "khifidz") {
+        els.rombelContainer.classList.remove("hidden");
         els.semesterContainer.classList.remove("hidden");
         els.addKhifidzBtn.classList.remove("hidden");
       } else {
+        els.rombelContainer.classList.add("hidden");
         els.semesterContainer.classList.add("hidden");
         els.addKhifidzBtn.classList.add("hidden");
+        els.rombelFilter.value = "";
         els.semesterFilter.value = "";
       }
     }
 
     function getFilteredData() {
-      const headers = state.headers[state.activeTab];
+      const cacheKey = `${state.activeYear}_${state.activeTab}`;
+      const headers = state.headers[cacheKey] || [];
+      const data = state.data[cacheKey] || [];
+
       const classHeader = findHeader(headers, ["Kelas", "Kls", "KELAS"]);
+      const rombelHeader = findHeader(headers, ["Rombel", "ROMBEL"]);
       const semesterHeader = findHeader(headers, ["Semester", "Smt", "SEMESTER"]);
       const query = els.search.value.trim().toLowerCase();
 
-      return state.data[state.activeTab].filter(row => {
+      return data.filter(row => {
         const searchableValues = [row[findHeader(headers, ["NAMA", "Nama"])], row[findHeader(headers, ["NO INDUK", "No Induk", "Nomor Induk"])]];
         const matchesSearch = !query || searchableValues.some(value =>
           String(value || "").toLowerCase().includes(query)
         );
         const matchesClass = !els.classFilter.value || row[classHeader] === els.classFilter.value;
         
-        let matchesSemester = true;
-        if (state.activeTab === "khifidz" && els.semesterFilter.value && semesterHeader) {
-          const val = String(row[semesterHeader] || "").trim();
-          matchesSemester = val === els.semesterFilter.value || val.toLowerCase().includes(els.semesterFilter.value);
+        let matchesRombel = true;
+        if (state.activeTab === "khifidz" && els.rombelFilter.value && rombelHeader) {
+          const valRombel = String(row[rombelHeader] || "").trim();
+          matchesRombel = valRombel.toLowerCase() === els.rombelFilter.value.toLowerCase();
         }
 
-        return matchesSearch && matchesClass && matchesSemester;
+        let matchesSemester = true;
+        if (state.activeTab === "khifidz" && els.semesterFilter.value && semesterHeader) {
+          const valSemester = String(row[semesterHeader] || "").trim();
+          matchesSemester = valSemester === els.semesterFilter.value || valSemester.toLowerCase().includes(els.semesterFilter.value.toLowerCase());
+        }
+
+        return matchesSearch && matchesClass && matchesRombel && matchesSemester;
       });
     }
 
@@ -808,8 +911,9 @@
     }
 
     function render() {
+      const cacheKey = `${state.activeYear}_${state.activeTab}`;
       const data = getFilteredData();
-      const headers = state.headers[state.activeTab];
+      const headers = state.headers[cacheKey] || [];
       const total = data.length;
       const pageSize = state.pageSize === "all" ? Math.max(total, 1) : Number(state.pageSize);
       const totalPages = Math.max(1, Math.ceil(total / pageSize));
@@ -823,7 +927,7 @@
       els.tableBody.innerHTML = "";
 
       if (total === 0) {
-        setMessage("Data tidak ditemukan", "Coba ubah kata kunci pencarian atau gunakan tombol Reset Data.");
+        setMessage("Data tidak ditemukan", "Coba ubah kata kunci pencarian, pilih kelas/rombel lain, atau pilih Tahun Ajaran yang berbeda.");
         els.resultSummary.textContent = "0 data ditemukan.";
         els.headerCount.textContent = "0 data";
         return;
@@ -839,12 +943,9 @@
         const statusValue = String(record[statusHeader] || "").trim().toUpperCase();
         const idYysValue = String(record[idYysHeader] || "").trim().toUpperCase();
 
-        // 1. Jika ID YYS bernilai OUT -> Warna Merah
         if (idYysValue === "OUT") {
           tr.className += " bg-red-100/90 text-red-900 font-medium hover:!bg-red-200/90";
-        } 
-        // 2. Jika STATUS bernilai BELUM -> Warna Kuning
-        else if (statusValue === "BELUM") {
+        } else if (statusValue === "BELUM") {
           tr.className += " bg-amber-100/90 text-amber-900 font-medium hover:!bg-amber-200/90";
         }
 
@@ -874,9 +975,9 @@
       });
 
       const activeLabel = state.activeTab === "biodata" ? "Biodata" : "Khifidz Santri";
-      els.resultSummary.textContent = `${total.toLocaleString("id-ID")} data ${activeLabel.toLowerCase()} ditemukan.`;
+      els.resultSummary.textContent = `${total.toLocaleString("id-ID")} data ${activeLabel.toLowerCase()} (${state.activeYear}) ditemukan.`;
       els.headerCount.textContent = `${total.toLocaleString("id-ID")} data`;
-      els.filterDescription.textContent = `Filter dan cari data pada tab ${activeLabel}. Klik baris untuk merubah data.`;
+      els.filterDescription.textContent = `Menampilkan data ${activeLabel} Tahun Ajaran ${state.activeYear}. Klik baris untuk merubah data.`;
 
       const firstItem = start + 1;
       const lastItem = Math.min(start + pageSize, total);
@@ -884,10 +985,10 @@
       renderPagination(totalPages);
     }
 
-    // MEMBUKA MODAL EDIT DATA
     function openEditModal(record) {
       els.editForm.innerHTML = "";
-      const headers = state.headers[state.activeTab];
+      const cacheKey = `${state.activeYear}_${state.activeTab}`;
+      const headers = state.headers[cacheKey] || [];
       
       headers.forEach(header => {
         const wrapper = document.createElement("div");
@@ -905,7 +1006,6 @@
       els.modal.classList.remove("hidden");
     }
 
-    // EXPORT DATA KE EXCEL
     function exportToExcel() {
       const filteredData = getFilteredData();
       
@@ -918,15 +1018,14 @@
       const workbook = XLSX.utils.book_new();
       const sheetName = state.activeTab === "biodata" ? "Biodata Santri" : "Khifidz Santri";
       
-      XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
+      XLSX.utils.book_append_sheet(workbook, worksheet, `${sheetName}_${state.activeYear.replace('/', '-')}`);
 
       const today = new Date().toISOString().slice(0, 10);
-      const fileName = `Data_Santri_${sheetName.replace(/\s+/g, '_')}_${today}.xlsx`;
+      const fileName = `Data_Santri_${sheetName.replace(/\s+/g, '_')}_${state.activeYear.replace('/', '-')}_${today}.xlsx`;
 
       XLSX.writeFile(workbook, fileName);
     }
 
-    // LOGIKA AUTO-FILL SAAT KETIK NO INDUK DI FORM TAMBAH KHIFIDZ
     els.addNoInduk.addEventListener("input", async () => {
       const inputVal = els.addNoInduk.value.trim().toLowerCase();
       
@@ -935,16 +1034,16 @@
         return;
       }
 
-      // Pastikan data Biodata sudah terload untuk pencarian
-      if (!state.loaded.biodata) {
-        await loadData("biodata");
+      const biodataCacheKey = `${state.activeYear}_biodata`;
+
+      if (!state.loaded[biodataCacheKey]) {
+        await loadData(state.activeYear, "biodata");
       }
 
-      const biodataList = state.data.biodata;
-      const headers = state.headers.biodata;
+      const biodataList = state.data[biodataCacheKey] || [];
+      const headers = state.headers[biodataCacheKey] || [];
       const noIndukHeader = findHeader(headers, ["NO INDUK", "No Induk", "Nomor Induk"]);
 
-      // Cari santri berdasarkan No Induk
       const found = biodataList.find(s => String(s[noIndukHeader] || "").trim().toLowerCase() === inputVal);
 
       if (found) {
@@ -954,16 +1053,16 @@
         els.addNama.value = found[findHeader(headers, ["NAMA", "Nama"])] || "";
         els.addKelas.value = found[findHeader(headers, ["KELAS", "Kelas"])] || "";
 
-        // Format Tempat & Tanggal Lahir: Pasuruan, 21 Oktober 2022
         const tempat = found[findHeader(headers, ["TEMPAT LAHIR", "Tempat Lahir"])] || "";
         const tgl = found[findHeader(headers, ["TANGGAL LAHIR", "Tanggal Lahir"])] || "";
-        const bln = found[findHeader(headers, ["BULAN LAHIR", "Bulan Lahir"])] || "";
+        const blnRaw = found[findHeader(headers, ["BULAN LAHIR", "Bulan Lahir"])] || "";
         const thn = found[findHeader(headers, ["TAHUN LAHIR", "Tahun Lahir"])] || "";
         
+        const bln = formatBulan(blnRaw);
+
         const ttlArray = [tgl, bln, thn].filter(Boolean).join(" ");
         els.addTempatTanggalLahir.value = tempat && ttlArray ? `${tempat}, ${ttlArray}` : (tempat || ttlArray || "—");
 
-        // Format Alamat: Dusun, Desa, Kecamatan, Kabupaten, Provinsi
         const dusun = found[findHeader(headers, ["DUSUN", "Dusun"])] || "";
         const desa = found[findHeader(headers, ["DESA/KELURAHAN", "Desa/Kelurahan", "Desa"])] || "";
         const kec = found[findHeader(headers, ["KECAMATAN", "Kecamatan"])] || "";
@@ -972,10 +1071,62 @@
         
         els.addAlamat.value = [dusun, desa, kec, kab, prov].filter(Boolean).join(", ") || "—";
       } else {
-        els.noIndukMsg.textContent = "Santri dengan No Induk tersebut tidak ditemukan.";
+        els.noIndukMsg.textContent = `Santri No Induk tersebut tidak ditemukan pada Biodata ${state.activeYear}.`;
         els.noIndukMsg.className = "mt-1 text-xs text-red-500 font-semibold";
         resetAddFields(false);
       }
+    });
+
+    // MEMPERBARUI DROPDOWN PENERIMA SESUAI ROMBEL
+    els.addRombel.addEventListener("change", () => {
+      const selectedRombel = els.addRombel.value;
+      els.addPenerima.innerHTML = "";
+
+      if (!selectedRombel || !PENERIMA_OPTIONS[selectedRombel]) {
+        const defaultOpt = document.createElement("option");
+        defaultOpt.value = "";
+        defaultOpt.textContent = "Pilih Rombel Terlebih Dahulu";
+        els.addPenerima.appendChild(defaultOpt);
+        return;
+      }
+
+      const defaultOpt = document.createElement("option");
+      defaultOpt.value = "";
+      defaultOpt.textContent = `Pilih Penerima (${selectedRombel})`;
+      els.addPenerima.appendChild(defaultOpt);
+
+      PENERIMA_OPTIONS[selectedRombel].forEach(penerima => {
+        const opt = document.createElement("option");
+        opt.value = penerima;
+        opt.textContent = penerima;
+        els.addPenerima.appendChild(opt);
+      });
+    });
+
+    // MEMPERBARUI DROPDOWN NADZOMAN SESUAI SEMESTER
+    els.addSemester.addEventListener("change", () => {
+      const selectedSemester = els.addSemester.value;
+      els.addNadzoman.innerHTML = "";
+
+      if (!selectedSemester || !NADZOMAN_OPTIONS[selectedSemester]) {
+        const defaultOpt = document.createElement("option");
+        defaultOpt.value = "";
+        defaultOpt.textContent = "Pilih Semester Terlebih Dahulu";
+        els.addNadzoman.appendChild(defaultOpt);
+        return;
+      }
+
+      const defaultOpt = document.createElement("option");
+      defaultOpt.value = "";
+      defaultOpt.textContent = `Pilih Nadzoman (${selectedSemester})`;
+      els.addNadzoman.appendChild(defaultOpt);
+
+      NADZOMAN_OPTIONS[selectedSemester].forEach(item => {
+        const opt = document.createElement("option");
+        opt.value = item;
+        opt.textContent = item;
+        els.addNadzoman.appendChild(opt);
+      });
     });
 
     function resetAddFields(clearNoInduk = true) {
@@ -985,13 +1136,14 @@
       els.addTempatTanggalLahir.value = "";
       els.addAlamat.value = "";
       els.addSemester.value = "";
-      els.addPenerima.value = "";
       els.addRombel.value = "";
+      els.addPenerima.value = "";
+      els.addPenerima.innerHTML = '<option value="">Pilih Rombel Terlebih Dahulu</option>';
       els.addNadzoman.value = "";
+      els.addNadzoman.innerHTML = '<option value="">Pilih Semester Terlebih Dahulu</option>';
       els.noIndukMsg.textContent = "";
     }
 
-    // TAMPILAN PAGINASI
     function createPageButton(label, onClick, disabled, isCurrent) {
       const button = document.createElement("button");
       button.type = "button";
@@ -1049,6 +1201,7 @@
     function resetFilters() {
       els.search.value = "";
       els.classFilter.value = "";
+      els.rombelFilter.value = "";
       els.semesterFilter.value = "";
       state.page = 1;
       render();
@@ -1060,6 +1213,7 @@
       state.page = 1;
       els.search.value = "";
       els.classFilter.value = "";
+      els.rombelFilter.value = "";
       els.semesterFilter.value = "";
 
       const biodataActive = tabName === "biodata";
@@ -1068,19 +1222,20 @@
       els.biodataTab.setAttribute("aria-selected", String(biodataActive));
       els.khifidzTab.setAttribute("aria-selected", String(!biodataActive));
 
-      if (state.loaded[tabName]) {
-        populateFilters();
-        render();
-      } else {
-        await loadData(tabName);
-      }
+      await loadData(state.activeYear, tabName);
     }
 
-    // EVENT LISTENERS
+    els.academicYearFilter.addEventListener("change", async () => {
+      state.activeYear = els.academicYearFilter.value;
+      state.page = 1;
+      resetFilters();
+      await loadData(state.activeYear, state.activeTab);
+    });
+
     els.biodataTab.addEventListener("click", () => changeTab("biodata"));
     els.khifidzTab.addEventListener("click", () => changeTab("khifidz"));
 
-    [els.search, els.classFilter, els.semesterFilter].forEach(control => {
+    [els.search, els.classFilter, els.rombelFilter, els.semesterFilter].forEach(control => {
       control.addEventListener(control === els.search ? "input" : "change", () => {
         state.page = 1;
         render();
@@ -1096,11 +1251,9 @@
     els.reset.addEventListener("click", resetFilters);
     els.exportBtn.addEventListener("click", exportToExcel);
 
-    // KONTROL MODAL EDIT
     els.closeModalBtn.onclick = () => els.modal.classList.add("hidden");
     els.cancelBtn.onclick = () => els.modal.classList.add("hidden");
 
-    // KONTROL MODAL TAMBAH KHIFIDZ
     els.addKhifidzBtn.onclick = () => {
       resetAddFields();
       els.addModal.classList.remove("hidden");
@@ -1108,11 +1261,11 @@
     els.closeAddModalBtn.onclick = () => els.addModal.classList.add("hidden");
     els.cancelAddBtn.onclick = () => els.addModal.classList.add("hidden");
 
-    // PROSES SIMPAN EDITAN DATA SPREADSHEET (MANDUKUNG DUA TAB SHEET)
     els.saveBtn.onclick = async () => {
       const formData = new FormData(els.editForm);
       const payload = {
-        sheetTarget: state.activeTab === "biodata" ? "Biodata" : "Khifidz"
+        sheetTarget: state.activeTab === "biodata" ? "Biodata" : "Khifidz",
+        tahunAjaran: state.activeYear
       };
 
       formData.forEach((value, key) => {
@@ -1133,8 +1286,9 @@
         if (result.status === "success") {
           alert("Data berhasil diperbarui di Spreadsheet!");
           els.modal.classList.add("hidden");
-          state.loaded[state.activeTab] = false;
-          await loadData(state.activeTab);
+          const cacheKey = `${state.activeYear}_${state.activeTab}`;
+          state.loaded[cacheKey] = false;
+          await loadData(state.activeYear, state.activeTab);
         } else {
           alert("Gagal menyimpan: " + result.message);
         }
@@ -1146,7 +1300,6 @@
       }
     };
 
-    // PROSES SIMPAN DATA BARU KHIFIDZ SPREADSHEET
     els.saveAddBtn.onclick = async () => {
       if (!els.addNoInduk.value || !els.addNama.value) {
         alert("Silakan masukkan No Induk santri yang valid!");
@@ -1154,13 +1307,14 @@
       }
 
       if (!els.addSemester.value || !els.addPenerima.value || !els.addRombel.value || !els.addNadzoman.value) {
-        alert("Harap lengkapi semua pilihan dropdown (Semester, Penerima, Rombel, Nadzoman)!");
+        alert("Harap lengkapi semua pilihan dropdown (Rombel, Penerima, Semester, Nadzoman)!");
         return;
       }
 
       const payload = {
         action: "add",
         sheetTarget: "Khifidz",
+        tahunAjaran: state.activeYear,
         "No Induk": els.addNoInduk.value,
         "Nama": els.addNama.value,
         "Kelas": els.addKelas.value,
@@ -1184,10 +1338,11 @@
         const result = await response.json();
 
         if (result.status === "success") {
-          alert("Santri Khifidz berhasil ditambahkan ke Spreadsheet!");
+          alert(`Santri Khifidz berhasil ditambahkan ke Spreadsheet ${state.activeYear}!`);
           els.addModal.classList.add("hidden");
-          state.loaded.khifidz = false;
-          await loadData("khifidz");
+          const khifidzCacheKey = `${state.activeYear}_khifidz`;
+          state.loaded[khifidzCacheKey] = false;
+          await loadData(state.activeYear, "khifidz");
         } else {
           alert("Gagal menambahkan: " + result.message);
         }
@@ -1201,6 +1356,7 @@
 
     document.addEventListener("DOMContentLoaded", () => {
       lucide.createIcons();
+      initAcademicYearDropdown();
       checkAuth();
     });
   </script>
