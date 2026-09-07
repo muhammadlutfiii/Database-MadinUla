@@ -187,6 +187,44 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* CSS PRESI FISIK TEMPLATE SERTIFIKAT (21.1 cm x 32.7 cm) */
+    @media print {
+      /* Sembunyikan seluruh isi halaman web */
+      body * {
+        visibility: hidden !important;
+      }
+
+      /* Tampilkan area cetak sertifikat beserta anak elemennya */
+      #certificate-print-area, #certificate-print-area * {
+        visibility: visible !important;
+      }
+
+      /* Posisikan area cetak di pojok kiri atas halaman fisik */
+      #certificate-print-area {
+        display: block !important;
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 21.1cm !important;
+        height: 32.7cm !important;
+        box-sizing: border-box !important;
+        padding-top: 13cm !important;
+        padding-bottom: 3.5cm !important;
+        padding-left: 3cm !important;
+        padding-right: 3cm !important;
+        font-family: "Cambria", Georgia, serif !important;
+        font-size: 12pt !important;
+        line-height: 1.5 !important;
+        color: #000000 !important;
+        background: transparent !important;
+      }
+
+      @page {
+        size: 21.1cm 32.7cm portrait;
+        margin: 0;
+      }
+    }
+
     @media (max-width: 640px) {
       .app-shell { padding: 0.75rem; }
     }
@@ -490,6 +528,170 @@
     </div>
    </div>
 
+   <!-- PREVIEW MODAL SERTIFIKAT -->
+   <div id="cert-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm overflow-y-auto">
+    <div class="w-full max-w-2xl rounded-2xl bg-white p-6 shadow-2xl">
+      <div class="mb-4 flex items-center justify-between border-b border-gray-200 pb-3">
+        <div>
+          <h3 class="text-lg font-bold text-[#173b2b]">Pratinjau Cetak Sertifikat</h3>
+          <p class="text-xs text-gray-500">Hasil cetak akan langsung menimpa kertas sertifikat fisik (21.1 cm x 32.7 cm).</p>
+        </div>
+        <button type="button" id="close-cert-modal" class="rounded-lg p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600">&times;</button>
+      </div>
+
+      <!-- PRATINJAU TAMPILAN MODAL -->
+      <div class="border border-gray-300 rounded-lg p-6 bg-amber-50/20 text-gray-900 font-['Cambria',serif] leading-relaxed text-sm shadow-inner">
+        <p class="mb-3 text-justify">Dengan mengucapkan syukur ke hadirat Allah SWT, kami Pengurus Madrasah Diniyah Darut Taqwa Sengonagung Purwosari Pasuruan memberikan sertifikat penghargaan kepada:</p>
+        
+        <table class="w-full border-collapse my-3 font-['Cambria',serif] text-sm">
+          <tr>
+            <td class="w-48 font-semibold align-top py-0.5">nama</td>
+            <td class="w-4 text-center align-top py-0.5">:</td>
+            <td class="align-top font-bold py-0.5" id="preview-nama"></td>
+          </tr>
+          <tr>
+            <td class="font-semibold align-top py-0.5">tempat &amp; tanggal lahir</td>
+            <td class="text-center align-top py-0.5">:</td>
+            <td class="align-top py-0.5" id="preview-ttl"></td>
+          </tr>
+          <tr>
+            <td class="font-semibold align-top py-0.5">kelas</td>
+            <td class="text-center align-top py-0.5">:</td>
+            <td class="align-top py-0.5" id="preview-kelas"></td>
+          </tr>
+          <tr>
+            <td class="font-semibold align-top py-0.5">alamat</td>
+            <td class="text-center align-top py-0.5">:</td>
+            <td class="align-top py-0.5" id="preview-alamat"></td>
+          </tr>
+        </table>
+
+        <p class="my-3 text-justify">
+          atas prestasinya sebagai <strong>Santri Hafal Nazham '<span id="preview-nadzoman"></span>'</strong> pada Ujian Semester Ganjil Madrasah Diniyah Darut Taqwa Tingkat Ula tahun pelajaran <span id="preview-tahun-ajaran">1447-1448 H / 2026-2027 M</span>.
+        </p>
+
+        <div class="flex justify-end mt-5 mb-3">
+          <table class="border-collapse text-sm font-['Cambria',serif]">
+            <tr>
+              <td class="pr-2 whitespace-nowrap">Sengonagung,</td>
+              <td class="border-b border-black text-justify pb-0.5" style="text-align-last: justify;">
+                <span id="preview-date-hijri"></span> H
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="whitespace-nowrap pt-1">
+                <span id="preview-date-masehi"></span> M
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 text-center mt-4 text-xs">
+          <div>
+            <p class="font-bold">Mengetahui,</p>
+            <p class="font-bold">Kepala Madrasah Diniyah<br>Tingkat Ula</p>
+            <div class="h-16 flex items-center justify-center my-1">
+              <img id="preview-ttd-kepala" src="" alt="TTD & Stempel" class="h-24 object-contain hidden" />
+              <span id="preview-ttd-kepala-placeholder" class="text-gray-400 italic">[PNG Stempel Samuji]</span>
+            </div>
+            <p class="font-bold underline">Samuji</p>
+          </div>
+          <div>
+            <br>
+            <p class="font-bold">Penanggung Jawab<br>Hifizh Santri</p>
+            <div class="h-16 flex items-center justify-center my-1">
+              <img id="preview-ttd-pj" src="" alt="TTD PJ" class="h-24 object-contain hidden" />
+              <span id="preview-ttd-pj-placeholder" class="text-gray-400 italic">[PNG TTD PJ Hifiz]</span>
+            </div>
+            <p class="font-bold underline" id="preview-penerima-nama">.........................</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 flex items-center justify-end gap-3 border-t border-gray-200 pt-4">
+        <button type="button" id="cancel-cert-btn" class="rounded-xl border border-gray-300 px-4 py-2 text-sm font-bold text-gray-700 hover:bg-gray-50">Batal</button>
+        <button type="button" id="print-cert-btn" class="rounded-xl bg-[#157347] px-5 py-2 text-sm font-bold text-white hover:bg-[#0e5635] transition inline-flex items-center gap-2">
+          <i data-lucide="printer" width="16" height="16"></i>
+          <span>Cetak Fisik</span>
+        </button>
+      </div>
+    </div>
+   </div>
+
+   <!-- LAYOUT RENDER KHUSUS PRINT FISIK (MENIMPA KERTAS TEMPLATE FISIK) -->
+   <div id="certificate-print-area" style="display: none;">
+     <p style="margin-bottom: 12px; text-align: justify; text-justify: inter-word;">Dengan mengucapkan syukur ke hadirat Allah SWT, kami Pengurus Madrasah Diniyah Darut Taqwa Sengonagung Purwosari Pasuruan memberikan sertifikat penghargaan kepada:</p>
+     
+     <table style="width: 100%; border-collapse: collapse; margin-bottom: 12px; font-family: inherit; font-size: inherit;">
+       <tr>
+         <td style="width: 210px; vertical-align: top; padding: 2px 0; font-weight: normal;">nama</td>
+         <td style="width: 15px; vertical-align: top; text-align: center; padding: 2px 0;">:</td>
+         <td style="vertical-align: top; font-weight: bold; padding: 2px 0;" id="print-nama"></td>
+       </tr>
+       <tr>
+         <td style="vertical-align: top; padding: 2px 0;">tempat &amp; tanggal lahir</td>
+         <td style="vertical-align: top; text-align: center; padding: 2px 0;">:</td>
+         <td style="vertical-align: top; padding: 2px 0;" id="print-ttl"></td>
+       </tr>
+       <tr>
+         <td style="vertical-align: top; padding: 2px 0;">kelas</td>
+         <td style="vertical-align: top; text-align: center; padding: 2px 0;">:</td>
+         <td style="vertical-align: top; padding: 2px 0;" id="print-kelas"></td>
+       </tr>
+       <tr>
+         <td style="vertical-align: top; padding: 2px 0;">alamat</td>
+         <td style="vertical-align: top; text-align: center; padding: 2px 0;">:</td>
+         <td style="vertical-align: top; padding: 2px 0;" id="print-alamat"></td>
+       </tr>
+     </table>
+
+     <p style="margin-top: 12px; margin-bottom: 16px; text-align: justify; text-justify: inter-word;">
+       atas prestasinya sebagai <strong>Santri Hafal Nazham '<span id="print-nadzoman"></span>'</strong> pada Ujian Semester Ganjil Madrasah Diniyah Darut Taqwa Tingkat Ula tahun pelajaran <span id="print-tahun-ajaran">1447-1448 H / 2026-2027 M</span>.
+     </p>
+
+     <div style="display: flex; justify-content: flex-end; margin-top: 20px; margin-bottom: 12px;">
+        <table style="border-collapse: collapse; font-family: inherit; font-size: inherit;">
+          <tr>
+            <td style="padding-right: 8px; white-space: nowrap;">Sengonagung,</td>
+            <td style="border-bottom: 1px solid #000; text-align: justify; text-align-last: justify; padding-bottom: 2px;">
+              <span id="print-date-hijri"></span> H
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td style="white-space: nowrap; padding-top: 4px;">
+              <span id="print-date-masehi"></span> M
+            </td>
+          </tr>
+        </table>
+     </div>
+
+     <div style="margin-top: 10px; text-align: center;">
+       <p style="margin: 0; font-weight: bold;">Mengetahui,</p>
+       
+       <table style="width: 100%; margin-top: 5px; text-align: center; font-family: inherit; font-size: inherit;">
+         <tr>
+           <td style="width: 50%; vertical-align: top;">
+             <strong>Kepala Madrasah Diniyah<br>Tingkat Ula</strong>
+             <div style="height: 70px; display: flex; align-items: center; justify-content: center; margin: 4px 0;">
+               <img id="print-ttd-kepala" src="" alt="" style="max-height: 70px; width: auto; display: none;" />
+             </div>
+             <strong style="text-decoration: underline;">Samuji</strong>
+           </td>
+           <td style="width: 50%; vertical-align: top;">
+             <br>
+             <strong>Penanggung Jawab<br>Hifizh Santri</strong>
+             <div style="height: 70px; display: flex; align-items: center; justify-content: center; margin: 4px 0;">
+               <img id="print-ttd-pj" src="" alt="" style="max-height: 70px; width: auto; display: none;" />
+             </div>
+             <strong style="text-decoration: underline;" id="print-penerima-nama">.........................</strong>
+           </td>
+         </tr>
+       </table>
+     </div>
+   </div>
+
    <footer class="site-width mt-5 pb-2 text-center">
     <p data-template-id="footer-text" class="canva-text text-sm font-semibold tracking-wide text-[#607367]">© Database Santri Madrasah Diniyah</p>
    </footer>
@@ -503,10 +705,24 @@
 
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx84kAIzZSRBp8skV0dP1UPjhQbyVA56PPTtfahwlMZRByG-Rxy0KfTAIlXmEXJV7C_/exec";
 
-    // MAPPING BULAN
+    // URL Gambar Tanda Tangan berformat PNG
+    const TTD_KEPALA_URL = "https://lh3.googleusercontent.com/d/17PZTBeLxZ-BKKklcI-ZXnmDkkLlQHPB6"; // Tempatkan link PNG Stempel & TTD Samuji
+
+    // Link TTD Penanggung Jawab dipisah menurut Rombel
+    const TTD_PJ_PUTRA_URL = "https://lh3.googleusercontent.com/d/18ICoCvsBEWJv5kbB3V7dsUzXQFi1tHu0"; // Tempatkan link PNG TTD PJ Hifiz Putra
+    const TTD_PJ_PUTRI_URL = "https://lh3.googleusercontent.com/d/1mNmVacZ9I7eViPcCVzH15mzKtf3k3n4e"; // Tempatkan link PNG TTD PJ Hifiz Putri
+
+    // MAPPING BULAN MASEHI
     const NAMA_BULAN = [
       "", "Januari", "Februari", "Maret", "April", "Mei", "Juni",
       "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+    ];
+
+    // MAPPING BULAN HIJRIAH
+    const NAMA_BULAN_HIJRI = [
+      "", "Muharram", "Safar", "Rabi'ul Awwal", "Rabi'ul Akhir", 
+      "Jumadil Awwal", "Jumadil Akhir", "Rajab", "Sya'ban", 
+      "Ramadhan", "Syawwal", "Dzulqa'dah", "Dzulhijjah"
     ];
 
     function formatBulan(val) {
@@ -516,6 +732,43 @@
         return NAMA_BULAN[num];
       }
       return val;
+    }
+
+    // KONVERSI TANGGAL MASEHI KE HIJRIAH SECARA AKURAT
+    function getTodayFormatted() {
+      const today = new Date();
+      const dayM = String(today.getDate()).padStart(2, '0');
+      const monthM = NAMA_BULAN[today.getMonth() + 1];
+      const yearM = today.getFullYear();
+
+      const gDay = today.getDate();
+      const gMonth = today.getMonth();
+      const gYear = today.getFullYear();
+
+      let julian = Math.floor((1461 * (gYear + 4800 + Math.floor((gMonth - 14) / 12))) / 4) +
+                   Math.floor((367 * (gMonth - 2 - 12 * Math.floor((gMonth - 14) / 12))) / 12) -
+                   Math.floor((3 * Math.floor((gYear + 4900 + Math.floor((gMonth - 14) / 12)) / 100)) / 4) +
+                   gDay - 32075;
+
+      let l = julian - 1948440 + 10632;
+      let n = Math.floor((l - 1) / 10631);
+      l = l - 10631 * n + 354;
+      let j = (Math.floor((10985 - l) / 5316)) * (Math.floor((50 * l) / 17719)) +
+              (Math.floor(l / 5670)) * (Math.floor((43 * l) / 15238));
+      l = l - (Math.floor((30 - j) / 15)) * (Math.floor((17719 * j) / 50)) -
+          (Math.floor(j / 16)) * (Math.floor((15238 * j) / 43)) + 29;
+
+      let monthH = Math.floor((24 * l) / 709);
+      let dayH = l - Math.floor((709 * monthH) / 24);
+      let yearH = 30 * n + j - 30;
+
+      const strDayH = String(dayH).padStart(2, '0');
+      const strMonthH = NAMA_BULAN_HIJRI[monthH] || "Safar";
+
+      return {
+        masehi: `${dayM} ${monthM} ${yearM}`,
+        hijri: `${strDayH} ${strMonthH} ${yearH}`
+      };
     }
 
     // DAFTAR PENERIMA BERDASARKAN ROMBEL
@@ -557,18 +810,9 @@
         "Tuhfatul Athfal",
         "Awamilul Jurjani",
         "Durrotul Yatimah",
-        "Nahwu Jawan",
-        "Imrithi",
-        "Alfiyah Ibnu Malik",
-        "Jauharul Maknun",
-        "Sullamul Munawroq"
+        "Nahwu Jawan"
       ],
       "Semester 2": [
-        "Alaa Laa",
-        "Aqidatul Awam",
-        "Tashrif Isthilahi",
-        "Tashrif Lughowy",
-        "Nahwu Jawan",
         "Imrithi",
         "Alfiyah Ibnu Malik",
         "Jauharul Maknun",
@@ -656,7 +900,38 @@
       loginUser: document.getElementById("login-user"),
       loginPass: document.getElementById("login-pass"),
       loginError: document.getElementById("login-error"),
-      logoutBtn: document.getElementById("logout-button")
+      logoutBtn: document.getElementById("logout-button"),
+
+      certModal: document.getElementById("cert-modal"),
+      closeCertModalBtn: document.getElementById("close-cert-modal"),
+      cancelCertBtn: document.getElementById("cancel-cert-btn"),
+      printCertBtn: document.getElementById("print-cert-btn"),
+      
+      previewNama: document.getElementById("preview-nama"),
+      previewTtl: document.getElementById("preview-ttl"),
+      previewKelas: document.getElementById("preview-kelas"),
+      previewAlamat: document.getElementById("preview-alamat"),
+      previewNadzoman: document.getElementById("preview-nadzoman"),
+      previewTahunAjaran: document.getElementById("preview-tahun-ajaran"),
+      previewDateHijri: document.getElementById("preview-date-hijri"),
+      previewDateMasehi: document.getElementById("preview-date-masehi"),
+      previewTtdKepala: document.getElementById("preview-ttd-kepala"),
+      previewTtdKepalaPlaceholder: document.getElementById("preview-ttd-kepala-placeholder"),
+      previewTtdPj: document.getElementById("preview-ttd-pj"),
+      previewTtdPjPlaceholder: document.getElementById("preview-ttd-pj-placeholder"),
+      previewPenerimaNama: document.getElementById("preview-penerima-nama"),
+
+      printNama: document.getElementById("print-nama"),
+      printTtl: document.getElementById("print-ttl"),
+      printKelas: document.getElementById("print-kelas"),
+      printAlamat: document.getElementById("print-alamat"),
+      printNadzoman: document.getElementById("print-nadzoman"),
+      printTahunAjaran: document.getElementById("print-tahun-ajaran"),
+      printDateHijri: document.getElementById("print-date-hijri"),
+      printDateMasehi: document.getElementById("print-date-masehi"),
+      printTtdKepala: document.getElementById("print-ttd-kepala"),
+      printTtdPj: document.getElementById("print-ttd-pj"),
+      printPenerimaNama: document.getElementById("print-penerima-nama")
     };
 
     function initAcademicYearDropdown() {
@@ -901,6 +1176,14 @@
     function renderTableHead(headers) {
       els.tableHead.innerHTML = "";
       const tr = document.createElement("tr");
+
+      if (state.activeTab === "khifidz") {
+        const thAction = document.createElement("th");
+        thAction.scope = "col";
+        thAction.textContent = "CETAK";
+        tr.appendChild(thAction);
+      }
+
       headers.forEach(header => {
         const th = document.createElement("th");
         th.scope = "col";
@@ -949,6 +1232,20 @@
           tr.className += " bg-amber-100/90 text-amber-900 font-medium hover:!bg-amber-200/90";
         }
 
+        if (state.activeTab === "khifidz") {
+          const tdAction = document.createElement("td");
+          const certBtn = document.createElement("button");
+          certBtn.type = "button";
+          certBtn.className = "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition shadow-sm";
+          certBtn.innerHTML = `<i data-lucide="printer" width="14" height="14"></i><span>Cetak</span>`;
+          certBtn.onclick = (e) => {
+            e.stopPropagation();
+            openCertificateModal(record);
+          };
+          tdAction.appendChild(certBtn);
+          tr.appendChild(tdAction);
+        }
+
         tr.addEventListener("click", () => openEditModal(record));
 
         headers.forEach(header => {
@@ -974,6 +1271,8 @@
         els.tableBody.appendChild(tr);
       });
 
+      lucide.createIcons();
+
       const activeLabel = state.activeTab === "biodata" ? "Biodata" : "Khifidz Santri";
       els.resultSummary.textContent = `${total.toLocaleString("id-ID")} data ${activeLabel.toLowerCase()} (${state.activeYear}) ditemukan.`;
       els.headerCount.textContent = `${total.toLocaleString("id-ID")} data`;
@@ -983,6 +1282,86 @@
       const lastItem = Math.min(start + pageSize, total);
       els.pageSummary.textContent = `Menampilkan ${firstItem.toLocaleString("id-ID")}–${lastItem.toLocaleString("id-ID")} dari ${total.toLocaleString("id-ID")} data.`;
       renderPagination(totalPages);
+    }
+
+    function openCertificateModal(record) {
+      const headers = state.headers[`${state.activeYear}_${state.activeTab}`] || [];
+      
+      const nama = record[findHeader(headers, ["NAMA", "Nama", "NAMA SANTRI"])] || "—";
+      const ttl = record[findHeader(headers, ["TEMPAT & TANGGAL LAHIR", "Tempat & Tanggal Lahir", "TEMPAT LAHIR"])] || "—";
+      const kelas = record[findHeader(headers, ["KELAS", "Kelas"])] || "—";
+      const alamat = record[findHeader(headers, ["ALAMAT", "Alamat", "ALAMAT LENGKAP"])] || "—";
+      const nadzoman = record[findHeader(headers, ["NADZOMAN", "Nadzoman"])] || "—";
+      const rombel = String(record[findHeader(headers, ["ROMBEL", "Rombel"])] || "").trim();
+
+      // Penentuan Penanggung Jawab Hifizh Santri berdasarkan Rombel
+      let namaPjHifiz = ".........................";
+      let selectedTtdPjUrl = "";
+
+      if (rombel.toLowerCase() === "putra") {
+        namaPjHifiz = "M. Arif Mujahidin";
+        selectedTtdPjUrl = TTD_PJ_PUTRA_URL;
+      } else if (rombel.toLowerCase() === "putri") {
+        namaPjHifiz = "Farihah Mar'atul Khiyaroh Taufiq";
+        selectedTtdPjUrl = TTD_PJ_PUTRI_URL;
+      } else {
+        selectedTtdPjUrl = TTD_PJ_PUTRA_URL || TTD_PJ_PUTRI_URL;
+      }
+
+      const formattedDate = getTodayFormatted();
+
+      // Isi Modal Preview
+      els.previewNama.textContent = nama;
+      els.previewTtl.textContent = ttl;
+      els.previewKelas.textContent = kelas;
+      els.previewAlamat.textContent = alamat;
+      els.previewNadzoman.textContent = nadzoman;
+      els.previewTahunAjaran.textContent = `${state.activeYear} H / 2026-2027 M`;
+      els.previewDateHijri.textContent = formattedDate.hijri;
+      els.previewDateMasehi.textContent = formattedDate.masehi;
+      els.previewPenerimaNama.textContent = namaPjHifiz;
+
+      // Set TTD Kepala Madrasah
+      if (TTD_KEPALA_URL) {
+        els.previewTtdKepala.src = TTD_KEPALA_URL;
+        els.previewTtdKepala.classList.remove("hidden");
+        if (els.previewTtdKepalaPlaceholder) els.previewTtdKepalaPlaceholder.classList.add("hidden");
+      }
+
+      // Set TTD Penanggung Jawab di Preview Modal
+      if (selectedTtdPjUrl) {
+        els.previewTtdPj.src = selectedTtdPjUrl;
+        els.previewTtdPj.classList.remove("hidden");
+        if (els.previewTtdPjPlaceholder) els.previewTtdPjPlaceholder.classList.add("hidden");
+      } else {
+        els.previewTtdPj.classList.add("hidden");
+        if (els.previewTtdPjPlaceholder) els.previewTtdPjPlaceholder.classList.remove("hidden");
+      }
+
+      // Format Cetak Fisik
+      els.printNama.textContent = nama;
+      els.printTtl.textContent = ttl;
+      els.printKelas.textContent = kelas;
+      els.printAlamat.textContent = alamat;
+      els.printNadzoman.textContent = nadzoman;
+      els.printTahunAjaran.textContent = `${state.activeYear} H / 2026-2027 M`;
+      els.printDateHijri.textContent = formattedDate.hijri;
+      els.printDateMasehi.textContent = formattedDate.masehi;
+      els.printPenerimaNama.textContent = namaPjHifiz;
+
+      if (TTD_KEPALA_URL) {
+        els.printTtdKepala.src = TTD_KEPALA_URL;
+        els.printTtdKepala.style.display = "block";
+      }
+
+      if (selectedTtdPjUrl) {
+        els.printTtdPj.src = selectedTtdPjUrl;
+        els.printTtdPj.style.display = "block";
+      } else {
+        els.printTtdPj.style.display = "none";
+      }
+
+      els.certModal.classList.remove("hidden");
     }
 
     function openEditModal(record) {
@@ -1077,7 +1456,6 @@
       }
     });
 
-    // MEMPERBARUI DROPDOWN PENERIMA SESUAI ROMBEL
     els.addRombel.addEventListener("change", () => {
       const selectedRombel = els.addRombel.value;
       els.addPenerima.innerHTML = "";
@@ -1103,7 +1481,6 @@
       });
     });
 
-    // MEMPERBARUI DROPDOWN NADZOMAN SESUAI SEMESTER
     els.addSemester.addEventListener("change", () => {
       const selectedSemester = els.addSemester.value;
       els.addNadzoman.innerHTML = "";
@@ -1260,6 +1637,11 @@
     };
     els.closeAddModalBtn.onclick = () => els.addModal.classList.add("hidden");
     els.cancelAddBtn.onclick = () => els.addModal.classList.add("hidden");
+
+    // MODAL SERTIFIKAT
+    els.closeCertModalBtn.onclick = () => els.certModal.classList.add("hidden");
+    els.cancelCertBtn.onclick = () => els.certModal.classList.add("hidden");
+    els.printCertBtn.onclick = () => window.print();
 
     els.saveBtn.onclick = async () => {
       const formData = new FormData(els.editForm);
