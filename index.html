@@ -189,17 +189,14 @@
 
     /* CSS PRESI FISIK TEMPLATE SERTIFIKAT (21.1 cm x 32.7 cm) */
     @media print {
-      /* Sembunyikan seluruh isi halaman web */
       body * {
         visibility: hidden !important;
       }
 
-      /* Tampilkan area cetak sertifikat beserta anak elemennya */
       #certificate-print-area, #certificate-print-area * {
         visibility: visible !important;
       }
 
-      /* Posisikan area cetak di pojok kiri atas halaman fisik */
       #certificate-print-area {
         display: block !important;
         position: absolute !important;
@@ -305,14 +302,18 @@
 
    <main class="site-width mt-6">
     <section class="reveal overflow-hidden rounded-[1.5rem] border border-[#dce9df] bg-white shadow-[0_16px_40px_rgba(33,76,49,0.08)]">
-     <nav class="flex gap-2 border-b border-[#e2ebe4] bg-[#f8fbf8] p-3" aria-label="Menu data santri">
-      <button id="biodata-tab" type="button" data-template-id="biodata-tab" class="canva-tabs tab-button is-active flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold" aria-selected="true"> 
+     <nav class="flex gap-2 border-b border-[#e2ebe4] bg-[#f8fbf8] p-3 overflow-x-auto" aria-label="Menu data santri">
+      <button id="biodata-tab" type="button" data-template-id="biodata-tab" class="canva-tabs tab-button is-active flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold whitespace-nowrap" aria-selected="true"> 
         <i data-lucide="contact-round" width="17" height="17" aria-hidden="true"></i> 
         <span>Biodata</span> 
       </button> 
-      <button id="khifidz-tab" type="button" data-template-id="khifidz-tab" class="canva-tabs tab-button flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold" aria-selected="false"> 
+      <button id="khifidz-tab" type="button" data-template-id="khifidz-tab" class="canva-tabs tab-button flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold whitespace-nowrap" aria-selected="false"> 
         <i data-lucide="bookmark-check" width="17" height="17" aria-hidden="true"></i> 
         <span>Khifidz Santri</span> 
+      </button>
+      <button id="pelanggaran-tab" type="button" data-template-id="pelanggaran-tab" class="canva-tabs tab-button flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold whitespace-nowrap" aria-selected="false"> 
+        <i data-lucide="alert-triangle" width="17" height="17" aria-hidden="true"></i> 
+        <span>Pelanggaran Santri</span> 
       </button>
      </nav>
      
@@ -328,6 +329,11 @@
           <button id="add-khifidz-button" type="button" class="hidden inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200">
             <i data-lucide="plus-circle" width="16" height="16" aria-hidden="true"></i>
             <span>Tambah Khifidz</span>
+          </button>
+
+          <button id="add-pelanggaran-button" type="button" class="hidden inline-flex items-center justify-center gap-2 rounded-xl bg-amber-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-amber-700 focus:outline-none focus:ring-4 focus:ring-amber-200">
+            <i data-lucide="plus-circle" width="16" height="16" aria-hidden="true"></i>
+            <span>Tambah Pelanggaran</span>
           </button>
 
           <button id="export-button" type="button" class="canva-button inline-flex items-center justify-center gap-2 rounded-xl bg-[#157347] px-4 py-2.5 text-sm font-bold text-white transition hover:bg-[#0e5635] focus:outline-none focus:ring-4 focus:ring-emerald-200"> 
@@ -429,12 +435,12 @@
     </section>
    </main>
 
-   <!-- POP-UP MODAL EDIT DATA SANTRI -->
+   <!-- POP-UP MODAL EDIT DATA SANTRI (DINAMIS DISESUAIKAN PER TAB) -->
    <div id="edit-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
     <div class="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl">
       <div class="mb-4 flex items-center justify-between border-b border-gray-200 pb-3">
         <div>
-          <h3 class="text-lg font-bold text-[#173b2b]">Edit / Lengkapi Data Santri</h3>
+          <h3 id="edit-modal-title" class="text-lg font-bold text-[#173b2b]">Edit Data Santri</h3>
           <p class="text-xs text-gray-500">Perubahan akan tersimpan otomatis ke Google Spreadsheet.</p>
         </div>
         <button type="button" id="close-modal" class="rounded-lg p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600">&times;</button>
@@ -524,6 +530,106 @@
       <div class="mt-6 flex items-center justify-end gap-3 border-t border-gray-200 pt-4">
         <button type="button" id="cancel-add-btn" class="rounded-xl border border-gray-300 px-4 py-2 text-sm font-bold text-gray-700 hover:bg-gray-50">Batal</button>
         <button type="button" id="save-add-btn" class="rounded-xl bg-blue-600 px-5 py-2 text-sm font-bold text-white hover:bg-blue-700 transition">Simpan Santri Khifidz</button>
+      </div>
+    </div>
+   </div>
+
+   <!-- POP-UP MODAL TAMBAH PELANGGARAN SANTRI -->
+   <div id="add-pelanggaran-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+    <div class="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl">
+      <div class="mb-4 flex items-center justify-between border-b border-gray-200 pb-3">
+        <div>
+          <h3 class="text-lg font-bold text-[#173b2b]">Tambah Pelanggaran Santri</h3>
+          <p class="text-xs text-gray-500">Ketik No Induk untuk memuat biodata santri secara otomatis.</p>
+        </div>
+        <button type="button" id="close-add-pelanggaran-modal" class="rounded-lg p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600">&times;</button>
+      </div>
+      
+      <form id="add-pelanggaran-form" class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">Tanggal</label>
+          <input type="text" id="add-pelanggaran-tanggal" class="w-full bg-gray-100 border border-gray-300 rounded-lg p-2.5 text-sm font-bold text-gray-700 cursor-not-allowed" readonly />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">No Induk Santri</label>
+          <input type="text" id="add-pelanggaran-no-induk" placeholder="Masukkan No Induk..." class="w-full border border-gray-300 rounded-lg p-2.5 text-sm font-bold focus:ring-2 focus:ring-amber-500 focus:outline-none" required />
+          <p id="pelanggaran-no-induk-msg" class="mt-1 text-xs text-gray-500"></p>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Nama Santri</label>
+          <input type="text" id="add-pelanggaran-nama" class="w-full bg-gray-100 border border-gray-300 rounded-lg p-2 text-sm text-gray-700 font-semibold cursor-not-allowed" readonly placeholder="Otomatis terisi..." />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Kelas</label>
+          <input type="text" id="add-pelanggaran-kelas" class="w-full bg-gray-100 border border-gray-300 rounded-lg p-2 text-sm text-gray-700 font-semibold cursor-not-allowed" readonly placeholder="Otomatis terisi..." />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">Rombel</label>
+          <select id="add-pelanggaran-rombel" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none" required>
+            <option value="">Pilih Rombel</option>
+            <option value="Putra">Putra</option>
+            <option value="Putri">Putri</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">Kesantrian</label>
+          <select id="add-pelanggaran-kesantrian" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none" required>
+            <option value="">Pilih Rombel Terlebih Dahulu</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">Pelanggaran</label>
+          <select id="add-pelanggaran-jenis" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none" required>
+            <option value="">Pilih Jenis Pelanggaran</option>
+            <option value="Terlambat">Terlambat</option>
+            <option value="Atribut Tidak Lengkap">Atribut Tidak Lengkap</option>
+            <option value="Kopyah Tidak Standart">Kopyah Tidak Standart</option>
+            <option value="Seragam Tidak Sesuai">Seragam Tidak Sesuai</option>
+            <option value="Tidak Mengikuti Lalaran">Tidak Mengikuti Lalaran</option>
+            <option value="Tidak Membawa Kitab">Tidak Membawa Kitab</option>
+            <option value="Tidak Membawa Bulpoin">Tidak Membawa Bulpoin</option>
+            <option value="Masuk Kelas Lain Saat KBM">Masuk Kelas Lain Saat KBM</option>
+            <option value="Keluar Kelas Saat KBM Tanpa Izin">Keluar Kelas Saat KBM Tanpa Izin</option>
+            <option value="Tidak Memakai Bros/Jarum Pentul">Tidak Memakai Bros/Jarum Pentul</option>
+            <option value="Tidak Memakai Iket">Tidak Memakai Iket</option>
+            <option value="Memakai Aksesoris Selain Jam Tangan">Memakai Aksesoris Selain Jam Tangan</option>
+            <option value="Tidak Membawa Nadzoman Saat Lalaran">Tidak Membawa Nadzoman Saat Lalaran</option>
+            <option value="Tercatat SP 1">Tercatat SP 1</option>
+            <option value="Membawa HP/Alat Elektronik">Membawa HP/Alat Elektronik</option>
+            <option value="Membawa Rokok/Merokok">Membawa Rokok/Merokok</option>
+            <option value="Memakai Seragam Press Body">Memakai Seragam Press Body</option>
+            <option value="Memakai Rok Span">Memakai Rok Span</option>
+            <option value="Memakai/Membawa Make Up">Memakai/Membawa Make Up</option>
+            <option value="Membawa/Membaca Novel saat KBM">Membawa/Membaca Novel saat KBM</option>
+            <option value="Berkata Kasar/Jorok">Berkata Kasar/Jorok</option>
+            <option value="Ghosob">Ghosob</option>
+            <option value="Tercatat SP 2">Tercatat SP 2</option>
+            <option value="Tidak Mengikuti Pelajaran (Mbolos)">Tidak Mengikuti Pelajaran (Mbolos)</option>
+            <option value="Berkelahi">Berkelahi</option>
+            <option value="Merusak Fasilitas Sekolah">Merusak Fasilitas Sekolah</option>
+            <option value="Mengambil Barang Yang Bukan Haknya (Mencuri)">Mengambil Barang Yang Bukan Haknya (Mencuri)</option>
+            <option value="Berpacaran Sesama Jenis">Berpacaran Sesama Jenis</option>
+            <option value="Melawan/Menentang Kebijakan Guru/Pengurus Madin">Melawan/Menentang Kebijakan Guru/Pengurus Madin</option>
+            <option value="Joki Hifizh/Absensi">Joki Hifizh/Absensi</option>
+            <option value="Lainnya">Lainnya</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Kategori</label>
+          <input type="text" id="add-pelanggaran-kategori" class="w-full bg-gray-100 border border-gray-300 rounded-lg p-2 text-sm font-bold text-amber-900 cursor-not-allowed" readonly placeholder="Otomatis terisi..." />
+        </div>
+      </form>
+
+      <div class="mt-6 flex items-center justify-end gap-3 border-t border-gray-200 pt-4">
+        <button type="button" id="cancel-add-pelanggaran-btn" class="rounded-xl border border-gray-300 px-4 py-2 text-sm font-bold text-gray-700 hover:bg-gray-50">Batal</button>
+        <button type="button" id="save-add-pelanggaran-btn" class="rounded-xl bg-amber-600 px-5 py-2 text-sm font-bold text-white hover:bg-amber-700 transition">Simpan Pelanggaran</button>
       </div>
     </div>
    </div>
@@ -706,19 +812,17 @@
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx84kAIzZSRBp8skV0dP1UPjhQbyVA56PPTtfahwlMZRByG-Rxy0KfTAIlXmEXJV7C_/exec";
 
     // URL Gambar Tanda Tangan berformat PNG
-    const TTD_KEPALA_URL = "https://lh3.googleusercontent.com/d/17PZTBeLxZ-BKKklcI-ZXnmDkkLlQHPB6"; // Tempatkan link PNG Stempel & TTD Samuji
+    const TTD_KEPALA_URL = "https://lh3.googleusercontent.com/d/17PZTBeLxZ-BKKklcI-ZXnmDkkLlQHPB6"; 
 
     // Link TTD Penanggung Jawab dipisah menurut Rombel
-    const TTD_PJ_PUTRA_URL = "https://lh3.googleusercontent.com/d/18ICoCvsBEWJv5kbB3V7dsUzXQFi1tHu0"; // Tempatkan link PNG TTD PJ Hifiz Putra
-    const TTD_PJ_PUTRI_URL = "https://lh3.googleusercontent.com/d/1mNmVacZ9I7eViPcCVzH15mzKtf3k3n4e"; // Tempatkan link PNG TTD PJ Hifiz Putri
+    const TTD_PJ_PUTRA_URL = "https://lh3.googleusercontent.com/d/18ICoCvsBEWJv5kbB3V7dsUzXQFi1tHu0"; 
+    const TTD_PJ_PUTRI_URL = "https://lh3.googleusercontent.com/d/1mNmVacZ9I7eViPcCVzH15mzKtf3k3n4e"; 
 
-    // MAPPING BULAN MASEHI
     const NAMA_BULAN = [
       "", "Januari", "Februari", "Maret", "April", "Mei", "Juni",
       "Juli", "Agustus", "September", "Oktober", "November", "Desember"
     ];
 
-    // MAPPING BULAN HIJRIAH
     const NAMA_BULAN_HIJRI = [
       "", "Muharram", "Safar", "Rabi'ul Awwal", "Rabi'ul Akhir", 
       "Jumadil Awwal", "Jumadil Akhir", "Rajab", "Sya'ban", 
@@ -734,7 +838,6 @@
       return val;
     }
 
-    // KONVERSI TANGGAL MASEHI KE HIJRIAH SECARA AKURAT
     function getTodayFormatted() {
       const today = new Date();
       const dayM = String(today.getDate()).padStart(2, '0');
@@ -771,7 +874,6 @@
       };
     }
 
-    // DAFTAR PENERIMA BERDASARKAN ROMBEL
     const PENERIMA_OPTIONS = {
       "Putra": [
         "Ust. Muh. Haidar Hadziq",
@@ -803,40 +905,76 @@
       ]
     };
 
-    // DAFTAR NADZOMAN BERDASARKAN SEMESTER
     const NADZOMAN_OPTIONS = {
       "Semester 1": [
         "Birrul Walidaikum",
         "Nahwu Jawan",
         "Tuhfatul Athfal",
-        "Awamilul Jurjani",
+        "'Awamilul Jurjani",
         "Durrotul Yatimah",
-        "Imrithi",
+        "'Imrithi",
         "Alfiyah Ibnu Malik",
         "Jauharul Maknun",
         "Sullamul Munawraq"
       ],
       "Semester 2": [
-        "Alaa laa",
+        "Alaa Laa",
         "Nahwu Jawan",
         "Aqidatul Awam",
-        "Tashrif Isthilahy",
+        "Tashrif Isthilahi",
         "Tashrif Lughawy",
-        "Imrithi",
+        "'Imrithi",
         "Alfiyah Ibnu Malik",
         "Jauharul Maknun",
         "Sullamul Munawraq"
       ]
     };
 
+    // Peta Otomatis Kategori Pelanggaran
+    const KATEGORI_PELANGGARAN_MAP = {
+      "Terlambat": "Ringan",
+      "Atribut Tidak Lengkap": "Ringan",
+      "Kopyah Tidak Standart": "Ringan",
+      "Seragam Tidak Sesuai": "Ringan",
+      "Tidak Mengikuti Lalaran": "Ringan",
+      "Tidak Membawa Bulpoin": "Ringan",
+      "Keluar Kelas Saat KBM Tanpa Izin": "Ringan",
+      "Tidak Memakai Bros/Jarum Pentul": "Ringan",
+      "Tidak Memakai Iket": "Ringan",
+      "Memakai Aksesoris Selain Jam Tangan": "Ringan",
+      "Tidak Membawa Nadzoman Saat Lalaran": "Ringan",
+      "Tercatat SP 1": "Ringan",
+      "Tidak Membawa Kitab": "Sedang",
+      "Masuk Kelas Lain Saat KBM": "Sedang",
+      "Membawa HP/Alat Elektronik": "Sedang",
+      "Membawa Rokok/Merokok": "Sedang",
+      "Memakai Seragam Press Body": "Sedang",
+      "Memakai Rok Span": "Sedang",
+      "Memakai/Membawa Make Up": "Sedang",
+      "Membawa/Membaca Novel saat KBM": "Sedang",
+      "Berkata Kasar/Jorok": "Sedang",
+      "Ghosob": "Sedang",
+      "Tercatat SP 2": "Sedang",
+      "Tidak Mengikuti Pelajaran (Mbolos)": "Berat",
+      "Berkelahi": "Berat",
+      "Merusak Fasilitas Sekolah": "Berat",
+      "Mengambil Barang Yang Bukan Haknya (Mencuri)": "Berat",
+      "Berpacaran Sesama Jenis": "Berat",
+      "Melawan/Menentang Kebijakan Guru/Pengurus Madin": "Berat",
+      "Joki Hifizh/Absensi": "Berat",
+      "Lainnya": "Sedang"
+    };
+
     const SOURCES = {
       "1447/1448": {
         biodata: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTnZX7kiCDnZo6XbSffno9lWVrjFtuFvMqF25hkH0jKcIGw8utrIMjELtsExeSIEWQqplXh9Lv3Fn3/pub?gid=0&single=true&output=csv",
-        khifidz: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTnZX7kiCDnZo6XbSffno9lWVrjFtuFvMqF25hkH0jKcIGw8utrIMjELtsExeSIEWQqplXh9Lv3Fn3/pub?gid=860545&single=true&output=csv"
+        khifidz: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTnZX7kiCDnZo6XbSffno9lWVrjFtuFvMqF25hkH0jKcIGw8utrIMjELtsExeSIEWQqplXh9Lv3Fn3/pub?gid=860545&single=true&output=csv",
+        pelanggaran: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTnZX7kiCDnZo6XbSffno9lWVrjFtuFvMqF25hkH0jKcIGw8utrIMjELtsExeSIEWQqplXh9Lv3Fn3/pub?gid=2067263957&single=true&output=csv"
       },
       "1448/1449": {
         biodata: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTnZX7kiCDnZo6XbSffno9lWVrjFtuFvMqF25hkH0jKcIGw8utrIMjELtsExeSIEWQqplXh9Lv3Fn3/pub?gid=1731638678&single=true&output=csv",
-        khifidz: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTnZX7kiCDnZo6XbSffno9lWVrjFtuFvMqF25hkH0jKcIGw8utrIMjELtsExeSIEWQqplXh9Lv3Fn3/pub?gid=1752319511&single=true&output=csv"
+        khifidz: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTnZX7kiCDnZo6XbSffno9lWVrjFtuFvMqF25hkH0jKcIGw8utrIMjELtsExeSIEWQqplXh9Lv3Fn3/pub?gid=1752319511&single=true&output=csv",
+        pelanggaran: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTnZX7kiCDnZo6XbSffno9lWVrjFtuFvMqF25hkH0jKcIGw8utrIMjELtsExeSIEWQqplXh9Lv3Fn3/pub?gid=478856256&single=true&output=csv"
       }
     };
 
@@ -846,6 +984,11 @@
       "NAMA IBU", "PEKERJAAN", "TGL MASUK", "BLN MASUK", "THN MASUK",
       "KLS AWAL MASUK", "JALAN", "NO/RT/RW", "DUSUN", "DESA/KELURAHAN",
       "KECAMATAN", "KABUPATEN/KOTA", "PROVINSI"
+    ];
+
+    // Kolom KATEGORI ditaruh di antara PELANGGARAN dan KESANTRIAN
+    const PELANGGARAN_DEFAULT_HEADERS = [
+      "TANGGAL", "NO INDUK", "NAMA", "KELAS", "PELANGGARAN", "KATEGORI", "KESANTRIAN", "ROMBEL"
     ];
 
     const state = {
@@ -861,6 +1004,7 @@
     const els = {
       biodataTab: document.getElementById("biodata-tab"),
       khifidzTab: document.getElementById("khifidz-tab"),
+      pelanggaranTab: document.getElementById("pelanggaran-tab"),
       search: document.getElementById("quick-search"),
       classFilter: document.getElementById("class-filter"),
       academicYearFilter: document.getElementById("academic-year-filter"),
@@ -869,6 +1013,7 @@
       semesterFilter: document.getElementById("semester-filter"),
       semesterContainer: document.getElementById("semester-filter-container"),
       addKhifidzBtn: document.getElementById("add-khifidz-button"),
+      addPelanggaranBtn: document.getElementById("add-pelanggaran-button"),
       reset: document.getElementById("reset-button"),
       exportBtn: document.getElementById("export-button"),
       rows: document.getElementById("rows-per-page"),
@@ -883,6 +1028,7 @@
       headerCount: document.getElementById("header-count"),
       filterDescription: document.getElementById("filter-description"),
       modal: document.getElementById("edit-modal"),
+      editModalTitle: document.getElementById("edit-modal-title"),
       editForm: document.getElementById("edit-form"),
       closeModalBtn: document.getElementById("close-modal"),
       cancelBtn: document.getElementById("cancel-btn"),
@@ -903,6 +1049,21 @@
       addRombel: document.getElementById("add-rombel"),
       addNadzoman: document.getElementById("add-nadzoman"),
       noIndukMsg: document.getElementById("no-induk-msg"),
+
+      addPelanggaranModal: document.getElementById("add-pelanggaran-modal"),
+      addPelanggaranForm: document.getElementById("add-pelanggaran-form"),
+      closeAddPelanggaranModalBtn: document.getElementById("close-add-pelanggaran-modal"),
+      cancelAddPelanggaranBtn: document.getElementById("cancel-add-pelanggaran-btn"),
+      saveAddPelanggaranBtn: document.getElementById("save-add-pelanggaran-btn"),
+      addPelanggaranTanggal: document.getElementById("add-pelanggaran-tanggal"),
+      addPelanggaranNoInduk: document.getElementById("add-pelanggaran-no-induk"),
+      addPelanggaranNama: document.getElementById("add-pelanggaran-nama"),
+      addPelanggaranKelas: document.getElementById("add-pelanggaran-kelas"),
+      addPelanggaranRombel: document.getElementById("add-pelanggaran-rombel"),
+      addPelanggaranJenis: document.getElementById("add-pelanggaran-jenis"),
+      addPelanggaranKategori: document.getElementById("add-pelanggaran-kategori"),
+      addPelanggaranKesantrian: document.getElementById("add-pelanggaran-kesantrian"),
+      pelanggaranNoIndukMsg: document.getElementById("pelanggaran-no-induk-msg"),
 
       loginOverlay: document.getElementById("login-overlay"),
       loginForm: document.getElementById("login-form"),
@@ -954,11 +1115,25 @@
       els.academicYearFilter.value = state.activeYear;
     }
 
+    const TIMEOUT_MS = 5 * 60 * 1000; 
+
     function checkAuth() {
-      const isLoggedIn = localStorage.getItem("isLoggedIn");
+      const isLoggedIn = sessionStorage.getItem("isLoggedIn");
+      const lastActivity = sessionStorage.getItem("lastActivity");
+      const now = Date.now();
+
+      if (isLoggedIn === "true" && lastActivity && (now - parseInt(lastActivity, 10) > TIMEOUT_MS)) {
+        logoutUser();
+        alert("Sesi Anda telah berakhir karena tidak ada aktivitas selama 5 menit. Silakan login kembali.");
+        return;
+      }
+
       if (isLoggedIn === "true") {
         els.loginOverlay.classList.add("hidden");
         if (els.logoutBtn) els.logoutBtn.classList.remove("hidden");
+        
+        updateLastActivity();
+
         const cacheKey = `${state.activeYear}_${state.activeTab}`;
         if (!state.loaded[cacheKey]) {
           loadData(state.activeYear, state.activeTab);
@@ -969,13 +1144,40 @@
       }
     }
 
+    function updateLastActivity() {
+      if (sessionStorage.getItem("isLoggedIn") === "true") {
+        sessionStorage.setItem("lastActivity", Date.now().toString());
+      }
+    }
+
+    function logoutUser() {
+      sessionStorage.removeItem("isLoggedIn");
+      sessionStorage.removeItem("lastActivity");
+      checkAuth();
+    }
+
+    ['click', 'mousemove', 'keydown', 'scroll', 'touchstart'].forEach(eventName => {
+      document.addEventListener(eventName, updateLastActivity, { passive: true });
+    });
+
+    setInterval(() => {
+      const isLoggedIn = sessionStorage.getItem("isLoggedIn");
+      const lastActivity = sessionStorage.getItem("lastActivity");
+      if (isLoggedIn === "true" && lastActivity) {
+        if (Date.now() - parseInt(lastActivity, 10) > TIMEOUT_MS) {
+          logoutUser();
+          alert("Sesi Anda telah habis (inaktif 5 menit). Silakan login kembali.");
+        }
+      }
+    }, 10000);
+
     els.loginForm.addEventListener("submit", (e) => {
       e.preventDefault();
       const user = els.loginUser.value.trim();
       const pass = els.loginPass.value.trim();
 
       if (user === AUTH_USER && pass === AUTH_PASS) {
-        localStorage.setItem("isLoggedIn", "true");
+        sessionStorage.setItem("isLoggedIn", "true");
         els.loginError.classList.add("hidden");
         els.loginForm.reset();
         checkAuth();
@@ -987,7 +1189,7 @@
 
     if (els.logoutBtn) {
       els.logoutBtn.addEventListener("click", () => {
-        localStorage.removeItem("isLoggedIn");
+        sessionStorage.removeItem("isLoggedIn");
         checkAuth();
       });
     }
@@ -1076,7 +1278,13 @@
         if (csvRows.length < 1) throw new Error("Spreadsheet tidak memiliki data yang dapat ditampilkan.");
 
         const sourceHeaders = csvRows[0].map((header, index) => header || `Kolom ${index + 1}`);
-        const headers = tabName === "biodata" ? BIODATA_DEFAULT_HEADERS : sourceHeaders;
+        
+        let headers = sourceHeaders;
+        if (tabName === "biodata") {
+          headers = BIODATA_DEFAULT_HEADERS;
+        } else if (tabName === "pelanggaran") {
+          headers = PELANGGARAN_DEFAULT_HEADERS;
+        }
 
         const records = csvRows.slice(1)
           .filter(row => row.some(value => String(value).trim() !== ""))
@@ -1140,10 +1348,17 @@
         els.rombelContainer.classList.remove("hidden");
         els.semesterContainer.classList.remove("hidden");
         els.addKhifidzBtn.classList.remove("hidden");
+        els.addPelanggaranBtn.classList.add("hidden");
+      } else if (state.activeTab === "pelanggaran") {
+        els.rombelContainer.classList.add("hidden");
+        els.semesterContainer.classList.add("hidden");
+        els.addKhifidzBtn.classList.add("hidden");
+        els.addPelanggaranBtn.classList.remove("hidden");
       } else {
         els.rombelContainer.classList.add("hidden");
         els.semesterContainer.classList.add("hidden");
         els.addKhifidzBtn.classList.add("hidden");
+        els.addPelanggaranBtn.classList.add("hidden");
         els.rombelFilter.value = "";
         els.semesterFilter.value = "";
       }
@@ -1226,63 +1441,84 @@
       }
 
       rows.forEach(record => {
-        const tr = document.createElement("tr");
-        tr.className = "cursor-pointer transition hover:brightness-95";
+  const tr = document.createElement("tr");
 
-        const statusHeader = findHeader(headers, ["STATUS", "Status"]);
-        const idYysHeader = findHeader(headers, ["ID YYS", "Id YYS"]);
+  const statusHeader = findHeader(headers, ["STATUS", "Status"]);
+  const idYysHeader = findHeader(headers, ["ID YYS", "Id YYS"]);
 
-        const statusValue = String(record[statusHeader] || "").trim().toUpperCase();
-        const idYysValue = String(record[idYysHeader] || "").trim().toUpperCase();
+  const statusValue = String(record[statusHeader] || "").trim().toUpperCase();
+  const idYysValue = String(record[idYysHeader] || "").trim().toUpperCase();
 
-        if (idYysValue === "OUT") {
-          tr.className += " bg-red-100/90 text-red-900 font-medium hover:!bg-red-200/90";
-        } else if (statusValue === "BELUM") {
-          tr.className += " bg-amber-100/90 text-amber-900 font-medium hover:!bg-amber-200/90";
-        }
+  if (idYysValue === "OUT") {
+    tr.className = "bg-red-100/90 text-red-900 font-medium hover:!bg-red-200/90";
+  } else if (statusValue === "BELUM") {
+    tr.className = "bg-amber-100/90 text-amber-900 font-medium hover:!bg-amber-200/90";
+  } else {
+    tr.className = "";
+  }
 
-        if (state.activeTab === "khifidz") {
-          const tdAction = document.createElement("td");
-          const certBtn = document.createElement("button");
-          certBtn.type = "button";
-          certBtn.className = "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition shadow-sm";
-          certBtn.innerHTML = `<i data-lucide="printer" width="14" height="14"></i><span>Cetak</span>`;
-          certBtn.onclick = (e) => {
-            e.stopPropagation();
-            openCertificateModal(record);
-          };
-          tdAction.appendChild(certBtn);
-          tr.appendChild(tdAction);
-        }
+  // Pengaturan kursor & event listener klik edit (Hanya aktif untuk tab Biodata)
+  if (state.activeTab === "biodata") {
+    tr.className += " cursor-pointer transition hover:brightness-95";
+    tr.addEventListener("click", () => openEditModal(record));
+  } else {
+    tr.className += " cursor-default"; // Kursor standar (bukan hand pointer) untuk Khifidz & Pelanggaran
+  }
 
-        tr.addEventListener("click", () => openEditModal(record));
+  if (state.activeTab === "khifidz") {
+    const tdAction = document.createElement("td");
+    const certBtn = document.createElement("button");
+    certBtn.type = "button";
+    certBtn.className = "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition shadow-sm";
+    certBtn.innerHTML = `<i data-lucide="printer" width="14" height="14"></i><span>Cetak</span>`;
+    certBtn.onclick = (e) => {
+      e.stopPropagation();
+      openCertificateModal(record);
+    };
+    tdAction.appendChild(certBtn);
+    tr.appendChild(tdAction);
+  }
 
-        headers.forEach(header => {
-          const td = document.createElement("td");
-          td.textContent = record[header] || "—";
-          
-          const currentHeaderNormalized = String(header).trim().toUpperCase();
+  headers.forEach(header => {
+    const td = document.createElement("td");
+    td.textContent = record[header] || "—";
+    
+    const currentHeaderNormalized = String(header).trim().toUpperCase();
 
-          if (currentHeaderNormalized === "STATUS") {
-            if (statusValue === "BELUM") {
-              td.innerHTML = `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-200 text-amber-900">BELUM</span>`;
-            } else if (statusValue === "AMAN") {
-              td.innerHTML = `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">AMAN</span>`;
-            }
-          }
+    if (currentHeaderNormalized === "STATUS") {
+      if (statusValue === "BELUM") {
+        td.innerHTML = `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-200 text-amber-900">BELUM</span>`;
+      } else if (statusValue === "AMAN") {
+        td.innerHTML = `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">AMAN</span>`;
+      }
+    }
 
-          if (currentHeaderNormalized === "ID YYS" && idYysValue === "OUT") {
-            td.innerHTML = `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-200 text-red-900">OUT</span>`;
-          }
+    if (currentHeaderNormalized === "ID YYS" && idYysValue === "OUT") {
+      td.innerHTML = `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-200 text-red-900">OUT</span>`;
+    }
 
-          tr.appendChild(td);
-        });
-        els.tableBody.appendChild(tr);
-      });
+    if (currentHeaderNormalized === "KATEGORI") {
+      const katVal = String(record[header] || "").trim();
+      if (katVal === "Ringan") {
+        td.innerHTML = `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-blue-100 text-blue-800">Ringan</span>`;
+      } else if (katVal === "Sedang") {
+        td.innerHTML = `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-amber-100 text-amber-800">Sedang</span>`;
+      } else if (katVal === "Berat") {
+        td.innerHTML = `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-red-100 text-red-800">Berat</span>`;
+      }
+    }
+
+    tr.appendChild(td);
+  });
+  els.tableBody.appendChild(tr);
+});
 
       lucide.createIcons();
 
-      const activeLabel = state.activeTab === "biodata" ? "Biodata" : "Khifidz Santri";
+      let activeLabel = "Biodata";
+      if (state.activeTab === "khifidz") activeLabel = "Khifidz Santri";
+      if (state.activeTab === "pelanggaran") activeLabel = "Pelanggaran Santri";
+
       els.resultSummary.textContent = `${total.toLocaleString("id-ID")} data ${activeLabel.toLowerCase()} (${state.activeYear}) ditemukan.`;
       els.headerCount.textContent = `${total.toLocaleString("id-ID")} data`;
       els.filterDescription.textContent = `Menampilkan data ${activeLabel} Tahun Ajaran ${state.activeYear}. Klik baris untuk merubah data.`;
@@ -1303,7 +1539,6 @@
       const nadzoman = record[findHeader(headers, ["NADZOMAN", "Nadzoman"])] || "—";
       const rombel = String(record[findHeader(headers, ["ROMBEL", "Rombel"])] || "").trim();
 
-      // Penentuan Penanggung Jawab Hifizh Santri berdasarkan Rombel
       let namaPjHifiz = ".........................";
       let selectedTtdPjUrl = "";
 
@@ -1319,7 +1554,6 @@
 
       const formattedDate = getTodayFormatted();
 
-      // Isi Modal Preview
       els.previewNama.textContent = nama;
       els.previewTtl.textContent = ttl;
       els.previewKelas.textContent = kelas;
@@ -1330,14 +1564,12 @@
       els.previewDateMasehi.textContent = formattedDate.masehi;
       els.previewPenerimaNama.textContent = namaPjHifiz;
 
-      // Set TTD Kepala Madrasah
       if (TTD_KEPALA_URL) {
         els.previewTtdKepala.src = TTD_KEPALA_URL;
         els.previewTtdKepala.classList.remove("hidden");
         if (els.previewTtdKepalaPlaceholder) els.previewTtdKepalaPlaceholder.classList.add("hidden");
       }
 
-      // Set TTD Penanggung Jawab di Preview Modal
       if (selectedTtdPjUrl) {
         els.previewTtdPj.src = selectedTtdPjUrl;
         els.previewTtdPj.classList.remove("hidden");
@@ -1347,7 +1579,6 @@
         if (els.previewTtdPjPlaceholder) els.previewTtdPjPlaceholder.classList.remove("hidden");
       }
 
-      // Format Cetak Fisik
       els.printNama.textContent = nama;
       els.printTtl.textContent = ttl;
       els.printKelas.textContent = kelas;
@@ -1378,18 +1609,241 @@
       const cacheKey = `${state.activeYear}_${state.activeTab}`;
       const headers = state.headers[cacheKey] || [];
       
-      headers.forEach(header => {
-        const wrapper = document.createElement("div");
-        const cleanHeader = String(header).trim().toUpperCase();
-        const isKeyField = cleanHeader === "NO INDUK" || cleanHeader === "NO. INDUK"; 
+      if (state.activeTab === "khifidz") {
+        els.editModalTitle.textContent = "Edit Data Khifidz Santri";
 
-        wrapper.innerHTML = `
-          <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">${header}</label>
-          <input type="text" name="${header}" value="${record[header] || ''}" 
-            ${isKeyField ? 'readonly class="w-full bg-gray-100 border border-gray-300 rounded-lg p-2 text-sm font-bold text-gray-600 cursor-not-allowed"' : 'class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none"'} />
+        const valNoInduk = record[findHeader(headers, ["NO INDUK", "No Induk"])] || "";
+        const valNama = record[findHeader(headers, ["NAMA", "Nama"])] || "";
+        const valKelas = record[findHeader(headers, ["KELAS", "Kelas"])] || "";
+        const valTtl = record[findHeader(headers, ["TEMPAT & TANGGAL LAHIR", "Tempat & Tanggal Lahir"])] || "";
+        const valAlamat = record[findHeader(headers, ["ALAMAT", "Alamat"])] || "";
+        const valRombel = record[findHeader(headers, ["ROMBEL", "Rombel"])] || "";
+        const valPenerima = record[findHeader(headers, ["PENERIMA", "Penerima"])] || "";
+        const valSemester = record[findHeader(headers, ["SEMESTER", "Semester"])] || "";
+        const valNadzoman = record[findHeader(headers, ["NADZOMAN", "Nadzoman"])] || "";
+
+        els.editForm.innerHTML = `
+          <div class="sm:col-span-2">
+            <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">No Induk Santri</label>
+            <input type="text" name="No Induk" value="${valNoInduk}" readonly class="w-full bg-gray-100 border border-gray-300 rounded-lg p-2.5 text-sm font-bold text-gray-600 cursor-not-allowed" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Nama Santri</label>
+            <input type="text" name="Nama" value="${valNama}" readonly class="w-full bg-gray-100 border border-gray-300 rounded-lg p-2 text-sm text-gray-700 font-semibold cursor-not-allowed" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Kelas</label>
+            <input type="text" name="Kelas" value="${valKelas}" readonly class="w-full bg-gray-100 border border-gray-300 rounded-lg p-2 text-sm text-gray-700 font-semibold cursor-not-allowed" />
+          </div>
+
+          <div class="sm:col-span-2">
+            <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Tempat & Tanggal Lahir</label>
+            <input type="text" name="Tempat & Tanggal Lahir" value="${valTtl}" readonly class="w-full bg-gray-100 border border-gray-300 rounded-lg p-2 text-sm text-gray-700 font-semibold cursor-not-allowed" />
+          </div>
+
+          <div class="sm:col-span-2">
+            <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Alamat Lengkap</label>
+            <input type="text" name="Alamat" value="${valAlamat}" readonly class="w-full bg-gray-100 border border-gray-300 rounded-lg p-2 text-sm text-gray-700 font-semibold cursor-not-allowed" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">Rombel</label>
+            <select id="edit-rombel" name="Rombel" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none" required>
+              <option value="">Pilih Rombel</option>
+              <option value="Putra" ${valRombel === "Putra" ? "selected" : ""}>Putra</option>
+              <option value="Putri" ${valRombel === "Putri" ? "selected" : ""}>Putri</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">Penerima</label>
+            <select id="edit-penerima" name="Penerima" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none" required>
+              <option value="">Pilih Rombel Terlebih Dahulu</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">Semester</label>
+            <select id="edit-semester" name="Semester" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none" required>
+              <option value="">Pilih Semester</option>
+              <option value="Semester 1" ${valSemester === "Semester 1" ? "selected" : ""}>Semester 1</option>
+              <option value="Semester 2" ${valSemester === "Semester 2" ? "selected" : ""}>Semester 2</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">Nadzoman</label>
+            <select id="edit-nadzoman" name="Nadzoman" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none" required>
+              <option value="">Pilih Semester Terlebih Dahulu</option>
+            </select>
+          </div>
         `;
-        els.editForm.appendChild(wrapper);
-      });
+
+        const editRombel = document.getElementById("edit-rombel");
+        const editPenerima = document.getElementById("edit-penerima");
+        const editSemester = document.getElementById("edit-semester");
+        const editNadzoman = document.getElementById("edit-nadzoman");
+
+        const updatePenerimaOpts = (rVal, currentSelected) => {
+          editPenerima.innerHTML = "";
+          if (!rVal || !PENERIMA_OPTIONS[rVal]) {
+            editPenerima.innerHTML = '<option value="">Pilih Rombel Terlebih Dahulu</option>';
+            return;
+          }
+          editPenerima.innerHTML = `<option value="">Pilih Penerima (${rVal})</option>`;
+          PENERIMA_OPTIONS[rVal].forEach(p => {
+            const opt = document.createElement("option");
+            opt.value = p;
+            opt.textContent = p;
+            if (p === currentSelected) opt.selected = true;
+            editPenerima.appendChild(opt);
+          });
+        };
+
+        const updateNadzomanOpts = (sVal, currentSelected) => {
+          editNadzoman.innerHTML = "";
+          if (!sVal || !NADZOMAN_OPTIONS[sVal]) {
+            editNadzoman.innerHTML = '<option value="">Pilih Semester Terlebih Dahulu</option>';
+            return;
+          }
+          editNadzoman.innerHTML = `<option value="">Pilih Nadzoman (${sVal})</option>`;
+          NADZOMAN_OPTIONS[sVal].forEach(n => {
+            const opt = document.createElement("option");
+            opt.value = n;
+            opt.textContent = n;
+            if (n === currentSelected) opt.selected = true;
+            editNadzoman.appendChild(opt);
+          });
+        };
+
+        updatePenerimaOpts(valRombel, valPenerima);
+        updateNadzomanOpts(valSemester, valNadzoman);
+
+        editRombel.addEventListener("change", () => updatePenerimaOpts(editRombel.value, ""));
+        editSemester.addEventListener("change", () => updateNadzomanOpts(editSemester.value, ""));
+
+      } else if (state.activeTab === "pelanggaran") {
+        els.editModalTitle.textContent = "Edit Data Pelanggaran Santri";
+
+        const valTanggal = record[findHeader(headers, ["TANGGAL", "Tanggal"])] || "";
+        const valNoInduk = record[findHeader(headers, ["NO INDUK", "No Induk"])] || "";
+        const valNama = record[findHeader(headers, ["NAMA", "Nama"])] || "";
+        const valKelas = record[findHeader(headers, ["KELAS", "Kelas"])] || "";
+        const valRombel = record[findHeader(headers, ["ROMBEL", "Rombel"])] || "";
+        const valKesantrian = record[findHeader(headers, ["KESANTRIAN", "Kesantrian"])] || "";
+        const valPelanggaran = record[findHeader(headers, ["PELANGGARAN", "Pelanggaran"])] || "";
+        const valKategori = record[findHeader(headers, ["KATEGORI", "Kategori"])] || (KATEGORI_PELANGGARAN_MAP[valPelanggaran] || "");
+
+        els.editForm.innerHTML = `
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">Tanggal</label>
+            <input type="text" name="Tanggal" value="${valTanggal}" readonly class="w-full bg-gray-100 border border-gray-300 rounded-lg p-2.5 text-sm font-bold text-gray-700 cursor-not-allowed" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">No Induk Santri</label>
+            <input type="text" name="No Induk" value="${valNoInduk}" readonly class="w-full bg-gray-100 border border-gray-300 rounded-lg p-2.5 text-sm font-bold text-gray-600 cursor-not-allowed" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Nama Santri</label>
+            <input type="text" name="Nama" value="${valNama}" readonly class="w-full bg-gray-100 border border-gray-300 rounded-lg p-2 text-sm text-gray-700 font-semibold cursor-not-allowed" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Kelas</label>
+            <input type="text" name="Kelas" value="${valKelas}" readonly class="w-full bg-gray-100 border border-gray-300 rounded-lg p-2 text-sm text-gray-700 font-semibold cursor-not-allowed" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">Rombel</label>
+            <select id="edit-pelanggaran-rombel" name="Rombel" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none" required>
+              <option value="">Pilih Rombel</option>
+              <option value="Putra" ${valRombel === "Putra" ? "selected" : ""}>Putra</option>
+              <option value="Putri" ${valRombel === "Putri" ? "selected" : ""}>Putri</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">Kesantrian</label>
+            <select id="edit-pelanggaran-kesantrian" name="Kesantrian" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none" required>
+              <option value="">Pilih Rombel Terlebih Dahulu</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">Pelanggaran</label>
+            <select id="edit-pelanggaran-jenis" name="Pelanggaran" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none" required>
+              <option value="">Pilih Jenis Pelanggaran</option>
+              <option value="Terlambat" ${valPelanggaran === "Terlambat" ? "selected" : ""}>Terlambat</option>
+              <option value="Atribut Tidak Lengkap" ${valPelanggaran === "Atribut Tidak Lengkap" ? "selected" : ""}>Atribut Tidak Lengkap</option>
+              <option value="Tidur di Kelas" ${valPelanggaran === "Tidur di Kelas" ? "selected" : ""}>Tidur di Kelas</option>
+              <option value="Membuat Keramaian" ${valPelanggaran === "Membuat Keramaian" ? "selected" : ""}>Membuat Keramaian</option>
+              <option value="Tidak Memakai Seragam" ${valPelanggaran === "Tidak Memakai Seragam" ? "selected" : ""}>Tidak Memakai Seragam</option>
+              <option value="Alpha Jam Ke-1" ${valPelanggaran === "Alpha Jam Ke-1" ? "selected" : ""}>Alpha Jam Ke-1</option>
+              <option value="Alpha Jam Ke-2" ${valPelanggaran === "Alpha Jam Ke-2" ? "selected" : ""}>Alpha Jam Ke-2</option>
+              <option value="Meninggalkan Kelas Tanpa Izin" ${valPelanggaran === "Meninggalkan Kelas Tanpa Izin" ? "selected" : ""}>Meninggalkan Kelas Tanpa Izin</option>
+              <option value="Lainnya" ${valPelanggaran === "Lainnya" ? "selected" : ""}>Lainnya</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Kategori</label>
+            <input type="text" id="edit-pelanggaran-kategori" name="Kategori" value="${valKategori}" readonly class="w-full bg-gray-100 border border-gray-300 rounded-lg p-2 text-sm font-bold text-amber-900 cursor-not-allowed" placeholder="Otomatis terisi..." />
+          </div>
+        `;
+
+        const editPelanggaranRombel = document.getElementById("edit-pelanggaran-rombel");
+        const editPelanggaranKesantrian = document.getElementById("edit-pelanggaran-kesantrian");
+        const editPelanggaranJenis = document.getElementById("edit-pelanggaran-jenis");
+        const editPelanggaranKategori = document.getElementById("edit-pelanggaran-kategori");
+
+        const updateKesantrianOpts = (rVal, currentSelected) => {
+          editPelanggaranKesantrian.innerHTML = "";
+          if (!rVal || !PENERIMA_OPTIONS[rVal]) {
+            editPelanggaranKesantrian.innerHTML = '<option value="">Pilih Rombel Terlebih Dahulu</option>';
+            return;
+          }
+          editPelanggaranKesantrian.innerHTML = `<option value="">Pilih Kesantrian (${rVal})</option>`;
+          PENERIMA_OPTIONS[rVal].forEach(k => {
+            const opt = document.createElement("option");
+            opt.value = k;
+            opt.textContent = k;
+            if (k === currentSelected) opt.selected = true;
+            editPelanggaranKesantrian.appendChild(opt);
+          });
+        };
+
+        updateKesantrianOpts(valRombel, valKesantrian);
+
+        editPelanggaranRombel.addEventListener("change", () => updateKesantrianOpts(editPelanggaranRombel.value, ""));
+
+        editPelanggaranJenis.addEventListener("change", () => {
+          const selJenis = editPelanggaranJenis.value;
+          if (selJenis && KATEGORI_PELANGGARAN_MAP[selJenis]) {
+            editPelanggaranKategori.value = KATEGORI_PELANGGARAN_MAP[selJenis];
+          } else {
+            editPelanggaranKategori.value = "";
+          }
+        });
+
+      } else {
+        els.editModalTitle.textContent = "Edit Data Santri";
+        headers.forEach(header => {
+          const wrapper = document.createElement("div");
+          const cleanHeader = String(header).trim().toUpperCase();
+          const isKeyField = cleanHeader === "NO INDUK" || cleanHeader === "NO. INDUK"; 
+
+          wrapper.innerHTML = `
+            <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">${header}</label>
+            <input type="text" name="${header}" value="${record[header] || ''}" 
+              ${isKeyField ? 'readonly class="w-full bg-gray-100 border border-gray-300 rounded-lg p-2 text-sm font-bold text-gray-600 cursor-not-allowed"' : 'class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none"'} />
+          `;
+          els.editForm.appendChild(wrapper);
+        });
+      }
 
       els.modal.classList.remove("hidden");
     }
@@ -1404,7 +1858,10 @@
 
       const worksheet = XLSX.utils.json_to_sheet(filteredData);
       const workbook = XLSX.utils.book_new();
-      const sheetName = state.activeTab === "biodata" ? "Biodata Santri" : "Khifidz Santri";
+      
+      let sheetName = "Biodata Santri";
+      if (state.activeTab === "khifidz") sheetName = "Khifidz Santri";
+      if (state.activeTab === "pelanggaran") sheetName = "Pelanggaran Santri";
       
       XLSX.utils.book_append_sheet(workbook, worksheet, `${sheetName}_${state.activeYear.replace('/', '-')}`);
 
@@ -1465,6 +1922,58 @@
       }
     });
 
+    els.addPelanggaranNoInduk.addEventListener("input", async () => {
+  const inputVal = els.addPelanggaranNoInduk.value.trim().toLowerCase();
+  
+  if (!inputVal) {
+    resetAddPelanggaranFields(false);
+    return;
+  }
+
+  const biodataCacheKey = `${state.activeYear}_biodata`;
+
+  // 1. Tampilkan status loading saat data biodata sedang diunduh
+  els.pelanggaranNoIndukMsg.textContent = "Mencari data santri...";
+  els.pelanggaranNoIndukMsg.className = "mt-1 text-xs text-blue-600 font-semibold";
+
+  // 2. Pastikan data Biodata Tahun Ajaran aktif benar-benar selesai dimuat
+  if (!state.loaded[biodataCacheKey]) {
+    await loadData(state.activeYear, "biodata");
+  }
+
+  const biodataList = state.data[biodataCacheKey] || [];
+  const headers = state.headers[biodataCacheKey] || [];
+  const noIndukHeader = findHeader(headers, ["NO INDUK", "No Induk", "Nomor Induk", "NO. INDUK"]);
+
+  // 3. Pencarian presisi dengan mengabaikan spasi ekstra
+  const found = biodataList.find(s => {
+    const rawVal = String(s[noIndukHeader] || "").trim().toLowerCase();
+    return rawVal === inputVal;
+  });
+
+  if (found) {
+    els.pelanggaranNoIndukMsg.textContent = "Data santri ditemukan!";
+    els.pelanggaranNoIndukMsg.className = "mt-1 text-xs text-emerald-600 font-bold";
+
+    // Isi Nama dan Kelas secara otomatis
+    els.addPelanggaranNama.value = found[findHeader(headers, ["NAMA", "Nama", "NAMA SANTRI"])] || "";
+    els.addPelanggaranKelas.value = found[findHeader(headers, ["KELAS", "Kelas", "KLS"])] || "";
+  } else {
+    els.pelanggaranNoIndukMsg.textContent = `Santri No Induk [${inputVal}] tidak ditemukan pada Biodata ${state.activeYear}.`;
+    els.pelanggaranNoIndukMsg.className = "mt-1 text-xs text-red-500 font-semibold";
+    resetAddPelanggaranFields(false);
+  }
+});
+
+    els.addPelanggaranJenis.addEventListener("change", () => {
+      const selectedJenis = els.addPelanggaranJenis.value;
+      if (selectedJenis && KATEGORI_PELANGGARAN_MAP[selectedJenis]) {
+        els.addPelanggaranKategori.value = KATEGORI_PELANGGARAN_MAP[selectedJenis];
+      } else {
+        els.addPelanggaranKategori.value = "";
+      }
+    });
+
     els.addRombel.addEventListener("change", () => {
       const selectedRombel = els.addRombel.value;
       els.addPenerima.innerHTML = "";
@@ -1487,6 +1996,31 @@
         opt.value = penerima;
         opt.textContent = penerima;
         els.addPenerima.appendChild(opt);
+      });
+    });
+
+    els.addPelanggaranRombel.addEventListener("change", () => {
+      const selectedRombel = els.addPelanggaranRombel.value;
+      els.addPelanggaranKesantrian.innerHTML = "";
+
+      if (!selectedRombel || !PENERIMA_OPTIONS[selectedRombel]) {
+        const defaultOpt = document.createElement("option");
+        defaultOpt.value = "";
+        defaultOpt.textContent = "Pilih Rombel Terlebih Dahulu";
+        els.addPelanggaranKesantrian.appendChild(defaultOpt);
+        return;
+      }
+
+      const defaultOpt = document.createElement("option");
+      defaultOpt.value = "";
+      defaultOpt.textContent = `Pilih Kesantrian (${selectedRombel})`;
+      els.addPelanggaranKesantrian.appendChild(defaultOpt);
+
+      PENERIMA_OPTIONS[selectedRombel].forEach(nama => {
+        const opt = document.createElement("option");
+        opt.value = nama;
+        opt.textContent = nama;
+        els.addPelanggaranKesantrian.appendChild(opt);
       });
     });
 
@@ -1528,6 +2062,25 @@
       els.addNadzoman.value = "";
       els.addNadzoman.innerHTML = '<option value="">Pilih Semester Terlebih Dahulu</option>';
       els.noIndukMsg.textContent = "";
+    }
+
+    function resetAddPelanggaranFields(clearNoInduk = true) {
+      if (clearNoInduk) els.addPelanggaranNoInduk.value = "";
+      
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const dd = String(today.getDate()).padStart(2, '0');
+      els.addPelanggaranTanggal.value = `${yyyy}-${mm}-${dd}`;
+
+      els.addPelanggaranNama.value = "";
+      els.addPelanggaranKelas.value = "";
+      els.addPelanggaranRombel.value = "";
+      els.addPelanggaranJenis.value = "";
+      els.addPelanggaranKategori.value = "";
+      els.addPelanggaranKesantrian.value = "";
+      els.addPelanggaranKesantrian.innerHTML = '<option value="">Pilih Rombel Terlebih Dahulu</option>';
+      els.pelanggaranNoIndukMsg.textContent = "";
     }
 
     function createPageButton(label, onClick, disabled, isCurrent) {
@@ -1602,11 +2155,13 @@
       els.rombelFilter.value = "";
       els.semesterFilter.value = "";
 
-      const biodataActive = tabName === "biodata";
-      els.biodataTab.classList.toggle("is-active", biodataActive);
-      els.khifidzTab.classList.toggle("is-active", !biodataActive);
-      els.biodataTab.setAttribute("aria-selected", String(biodataActive));
-      els.khifidzTab.setAttribute("aria-selected", String(!biodataActive));
+      els.biodataTab.classList.toggle("is-active", tabName === "biodata");
+      els.khifidzTab.classList.toggle("is-active", tabName === "khifidz");
+      els.pelanggaranTab.classList.toggle("is-active", tabName === "pelanggaran");
+
+      els.biodataTab.setAttribute("aria-selected", String(tabName === "biodata"));
+      els.khifidzTab.setAttribute("aria-selected", String(tabName === "khifidz"));
+      els.pelanggaranTab.setAttribute("aria-selected", String(tabName === "pelanggaran"));
 
       await loadData(state.activeYear, tabName);
     }
@@ -1620,6 +2175,7 @@
 
     els.biodataTab.addEventListener("click", () => changeTab("biodata"));
     els.khifidzTab.addEventListener("click", () => changeTab("khifidz"));
+    els.pelanggaranTab.addEventListener("click", () => changeTab("pelanggaran"));
 
     [els.search, els.classFilter, els.rombelFilter, els.semesterFilter].forEach(control => {
       control.addEventListener(control === els.search ? "input" : "change", () => {
@@ -1647,21 +2203,43 @@
     els.closeAddModalBtn.onclick = () => els.addModal.classList.add("hidden");
     els.cancelAddBtn.onclick = () => els.addModal.classList.add("hidden");
 
-    // MODAL SERTIFIKAT
+    els.addPelanggaranBtn.onclick = () => {
+      resetAddPelanggaranFields();
+      els.addPelanggaranModal.classList.remove("hidden");
+    };
+    els.closeAddPelanggaranModalBtn.onclick = () => els.addPelanggaranModal.classList.add("hidden");
+    els.cancelAddPelanggaranBtn.onclick = () => els.addPelanggaranModal.classList.add("hidden");
+
     els.closeCertModalBtn.onclick = () => els.certModal.classList.add("hidden");
     els.cancelCertBtn.onclick = () => els.certModal.classList.add("hidden");
     els.printCertBtn.onclick = () => window.print();
 
+    // PROSES SIMPAN EDIT PERBARUIAN (LENGKAP SEMUA VARIABEL KUNCI KAPITAL & KECIL)
     els.saveBtn.onclick = async () => {
       const formData = new FormData(els.editForm);
+      let sheetTarget = "Biodata";
+      if (state.activeTab === "khifidz") sheetTarget = "Khifidz";
+      if (state.activeTab === "pelanggaran") sheetTarget = "Pelanggaran";
+
       const payload = {
-        sheetTarget: state.activeTab === "biodata" ? "Biodata" : "Khifidz",
+        action: "edit",
+        sheetTarget: sheetTarget,
         tahunAjaran: state.activeYear
       };
 
       formData.forEach((value, key) => {
         payload[key] = value;
       });
+
+      // Duplikasi key dengan huruf KAPITAL untuk menjamin kompabilitas Google Apps Script
+      if (payload["No Induk"]) payload["NO INDUK"] = payload["No Induk"];
+      if (payload["Nama"]) payload["NAMA"] = payload["Nama"];
+      if (payload["Kelas"]) payload["KELAS"] = payload["Kelas"];
+      if (payload["Pelanggaran"]) payload["PELANGGARAN"] = payload["Pelanggaran"];
+      if (payload["Kategori"]) payload["KATEGORI"] = payload["Kategori"];
+      if (payload["Kesantrian"]) payload["KESANTRIAN"] = payload["Kesantrian"];
+      if (payload["Rombel"]) payload["ROMBEL"] = payload["Rombel"];
+      if (payload["Tanggal"]) payload["TANGGAL"] = payload["Tanggal"];
 
       els.saveBtn.disabled = true;
       els.saveBtn.textContent = "Menyimpan...";
@@ -1681,7 +2259,7 @@
           state.loaded[cacheKey] = false;
           await loadData(state.activeYear, state.activeTab);
         } else {
-          alert("Gagal menyimpan: " + result.message);
+          alert("Gagal menyimpan: " + (result.message || "Terjadi kesalahan pada server Spreadsheet."));
         }
       } catch (error) {
         alert("Terjadi kesalahan koneksi saat menyimpan data ke Spreadsheet.");
@@ -1707,14 +2285,21 @@
         sheetTarget: "Khifidz",
         tahunAjaran: state.activeYear,
         "No Induk": els.addNoInduk.value,
+        "NO INDUK": els.addNoInduk.value,
         "Nama": els.addNama.value,
+        "NAMA": els.addNama.value,
         "Kelas": els.addKelas.value,
+        "KELAS": els.addKelas.value,
         "Tempat & Tanggal Lahir": els.addTempatTanggalLahir.value,
         "Alamat": els.addAlamat.value,
         "Semester": els.addSemester.value,
+        "SEMESTER": els.addSemester.value,
         "Penerima": els.addPenerima.value,
+        "PENERIMA": els.addPenerima.value,
         "Rombel": els.addRombel.value,
-        "Nadzoman": els.addNadzoman.value
+        "ROMBEL": els.addRombel.value,
+        "Nadzoman": els.addNadzoman.value,
+        "NADZOMAN": els.addNadzoman.value
       };
 
       els.saveAddBtn.disabled = true;
@@ -1742,6 +2327,75 @@
       } finally {
         els.saveAddBtn.disabled = false;
         els.saveAddBtn.textContent = "Simpan Santri Khifidz";
+      }
+    };
+
+    els.saveAddPelanggaranBtn.onclick = async () => {
+      if (!els.addPelanggaranNoInduk.value || !els.addPelanggaranNama.value) {
+        alert("Silakan masukkan No Induk santri yang valid!");
+        return;
+      }
+
+      if (!els.addPelanggaranRombel.value || !els.addPelanggaranJenis.value || !els.addPelanggaranKesantrian.value) {
+        alert("Harap lengkapi semua pilihan dropdown (Rombel, Kesantrian, & Pelanggaran)!");
+        return;
+      }
+
+      const payload = {
+        action: "add",
+        sheetTarget: "Pelanggaran",
+        tahunAjaran: state.activeYear,
+        
+        "TANGGAL": els.addPelanggaranTanggal.value,
+        "Tanggal": els.addPelanggaranTanggal.value,
+        
+        "NO INDUK": els.addPelanggaranNoInduk.value,
+        "No Induk": els.addPelanggaranNoInduk.value,
+        
+        "NAMA": els.addPelanggaranNama.value,
+        "Nama": els.addPelanggaranNama.value,
+        
+        "KELAS": els.addPelanggaranKelas.value,
+        "Kelas": els.addPelanggaranKelas.value,
+        
+        "PELANGGARAN": els.addPelanggaranJenis.value,
+        "Pelanggaran": els.addPelanggaranJenis.value,
+
+        "KATEGORI": els.addPelanggaranKategori.value,
+        "Kategori": els.addPelanggaranKategori.value,
+        
+        "KESANTRIAN": els.addPelanggaranKesantrian.value,
+        "Kesantrian": els.addPelanggaranKesantrian.value,
+
+        "ROMBEL": els.addPelanggaranRombel.value,
+        "Rombel": els.addPelanggaranRombel.value
+      };
+
+      els.saveAddPelanggaranBtn.disabled = true;
+      els.saveAddPelanggaranBtn.textContent = "Menyimpan...";
+
+      try {
+        const response = await fetch(WEB_APP_URL, {
+          method: "POST",
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (result.status === "success") {
+          alert(`Pelanggaran Santri berhasil ditambahkan ke Spreadsheet ${state.activeYear}!`);
+          els.addPelanggaranModal.classList.add("hidden");
+          const pelanggaranCacheKey = `${state.activeYear}_pelanggaran`;
+          state.loaded[pelanggaranCacheKey] = false;
+          await loadData(state.activeYear, "pelanggaran");
+        } else {
+          alert("Gagal menambahkan: " + result.message);
+        }
+      } catch (error) {
+        alert("Terjadi kesalahan koneksi saat menambahkan data.");
+      } finally {
+        els.saveAddPelanggaranBtn.disabled = false;
+        els.saveAddPelanggaranBtn.textContent = "Simpan Pelanggaran";
       }
     };
 
