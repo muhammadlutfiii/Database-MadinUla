@@ -311,9 +311,18 @@
         <i data-lucide="bookmark-check" width="17" height="17" aria-hidden="true"></i> 
         <span>Khifidz Santri</span> 
       </button>
+      <!-- TAB PRESTASI SANTRI -->
+      <button id="prestasi-tab" type="button" data-template-id="prestasi-tab" class="canva-tabs tab-button flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold whitespace-nowrap" aria-selected="false"> 
+        <i data-lucide="trophy" width="17" height="17" aria-hidden="true"></i> 
+        <span>Prestasi Santri</span> 
+      </button>
       <button id="pelanggaran-tab" type="button" data-template-id="pelanggaran-tab" class="canva-tabs tab-button flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold whitespace-nowrap" aria-selected="false"> 
         <i data-lucide="alert-triangle" width="17" height="17" aria-hidden="true"></i> 
         <span>Pelanggaran Santri</span> 
+      </button>
+      <button id="riwayat-tab" type="button" data-template-id="riwayat-tab" class="canva-tabs tab-button flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold whitespace-nowrap" aria-selected="false"> 
+        <i data-lucide="history" width="17" height="17" aria-hidden="true"></i> 
+        <span>Riwayat Santri</span> 
       </button>
      </nav>
      
@@ -329,6 +338,12 @@
           <button id="add-khifidz-button" type="button" class="hidden inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200">
             <i data-lucide="plus-circle" width="16" height="16" aria-hidden="true"></i>
             <span>Tambah Khifidz</span>
+          </button>
+
+          <!-- BUTTON TAMBAH PRESTASI -->
+          <button id="add-prestasi-button" type="button" class="hidden inline-flex items-center justify-center gap-2 rounded-xl bg-purple-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-purple-700 focus:outline-none focus:ring-4 focus:ring-purple-200">
+            <i data-lucide="plus-circle" width="16" height="16" aria-hidden="true"></i>
+            <span>Tambah Prestasi</span>
           </button>
 
           <button id="add-pelanggaran-button" type="button" class="hidden inline-flex items-center justify-center gap-2 rounded-xl bg-amber-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-amber-700 focus:outline-none focus:ring-4 focus:ring-amber-200">
@@ -370,7 +385,7 @@
          </select>
         </div>
 
-        <!-- DROPDOWN ROMBEL (KHUSUS KHIFIDZ SANTRI) -->
+        <!-- DROPDOWN ROMBEL -->
         <div id="rombel-filter-container" class="hidden">
          <label class="canva-text mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#173b2b]" for="rombel-filter">Filter Rombel</label> 
          <select id="rombel-filter" class="canva-dropdown filter-control text-sm"> 
@@ -380,7 +395,7 @@
          </select>
         </div>
 
-        <!-- DROPDOWN SEMESTER (KHUSUS KHIFIDZ SANTRI) -->
+        <!-- DROPDOWN SEMESTER -->
         <div id="semester-filter-container" class="hidden">
          <label class="canva-text mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#173b2b]" for="semester-filter">Filter Semester</label> 
          <select id="semester-filter" class="canva-dropdown filter-control text-sm"> 
@@ -435,7 +450,7 @@
     </section>
    </main>
 
-   <!-- POP-UP MODAL EDIT DATA SANTRI (DINAMIS DISESUAIKAN PER TAB) -->
+   <!-- POP-UP MODAL EDIT DATA SANTRI -->
    <div id="edit-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
     <div class="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl">
       <div class="mb-4 flex items-center justify-between border-b border-gray-200 pb-3">
@@ -530,6 +545,70 @@
       <div class="mt-6 flex items-center justify-end gap-3 border-t border-gray-200 pt-4">
         <button type="button" id="cancel-add-btn" class="rounded-xl border border-gray-300 px-4 py-2 text-sm font-bold text-gray-700 hover:bg-gray-50">Batal</button>
         <button type="button" id="save-add-btn" class="rounded-xl bg-blue-600 px-5 py-2 text-sm font-bold text-white hover:bg-blue-700 transition">Simpan Santri Khifidz</button>
+      </div>
+    </div>
+   </div>
+
+   <!-- POP-UP MODAL TAMBAH PRESTASI SANTRI -->
+   <div id="add-prestasi-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+    <div class="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl">
+      <div class="mb-4 flex items-center justify-between border-b border-gray-200 pb-3">
+        <div>
+          <h3 class="text-lg font-bold text-[#173b2b]">Tambah Prestasi Santri</h3>
+          <p class="text-xs text-gray-500">Ketik No Induk untuk memuat biodata santri secara otomatis.</p>
+        </div>
+        <button type="button" id="close-add-prestasi-modal" class="rounded-lg p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600">&times;</button>
+      </div>
+      
+      <form id="add-prestasi-form" class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div class="sm:col-span-2">
+          <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">No Induk Santri</label>
+          <input type="text" id="add-prestasi-no-induk" placeholder="Masukkan No Induk..." class="w-full border border-gray-300 rounded-lg p-2.5 text-sm font-bold focus:ring-2 focus:ring-purple-500 focus:outline-none" required />
+          <p id="prestasi-no-induk-msg" class="mt-1 text-xs text-gray-500"></p>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Nama Santri</label>
+          <input type="text" id="add-prestasi-nama" class="w-full bg-gray-100 border border-gray-300 rounded-lg p-2 text-sm text-gray-700 font-semibold cursor-not-allowed" readonly placeholder="Otomatis terisi..." />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Kelas</label>
+          <input type="text" id="add-prestasi-kelas" class="w-full bg-gray-100 border border-gray-300 rounded-lg p-2 text-sm text-gray-700 font-semibold cursor-not-allowed" readonly placeholder="Otomatis terisi..." />
+        </div>
+
+        <div class="sm:col-span-2">
+          <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">Prestasi</label>
+          <select id="add-prestasi-jenis" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none" required>
+            <option value="">Pilih Juara / Prestasi</option>
+            <option value="Juara 1">Juara 1</option>
+            <option value="Juara 2">Juara 2</option>
+            <option value="Juara 3">Juara 3</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">Semester</label>
+          <select id="add-prestasi-semester" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none" required>
+            <option value="">Pilih Semester</option>
+            <option value="Semester 1">Semester 1</option>
+            <option value="Semester 2">Semester 2</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">Rombel</label>
+          <select id="add-prestasi-rombel" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none" required>
+            <option value="">Pilih Rombel</option>
+            <option value="Putra">Putra</option>
+            <option value="Putri">Putri</option>
+          </select>
+        </div>
+      </form>
+
+      <div class="mt-6 flex items-center justify-end gap-3 border-t border-gray-200 pt-4">
+        <button type="button" id="cancel-add-prestasi-btn" class="rounded-xl border border-gray-300 px-4 py-2 text-sm font-bold text-gray-700 hover:bg-gray-50">Batal</button>
+        <button type="button" id="save-add-prestasi-btn" class="rounded-xl bg-purple-600 px-5 py-2 text-sm font-bold text-white hover:bg-purple-700 transition">Simpan Prestasi</button>
       </div>
     </div>
    </div>
@@ -725,35 +804,35 @@
     </div>
    </div>
 
-   <!-- LAYOUT RENDER KHUSUS PRINT FISIK (MENIMPA KERTAS TEMPLATE FISIK) -->
+   <!-- LAYOUT RENDER KHUSUS PRINT FISIK -->
    <div id="certificate-print-area" style="display: none;">
      <p style="margin-bottom: 12px; text-align: justify; text-justify: inter-word;">Dengan mengucapkan syukur ke hadirat Allah SWT, kami Pengurus Madrasah Diniyah Darut Taqwa Sengonagung Purwosari Pasuruan memberikan sertifikat penghargaan kepada:</p>
      
      <table style="width: 100%; border-collapse: collapse; margin-bottom: 12px; font-family: inherit; font-size: inherit;">
-       <tr>
-         <td style="width: 210px; vertical-align: top; padding: 2px 0; font-weight: normal;">nama</td>
-         <td style="width: 15px; vertical-align: top; text-align: center; padding: 2px 0;">:</td>
-         <td style="vertical-align: top; font-weight: bold; padding: 2px 0;" id="print-nama"></td>
-       </tr>
-       <tr>
-         <td style="vertical-align: top; padding: 2px 0;">tempat &amp; tanggal lahir</td>
-         <td style="vertical-align: top; text-align: center; padding: 2px 0;">:</td>
-         <td style="vertical-align: top; padding: 2px 0;" id="print-ttl"></td>
-       </tr>
-       <tr>
-         <td style="vertical-align: top; padding: 2px 0;">kelas</td>
-         <td style="vertical-align: top; text-align: center; padding: 2px 0;">:</td>
-         <td style="vertical-align: top; padding: 2px 0;" id="print-kelas"></td>
-       </tr>
-       <tr>
-         <td style="vertical-align: top; padding: 2px 0;">alamat</td>
-         <td style="vertical-align: top; text-align: center; padding: 2px 0;">:</td>
-         <td style="vertical-align: top; padding: 2px 0;" id="print-alamat"></td>
-       </tr>
+        <tr>
+          <td style="width: 210px; vertical-align: top; padding: 2px 0; font-weight: normal;">nama</td>
+          <td style="width: 15px; vertical-align: top; text-align: center; padding: 2px 0;">:</td>
+          <td style="vertical-align: top; font-weight: bold; padding: 2px 0;" id="print-nama"></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; padding: 2px 0;">tempat &amp; tanggal lahir</td>
+          <td style="vertical-align: top; text-align: center; padding: 2px 0;">:</td>
+          <td style="vertical-align: top; padding: 2px 0;" id="print-ttl"></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; padding: 2px 0;">kelas</td>
+          <td style="vertical-align: top; text-align: center; padding: 2px 0;">:</td>
+          <td style="vertical-align: top; padding: 2px 0;" id="print-kelas"></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; padding: 2px 0;">alamat</td>
+          <td style="vertical-align: top; text-align: center; padding: 2px 0;">:</td>
+          <td style="vertical-align: top; padding: 2px 0;" id="print-alamat"></td>
+        </tr>
      </table>
 
      <p style="margin-top: 12px; margin-bottom: 16px; text-align: justify; text-justify: inter-word;">
-       atas prestasinya sebagai <strong>Santri Hafal Nazham '<span id="print-nadzoman"></span>'</strong> pada Ujian Semester Ganjil Madrasah Diniyah Darut Taqwa Tingkat Ula tahun pelajaran <span id="print-tahun-ajaran">1447-1448 H / 2026-2027 M</span>.
+        atas prestasinya sebagai <strong>Santri Hafal Nazham '<span id="print-nadzoman"></span>'</strong> pada Ujian Semester Ganjil Madrasah Diniyah Darut Taqwa Tingkat Ula tahun pelajaran <span id="print-tahun-ajaran">1447-1448 H / 2026-2027 M</span>.
      </p>
 
      <div style="display: flex; justify-content: flex-end; margin-top: 20px; margin-bottom: 12px;">
@@ -774,27 +853,27 @@
      </div>
 
      <div style="margin-top: 10px; text-align: center;">
-       <p style="margin: 0; font-weight: bold;">Mengetahui,</p>
-       
-       <table style="width: 100%; margin-top: 5px; text-align: center; font-family: inherit; font-size: inherit;">
-         <tr>
-           <td style="width: 50%; vertical-align: top;">
-             <strong>Kepala Madrasah Diniyah<br>Tingkat Ula</strong>
-             <div style="height: 70px; display: flex; align-items: center; justify-content: center; margin: 4px 0;">
-               <img id="print-ttd-kepala" src="" alt="" style="max-height: 70px; width: auto; display: none;" />
-             </div>
-             <strong style="text-decoration: underline;">Samuji</strong>
-           </td>
-           <td style="width: 50%; vertical-align: top;">
-             <br>
-             <strong>Penanggung Jawab<br>Hifizh Santri</strong>
-             <div style="height: 70px; display: flex; align-items: center; justify-content: center; margin: 4px 0;">
-               <img id="print-ttd-pj" src="" alt="" style="max-height: 70px; width: auto; display: none;" />
-             </div>
-             <strong style="text-decoration: underline;" id="print-penerima-nama">.........................</strong>
-           </td>
-         </tr>
-       </table>
+        <p style="margin: 0; font-weight: bold;">Mengetahui,</p>
+        
+        <table style="width: 100%; margin-top: 5px; text-align: center; font-family: inherit; font-size: inherit;">
+          <tr>
+            <td style="width: 50%; vertical-align: top;">
+              <strong>Kepala Madrasah Diniyah<br>Tingkat Ula</strong>
+              <div style="height: 70px; display: flex; align-items: center; justify-content: center; margin: 4px 0;">
+                <img id="print-ttd-kepala" src="" alt="" style="max-height: 70px; width: auto; display: none;" />
+              </div>
+              <strong style="text-decoration: underline;">Samuji</strong>
+            </td>
+            <td style="width: 50%; vertical-align: top;">
+              <br>
+              <strong>Penanggung Jawab<br>Hifizh Santri</strong>
+              <div style="height: 70px; display: flex; align-items: center; justify-content: center; margin: 4px 0;">
+                <img id="print-ttd-pj" src="" alt="" style="max-height: 70px; width: auto; display: none;" />
+              </div>
+              <strong style="text-decoration: underline;" id="print-penerima-nama">.........................</strong>
+            </td>
+          </tr>
+        </table>
      </div>
    </div>
 
@@ -930,7 +1009,6 @@
       ]
     };
 
-    // Peta Otomatis Kategori Pelanggaran
     const KATEGORI_PELANGGARAN_MAP = {
       "Terlambat": "Ringan",
       "Atribut Tidak Lengkap": "Ringan",
@@ -969,11 +1047,13 @@
       "1447/1448": {
         biodata: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTnZX7kiCDnZo6XbSffno9lWVrjFtuFvMqF25hkH0jKcIGw8utrIMjELtsExeSIEWQqplXh9Lv3Fn3/pub?gid=0&single=true&output=csv",
         khifidz: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTnZX7kiCDnZo6XbSffno9lWVrjFtuFvMqF25hkH0jKcIGw8utrIMjELtsExeSIEWQqplXh9Lv3Fn3/pub?gid=860545&single=true&output=csv",
+        prestasi: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTnZX7kiCDnZo6XbSffno9lWVrjFtuFvMqF25hkH0jKcIGw8utrIMjELtsExeSIEWQqplXh9Lv3Fn3/pub?gid=916299877&single=true&output=csv",
         pelanggaran: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTnZX7kiCDnZo6XbSffno9lWVrjFtuFvMqF25hkH0jKcIGw8utrIMjELtsExeSIEWQqplXh9Lv3Fn3/pub?gid=2067263957&single=true&output=csv"
       },
       "1448/1449": {
         biodata: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTnZX7kiCDnZo6XbSffno9lWVrjFtuFvMqF25hkH0jKcIGw8utrIMjELtsExeSIEWQqplXh9Lv3Fn3/pub?gid=1731638678&single=true&output=csv",
         khifidz: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTnZX7kiCDnZo6XbSffno9lWVrjFtuFvMqF25hkH0jKcIGw8utrIMjELtsExeSIEWQqplXh9Lv3Fn3/pub?gid=1752319511&single=true&output=csv",
+        prestasi: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTnZX7kiCDnZo6XbSffno9lWVrjFtuFvMqF25hkH0jKcIGw8utrIMjELtsExeSIEWQqplXh9Lv3Fn3/pub?gid=593875709&single=true&output=csv",
         pelanggaran: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTTnZX7kiCDnZo6XbSffno9lWVrjFtuFvMqF25hkH0jKcIGw8utrIMjELtsExeSIEWQqplXh9Lv3Fn3/pub?gid=478856256&single=true&output=csv"
       }
     };
@@ -986,9 +1066,12 @@
       "KECAMATAN", "KABUPATEN/KOTA", "PROVINSI"
     ];
 
-    // Kolom KATEGORI ditaruh di antara PELANGGARAN dan KESANTRIAN
     const PELANGGARAN_DEFAULT_HEADERS = [
       "TANGGAL", "NO INDUK", "NAMA", "KELAS", "PELANGGARAN", "KATEGORI", "KESANTRIAN", "ROMBEL"
+    ];
+
+    const PRESTASI_DEFAULT_HEADERS = [
+      "NO INDUK", "NAMA", "KELAS", "PRESTASI", "SEMESTER", "ROMBEL"
     ];
 
     const state = {
@@ -1004,7 +1087,9 @@
     const els = {
       biodataTab: document.getElementById("biodata-tab"),
       khifidzTab: document.getElementById("khifidz-tab"),
+      prestasiTab: document.getElementById("prestasi-tab"),
       pelanggaranTab: document.getElementById("pelanggaran-tab"),
+      riwayatTab: document.getElementById("riwayat-tab"),
       search: document.getElementById("quick-search"),
       classFilter: document.getElementById("class-filter"),
       academicYearFilter: document.getElementById("academic-year-filter"),
@@ -1013,6 +1098,7 @@
       semesterFilter: document.getElementById("semester-filter"),
       semesterContainer: document.getElementById("semester-filter-container"),
       addKhifidzBtn: document.getElementById("add-khifidz-button"),
+      addPrestasiBtn: document.getElementById("add-prestasi-button"),
       addPelanggaranBtn: document.getElementById("add-pelanggaran-button"),
       reset: document.getElementById("reset-button"),
       exportBtn: document.getElementById("export-button"),
@@ -1049,6 +1135,19 @@
       addRombel: document.getElementById("add-rombel"),
       addNadzoman: document.getElementById("add-nadzoman"),
       noIndukMsg: document.getElementById("no-induk-msg"),
+
+      addPrestasiModal: document.getElementById("add-prestasi-modal"),
+      addPrestasiForm: document.getElementById("add-prestasi-form"),
+      closeAddPrestasiModalBtn: document.getElementById("close-add-prestasi-modal"),
+      cancelAddPrestasiBtn: document.getElementById("cancel-add-prestasi-btn"),
+      saveAddPrestasiBtn: document.getElementById("save-add-prestasi-btn"),
+      addPrestasiNoInduk: document.getElementById("add-prestasi-no-induk"),
+      addPrestasiNama: document.getElementById("add-prestasi-nama"),
+      addPrestasiKelas: document.getElementById("add-prestasi-kelas"),
+      addPrestasiJenis: document.getElementById("add-prestasi-jenis"),
+      addPrestasiSemester: document.getElementById("add-prestasi-semester"),
+      addPrestasiRombel: document.getElementById("add-prestasi-rombel"),
+      prestasiNoIndukMsg: document.getElementById("prestasi-no-induk-msg"),
 
       addPelanggaranModal: document.getElementById("add-pelanggaran-modal"),
       addPelanggaranForm: document.getElementById("add-pelanggaran-form"),
@@ -1135,8 +1234,10 @@
         updateLastActivity();
 
         const cacheKey = `${state.activeYear}_${state.activeTab}`;
-        if (!state.loaded[cacheKey]) {
+        if (!state.loaded[cacheKey] && state.activeTab !== "riwayat") {
           loadData(state.activeYear, state.activeTab);
+        } else if (state.activeTab === "riwayat") {
+          renderRiwayatView();
         }
       } else {
         els.loginOverlay.classList.remove("hidden");
@@ -1284,6 +1385,8 @@
           headers = BIODATA_DEFAULT_HEADERS;
         } else if (tabName === "pelanggaran") {
           headers = PELANGGARAN_DEFAULT_HEADERS;
+        } else if (tabName === "prestasi") {
+          headers = PRESTASI_DEFAULT_HEADERS;
         }
 
         const records = csvRows.slice(1)
@@ -1301,7 +1404,12 @@
         state.data[cacheKey] = records;
         state.loaded[cacheKey] = true;
         populateFilters();
-        render();
+        
+        if (state.activeTab === "riwayat") {
+          renderRiwayatView();
+        } else {
+          render();
+        }
       } catch (error) {
         els.headerCount.textContent = "Data belum tersedia";
         els.resultSummary.textContent = "Gagal memuat data.";
@@ -1337,27 +1445,35 @@
       const classHeader = findHeader(headers, ["Kelas", "Kls", "KELAS"]);
 
       const valuesFor = header => header
-        ? [...new Set(data.map(row => String(row[header] || "").trim()).filter(Boolean))]
-          .sort((a, b) => a.localeCompare(b, "id"))
+        ? [...new Set(data.map(row => String(row[header] || "").trim()).filter(Boolean))].sort((a, b) => a.localeCompare(b, "id"))
         : [];
 
       fillSelect(els.classFilter, valuesFor(classHeader), "Semua Kelas");
-      els.classFilter.closest("div").classList.toggle("hidden", !classHeader);
+      els.classFilter.closest("div").classList.toggle("hidden", !classHeader && state.activeTab !== "riwayat");
 
       if (state.activeTab === "khifidz") {
         els.rombelContainer.classList.remove("hidden");
         els.semesterContainer.classList.remove("hidden");
         els.addKhifidzBtn.classList.remove("hidden");
+        els.addPrestasiBtn.classList.add("hidden");
+        els.addPelanggaranBtn.classList.add("hidden");
+      } else if (state.activeTab === "prestasi") {
+        els.rombelContainer.classList.remove("hidden");
+        els.semesterContainer.classList.remove("hidden");
+        els.addKhifidzBtn.classList.add("hidden");
+        els.addPrestasiBtn.classList.remove("hidden");
         els.addPelanggaranBtn.classList.add("hidden");
       } else if (state.activeTab === "pelanggaran") {
         els.rombelContainer.classList.add("hidden");
         els.semesterContainer.classList.add("hidden");
         els.addKhifidzBtn.classList.add("hidden");
+        els.addPrestasiBtn.classList.add("hidden");
         els.addPelanggaranBtn.classList.remove("hidden");
       } else {
         els.rombelContainer.classList.add("hidden");
         els.semesterContainer.classList.add("hidden");
         els.addKhifidzBtn.classList.add("hidden");
+        els.addPrestasiBtn.classList.add("hidden");
         els.addPelanggaranBtn.classList.add("hidden");
         els.rombelFilter.value = "";
         els.semesterFilter.value = "";
@@ -1382,13 +1498,13 @@
         const matchesClass = !els.classFilter.value || row[classHeader] === els.classFilter.value;
         
         let matchesRombel = true;
-        if (state.activeTab === "khifidz" && els.rombelFilter.value && rombelHeader) {
+        if ((state.activeTab === "khifidz" || state.activeTab === "prestasi") && els.rombelFilter.value && rombelHeader) {
           const valRombel = String(row[rombelHeader] || "").trim();
           matchesRombel = valRombel.toLowerCase() === els.rombelFilter.value.toLowerCase();
         }
 
         let matchesSemester = true;
-        if (state.activeTab === "khifidz" && els.semesterFilter.value && semesterHeader) {
+        if ((state.activeTab === "khifidz" || state.activeTab === "prestasi") && els.semesterFilter.value && semesterHeader) {
           const valSemester = String(row[semesterHeader] || "").trim();
           matchesSemester = valSemester === els.semesterFilter.value || valSemester.toLowerCase().includes(els.semesterFilter.value.toLowerCase());
         }
@@ -1418,6 +1534,11 @@
     }
 
     function render() {
+      if (state.activeTab === "riwayat") {
+        renderRiwayatView();
+        return;
+      }
+
       const cacheKey = `${state.activeYear}_${state.activeTab}`;
       const data = getFilteredData();
       const headers = state.headers[cacheKey] || [];
@@ -1441,82 +1562,94 @@
       }
 
       rows.forEach(record => {
-  const tr = document.createElement("tr");
+        const tr = document.createElement("tr");
 
-  const statusHeader = findHeader(headers, ["STATUS", "Status"]);
-  const idYysHeader = findHeader(headers, ["ID YYS", "Id YYS"]);
+        const statusHeader = findHeader(headers, ["STATUS", "Status"]);
+        const idYysHeader = findHeader(headers, ["ID YYS", "Id YYS"]);
 
-  const statusValue = String(record[statusHeader] || "").trim().toUpperCase();
-  const idYysValue = String(record[idYysHeader] || "").trim().toUpperCase();
+        const statusValue = String(record[statusHeader] || "").trim().toUpperCase();
+        const idYysValue = String(record[idYysHeader] || "").trim().toUpperCase();
 
-  if (idYysValue === "OUT") {
-    tr.className = "bg-red-100/90 text-red-900 font-medium hover:!bg-red-200/90";
-  } else if (statusValue === "BELUM") {
-    tr.className = "bg-amber-100/90 text-amber-900 font-medium hover:!bg-amber-200/90";
-  } else {
-    tr.className = "";
-  }
+        if (idYysValue === "OUT") {
+          tr.className = "bg-red-100/90 text-red-900 font-medium hover:!bg-red-200/90";
+        } else if (statusValue === "BELUM") {
+          tr.className = "bg-amber-100/90 text-amber-900 font-medium hover:!bg-amber-200/90";
+        } else {
+          tr.className = "";
+        }
 
-  // Pengaturan kursor & event listener klik edit (Hanya aktif untuk tab Biodata)
-  if (state.activeTab === "biodata") {
-    tr.className += " cursor-pointer transition hover:brightness-95";
-    tr.addEventListener("click", () => openEditModal(record));
-  } else {
-    tr.className += " cursor-default"; // Kursor standar (bukan hand pointer) untuk Khifidz & Pelanggaran
-  }
+        // Pengaturan kursor & event listener klik edit (Hanya aktif untuk tab Biodata)
+        if (state.activeTab === "biodata") {
+          tr.className += " cursor-pointer transition hover:brightness-95";
+          tr.addEventListener("click", () => openEditModal(record));
+        } else {
+          tr.className += " cursor-default";
+        }
 
-  if (state.activeTab === "khifidz") {
-    const tdAction = document.createElement("td");
-    const certBtn = document.createElement("button");
-    certBtn.type = "button";
-    certBtn.className = "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition shadow-sm";
-    certBtn.innerHTML = `<i data-lucide="printer" width="14" height="14"></i><span>Cetak</span>`;
-    certBtn.onclick = (e) => {
-      e.stopPropagation();
-      openCertificateModal(record);
-    };
-    tdAction.appendChild(certBtn);
-    tr.appendChild(tdAction);
-  }
+        if (state.activeTab === "khifidz") {
+          const tdAction = document.createElement("td");
+          const certBtn = document.createElement("button");
+          certBtn.type = "button";
+          certBtn.className = "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition shadow-sm";
+          certBtn.innerHTML = `<i data-lucide="printer" width="14" height="14"></i><span>Cetak</span>`;
+          certBtn.onclick = (e) => {
+            e.stopPropagation();
+            openCertificateModal(record);
+          };
+          tdAction.appendChild(certBtn);
+          tr.appendChild(tdAction);
+        }
 
-  headers.forEach(header => {
-    const td = document.createElement("td");
-    td.textContent = record[header] || "—";
-    
-    const currentHeaderNormalized = String(header).trim().toUpperCase();
+        headers.forEach(header => {
+          const td = document.createElement("td");
+          td.textContent = record[header] || "—";
+          
+          const currentHeaderNormalized = String(header).trim().toUpperCase();
 
-    if (currentHeaderNormalized === "STATUS") {
-      if (statusValue === "BELUM") {
-        td.innerHTML = `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-200 text-amber-900">BELUM</span>`;
-      } else if (statusValue === "AMAN") {
-        td.innerHTML = `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">AMAN</span>`;
-      }
-    }
+          if (currentHeaderNormalized === "STATUS") {
+            if (statusValue === "BELUM") {
+              td.innerHTML = `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-200 text-amber-900">BELUM</span>`;
+            } else if (statusValue === "AMAN") {
+              td.innerHTML = `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">AMAN</span>`;
+            }
+          }
 
-    if (currentHeaderNormalized === "ID YYS" && idYysValue === "OUT") {
-      td.innerHTML = `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-200 text-red-900">OUT</span>`;
-    }
+          if (currentHeaderNormalized === "ID YYS" && idYysValue === "OUT") {
+            td.innerHTML = `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-200 text-red-900">OUT</span>`;
+          }
 
-    if (currentHeaderNormalized === "KATEGORI") {
-      const katVal = String(record[header] || "").trim();
-      if (katVal === "Ringan") {
-        td.innerHTML = `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-blue-100 text-blue-800">Ringan</span>`;
-      } else if (katVal === "Sedang") {
-        td.innerHTML = `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-amber-100 text-amber-800">Sedang</span>`;
-      } else if (katVal === "Berat") {
-        td.innerHTML = `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-red-100 text-red-800">Berat</span>`;
-      }
-    }
+          if (currentHeaderNormalized === "KATEGORI") {
+            const katVal = String(record[header] || "").trim();
+            if (katVal === "Ringan") {
+              td.innerHTML = `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-blue-100 text-blue-800">Ringan</span>`;
+            } else if (katVal === "Sedang") {
+              td.innerHTML = `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-amber-100 text-amber-800">Sedang</span>`;
+            } else if (katVal === "Berat") {
+              td.innerHTML = `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-red-100 text-red-800">Berat</span>`;
+            }
+          }
 
-    tr.appendChild(td);
-  });
-  els.tableBody.appendChild(tr);
-});
+          if (currentHeaderNormalized === "PRESTASI") {
+            const prestVal = String(record[header] || "").trim();
+            if (prestVal === "Juara 1") {
+              td.innerHTML = `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300">🥇 Juara 1</span>`;
+            } else if (prestVal === "Juara 2") {
+              td.innerHTML = `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-800 border border-slate-300">🥈 Juara 2</span>`;
+            } else if (prestVal === "Juara 3") {
+              td.innerHTML = `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-orange-100 text-orange-800 border border-orange-300">🥉 Juara 3</span>`;
+            }
+          }
+
+          tr.appendChild(td);
+        });
+        els.tableBody.appendChild(tr);
+      });
 
       lucide.createIcons();
 
       let activeLabel = "Biodata";
       if (state.activeTab === "khifidz") activeLabel = "Khifidz Santri";
+      if (state.activeTab === "prestasi") activeLabel = "Prestasi Santri";
       if (state.activeTab === "pelanggaran") activeLabel = "Pelanggaran Santri";
 
       els.resultSummary.textContent = `${total.toLocaleString("id-ID")} data ${activeLabel.toLowerCase()} (${state.activeYear}) ditemukan.`;
@@ -1527,6 +1660,158 @@
       const lastItem = Math.min(start + pageSize, total);
       els.pageSummary.textContent = `Menampilkan ${firstItem.toLocaleString("id-ID")}–${lastItem.toLocaleString("id-ID")} dari ${total.toLocaleString("id-ID")} data.`;
       renderPagination(totalPages);
+    }
+
+    async function renderRiwayatView() {
+      const query = els.search.value.trim().toLowerCase();
+
+      const khifidzKey = `${state.activeYear}_khifidz`;
+      const prestasiKey = `${state.activeYear}_prestasi`;
+      const pelanggaranKey = `${state.activeYear}_pelanggaran`;
+
+      if (!state.loaded[khifidzKey]) await loadData(state.activeYear, "khifidz");
+      if (!state.loaded[prestasiKey]) await loadData(state.activeYear, "prestasi");
+      if (!state.loaded[pelanggaranKey]) await loadData(state.activeYear, "pelanggaran");
+
+      els.headerCount.textContent = "Riwayat Santri";
+      els.filterDescription.textContent = `Pencarian gabungan riwayat Khifidz, Prestasi & Pelanggaran Santri Tahun Ajaran ${state.activeYear}.`;
+      
+      els.tableHead.innerHTML = "";
+      els.tableBody.innerHTML = "";
+      els.pagination.innerHTML = "";
+      els.pageSummary.textContent = "";
+
+      if (!query) {
+        setMessage("Cari Riwayat Santri", "Masukkan Nama atau No Induk santri pada kolom pencarian di atas untuk melihat riwayat lengkap.");
+        els.resultSummary.textContent = "Ketik No Induk / Nama untuk memulai pencarian.";
+        return;
+      }
+
+      const khifidzData = state.data[khifidzKey] || [];
+      const khifidzHeaders = state.headers[khifidzKey] || [];
+      const khifidzNoIndukH = findHeader(khifidzHeaders, ["NO INDUK", "No Induk"]);
+      const khifidzNamaH = findHeader(khifidzHeaders, ["NAMA", "Nama"]);
+
+      const prestasiData = state.data[prestasiKey] || [];
+      const prestasiHeaders = state.headers[prestasiKey] || [];
+      const prestNoIndukH = findHeader(prestasiHeaders, ["NO INDUK", "No Induk"]);
+      const prestNamaH = findHeader(prestasiHeaders, ["NAMA", "Nama"]);
+
+      const pelanggaranData = state.data[pelanggaranKey] || [];
+      const pelanggaranHeaders = state.headers[pelanggaranKey] || [];
+      const pelNoIndukH = findHeader(pelanggaranHeaders, ["NO INDUK", "No Induk"]);
+      const pelNamaH = findHeader(pelanggaranHeaders, ["NAMA", "Nama"]);
+
+      const matchedKhifidz = khifidzData.filter(r => 
+        String(r[khifidzNoIndukH] || "").toLowerCase().includes(query) ||
+        String(r[khifidzNamaH] || "").toLowerCase().includes(query)
+      );
+
+      const matchedPrestasi = prestasiData.filter(r => 
+        String(r[prestNoIndukH] || "").toLowerCase().includes(query) ||
+        String(r[prestNamaH] || "").toLowerCase().includes(query)
+      );
+
+      const matchedPelanggaran = pelanggaranData.filter(r => 
+        String(r[pelNoIndukH] || "").toLowerCase().includes(query) ||
+        String(r[pelNamaH] || "").toLowerCase().includes(query)
+      );
+
+      if (matchedKhifidz.length === 0 && matchedPrestasi.length === 0 && matchedPelanggaran.length === 0) {
+        setMessage("Data Tidak Ditemukan", `Tidak ada riwayat Khifidz, Prestasi, atau Pelanggaran untuk [${query}] pada TA ${state.activeYear}.`);
+        els.resultSummary.textContent = "0 riwayat ditemukan.";
+        return;
+      }
+
+      hideMessage();
+
+      const trHead = document.createElement("tr");
+      ["KATEGORI RIWAYAT", "NO INDUK", "NAMA", "KELAS", "KETERANGAN / CAPAIAN", "DETAIL / ROMBEL", "SEMESTER / TANGGAL"].forEach(h => {
+        const th = document.createElement("th");
+        th.textContent = h;
+        trHead.appendChild(th);
+      });
+      els.tableHead.appendChild(trHead);
+
+      let totalCount = 0;
+
+      // Render Baris Khifidz
+      matchedKhifidz.forEach(r => {
+        totalCount++;
+        const tr = document.createElement("tr");
+        tr.className = "bg-emerald-50/40 hover:bg-emerald-100/60";
+
+        const nadzoman = r[findHeader(khifidzHeaders, ["NADZOMAN", "Nadzoman"])] || "—";
+        const penerima = r[findHeader(khifidzHeaders, ["PENERIMA", "Penerima"])] || "—";
+        const semester = r[findHeader(khifidzHeaders, ["SEMESTER", "Semester"])] || "—";
+
+        tr.innerHTML = `
+          <td><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">KHIFIDZ</span></td>
+          <td class="font-bold">${r[khifidzNoIndukH] || "—"}</td>
+          <td class="font-semibold">${r[khifidzNamaH] || "—"}</td>
+          <td>${r[findHeader(khifidzHeaders, ["KELAS", "Kelas"])] || "—"}</td>
+          <td class="font-bold text-emerald-900">${nadzoman}</td>
+          <td>${penerima}</td>
+          <td>${semester}</td>
+        `;
+        els.tableBody.appendChild(tr);
+      });
+
+      // Render Baris Prestasi Santri
+      matchedPrestasi.forEach(r => {
+        totalCount++;
+        const tr = document.createElement("tr");
+        tr.className = "bg-purple-50/40 hover:bg-purple-100/60";
+
+        const prestasi = r[findHeader(prestasiHeaders, ["PRESTASI", "Prestasi"])] || "—";
+        const rombel = r[findHeader(prestasiHeaders, ["ROMBEL", "Rombel"])] || "—";
+        const semester = r[findHeader(prestasiHeaders, ["SEMESTER", "Semester"])] || "—";
+
+        let badgePrest = `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-purple-100 text-purple-800">${prestasi}</span>`;
+        if (prestasi === "Juara 1") badgePrest = `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300">🥇 Juara 1</span>`;
+        if (prestasi === "Juara 2") badgePrest = `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-800 border border-slate-300">🥈 Juara 2</span>`;
+        if (prestasi === "Juara 3") badgePrest = `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-orange-100 text-orange-800 border border-orange-300">🥉 Juara 3</span>`;
+
+        tr.innerHTML = `
+          <td><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-purple-100 text-purple-800">PRESTASI</span></td>
+          <td class="font-bold">${r[prestNoIndukH] || "—"}</td>
+          <td class="font-semibold">${r[prestNamaH] || "—"}</td>
+          <td>${r[findHeader(prestasiHeaders, ["KELAS", "Kelas"])] || "—"}</td>
+          <td>${badgePrest}</td>
+          <td>${rombel}</td>
+          <td>${semester}</td>
+        `;
+        els.tableBody.appendChild(tr);
+      });
+
+      // Render Baris Pelanggaran Santri
+      matchedPelanggaran.forEach(r => {
+        totalCount++;
+        const tr = document.createElement("tr");
+        tr.className = "bg-amber-50/40 hover:bg-amber-100/60";
+
+        const jenisPel = r[findHeader(pelanggaranHeaders, ["PELANGGARAN", "Pelanggaran"])] || "—";
+        const katPel = r[findHeader(pelanggaranHeaders, ["KATEGORI", "Kategori"])] || "—";
+        const kesantrian = r[findHeader(pelanggaranHeaders, ["KESANTRIAN", "Kesantrian"])] || "—";
+        const tgl = r[findHeader(pelanggaranHeaders, ["TANGGAL", "Tanggal"])] || "—";
+
+        let badgeKat = `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-amber-100 text-amber-800">${katPel}</span>`;
+        if (katPel === "Ringan") badgeKat = `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-blue-100 text-blue-800">Ringan</span>`;
+        if (katPel === "Berat") badgeKat = `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-red-100 text-red-800">Berat</span>`;
+
+        tr.innerHTML = `
+          <td><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-200 text-amber-900">PELANGGARAN</span></td>
+          <td class="font-bold">${r[pelNoIndukH] || "—"}</td>
+          <td class="font-semibold">${r[pelNamaH] || "—"}</td>
+          <td>${r[findHeader(pelanggaranHeaders, ["KELAS", "Kelas"])] || "—"}</td>
+          <td><span class="font-bold text-amber-950">${jenisPel}</span> ${badgeKat}</td>
+          <td>${kesantrian}</td>
+          <td>${tgl}</td>
+        `;
+        els.tableBody.appendChild(tr);
+      });
+
+      els.resultSummary.textContent = `Ditemukan ${totalCount} riwayat (${matchedKhifidz.length} Khifidz, ${matchedPrestasi.length} Prestasi, ${matchedPelanggaran.length} Pelanggaran) untuk "${query}".`;
     }
 
     function openCertificateModal(record) {
@@ -1861,7 +2146,9 @@
       
       let sheetName = "Biodata Santri";
       if (state.activeTab === "khifidz") sheetName = "Khifidz Santri";
+      if (state.activeTab === "prestasi") sheetName = "Prestasi Santri";
       if (state.activeTab === "pelanggaran") sheetName = "Pelanggaran Santri";
+      if (state.activeTab === "riwayat") sheetName = "Riwayat Santri";
       
       XLSX.utils.book_append_sheet(workbook, worksheet, `${sheetName}_${state.activeYear.replace('/', '-')}`);
 
@@ -1922,48 +2209,83 @@
       }
     });
 
+    els.addPrestasiNoInduk.addEventListener("input", async () => {
+      const inputVal = els.addPrestasiNoInduk.value.trim().toLowerCase();
+      
+      if (!inputVal) {
+        resetAddPrestasiFields(false);
+        return;
+      }
+
+      const biodataCacheKey = `${state.activeYear}_biodata`;
+
+      els.prestasiNoIndukMsg.textContent = "Mencari data santri...";
+      els.prestasiNoIndukMsg.className = "mt-1 text-xs text-purple-600 font-semibold";
+
+      if (!state.loaded[biodataCacheKey]) {
+        await loadData(state.activeYear, "biodata");
+      }
+
+      const biodataList = state.data[biodataCacheKey] || [];
+      const headers = state.headers[biodataCacheKey] || [];
+      const noIndukHeader = findHeader(headers, ["NO INDUK", "No Induk", "Nomor Induk", "NO. INDUK"]);
+
+      const found = biodataList.find(s => {
+        const rawVal = String(s[noIndukHeader] || "").trim().toLowerCase();
+        return rawVal === inputVal;
+      });
+
+      if (found) {
+        els.prestasiNoIndukMsg.textContent = "Data santri ditemukan!";
+        els.prestasiNoIndukMsg.className = "mt-1 text-xs text-emerald-600 font-bold";
+
+        els.addPrestasiNama.value = found[findHeader(headers, ["NAMA", "Nama", "NAMA SANTRI"])] || "";
+        els.addPrestasiKelas.value = found[findHeader(headers, ["KELAS", "Kelas", "KLS"])] || "";
+      } else {
+        els.prestasiNoIndukMsg.textContent = `Santri No Induk [${inputVal}] tidak ditemukan pada Biodata ${state.activeYear}.`;
+        els.prestasiNoIndukMsg.className = "mt-1 text-xs text-red-500 font-semibold";
+        resetAddPrestasiFields(false);
+      }
+    });
+
     els.addPelanggaranNoInduk.addEventListener("input", async () => {
-  const inputVal = els.addPelanggaranNoInduk.value.trim().toLowerCase();
-  
-  if (!inputVal) {
-    resetAddPelanggaranFields(false);
-    return;
-  }
+      const inputVal = els.addPelanggaranNoInduk.value.trim().toLowerCase();
+      
+      if (!inputVal) {
+        resetAddPelanggaranFields(false);
+        return;
+      }
 
-  const biodataCacheKey = `${state.activeYear}_biodata`;
+      const biodataCacheKey = `${state.activeYear}_biodata`;
 
-  // 1. Tampilkan status loading saat data biodata sedang diunduh
-  els.pelanggaranNoIndukMsg.textContent = "Mencari data santri...";
-  els.pelanggaranNoIndukMsg.className = "mt-1 text-xs text-blue-600 font-semibold";
+      els.pelanggaranNoIndukMsg.textContent = "Mencari data santri...";
+      els.pelanggaranNoIndukMsg.className = "mt-1 text-xs text-blue-600 font-semibold";
 
-  // 2. Pastikan data Biodata Tahun Ajaran aktif benar-benar selesai dimuat
-  if (!state.loaded[biodataCacheKey]) {
-    await loadData(state.activeYear, "biodata");
-  }
+      if (!state.loaded[biodataCacheKey]) {
+        await loadData(state.activeYear, "biodata");
+      }
 
-  const biodataList = state.data[biodataCacheKey] || [];
-  const headers = state.headers[biodataCacheKey] || [];
-  const noIndukHeader = findHeader(headers, ["NO INDUK", "No Induk", "Nomor Induk", "NO. INDUK"]);
+      const biodataList = state.data[biodataCacheKey] || [];
+      const headers = state.headers[biodataCacheKey] || [];
+      const noIndukHeader = findHeader(headers, ["NO INDUK", "No Induk", "Nomor Induk", "NO. INDUK"]);
 
-  // 3. Pencarian presisi dengan mengabaikan spasi ekstra
-  const found = biodataList.find(s => {
-    const rawVal = String(s[noIndukHeader] || "").trim().toLowerCase();
-    return rawVal === inputVal;
-  });
+      const found = biodataList.find(s => {
+        const rawVal = String(s[noIndukHeader] || "").trim().toLowerCase();
+        return rawVal === inputVal;
+      });
 
-  if (found) {
-    els.pelanggaranNoIndukMsg.textContent = "Data santri ditemukan!";
-    els.pelanggaranNoIndukMsg.className = "mt-1 text-xs text-emerald-600 font-bold";
+      if (found) {
+        els.pelanggaranNoIndukMsg.textContent = "Data santri ditemukan!";
+        els.pelanggaranNoIndukMsg.className = "mt-1 text-xs text-emerald-600 font-bold";
 
-    // Isi Nama dan Kelas secara otomatis
-    els.addPelanggaranNama.value = found[findHeader(headers, ["NAMA", "Nama", "NAMA SANTRI"])] || "";
-    els.addPelanggaranKelas.value = found[findHeader(headers, ["KELAS", "Kelas", "KLS"])] || "";
-  } else {
-    els.pelanggaranNoIndukMsg.textContent = `Santri No Induk [${inputVal}] tidak ditemukan pada Biodata ${state.activeYear}.`;
-    els.pelanggaranNoIndukMsg.className = "mt-1 text-xs text-red-500 font-semibold";
-    resetAddPelanggaranFields(false);
-  }
-});
+        els.addPelanggaranNama.value = found[findHeader(headers, ["NAMA", "Nama", "NAMA SANTRI"])] || "";
+        els.addPelanggaranKelas.value = found[findHeader(headers, ["KELAS", "Kelas", "KLS"])] || "";
+      } else {
+        els.pelanggaranNoIndukMsg.textContent = `Santri No Induk [${inputVal}] tidak ditemukan pada Biodata ${state.activeYear}.`;
+        els.pelanggaranNoIndukMsg.className = "mt-1 text-xs text-red-500 font-semibold";
+        resetAddPelanggaranFields(false);
+      }
+    });
 
     els.addPelanggaranJenis.addEventListener("change", () => {
       const selectedJenis = els.addPelanggaranJenis.value;
@@ -2064,6 +2386,16 @@
       els.noIndukMsg.textContent = "";
     }
 
+    function resetAddPrestasiFields(clearNoInduk = true) {
+      if (clearNoInduk) els.addPrestasiNoInduk.value = "";
+      els.addPrestasiNama.value = "";
+      els.addPrestasiKelas.value = "";
+      els.addPrestasiJenis.value = "";
+      els.addPrestasiSemester.value = "";
+      els.addPrestasiRombel.value = "";
+      els.prestasiNoIndukMsg.textContent = "";
+    }
+
     function resetAddPelanggaranFields(clearNoInduk = true) {
       if (clearNoInduk) els.addPelanggaranNoInduk.value = "";
       
@@ -2143,7 +2475,11 @@
       els.rombelFilter.value = "";
       els.semesterFilter.value = "";
       state.page = 1;
-      render();
+      if (state.activeTab === "riwayat") {
+        renderRiwayatView();
+      } else {
+        render();
+      }
     }
 
     async function changeTab(tabName) {
@@ -2157,30 +2493,48 @@
 
       els.biodataTab.classList.toggle("is-active", tabName === "biodata");
       els.khifidzTab.classList.toggle("is-active", tabName === "khifidz");
+      els.prestasiTab.classList.toggle("is-active", tabName === "prestasi");
       els.pelanggaranTab.classList.toggle("is-active", tabName === "pelanggaran");
+      els.riwayatTab.classList.toggle("is-active", tabName === "riwayat");
 
       els.biodataTab.setAttribute("aria-selected", String(tabName === "biodata"));
       els.khifidzTab.setAttribute("aria-selected", String(tabName === "khifidz"));
+      els.prestasiTab.setAttribute("aria-selected", String(tabName === "prestasi"));
       els.pelanggaranTab.setAttribute("aria-selected", String(tabName === "pelanggaran"));
+      els.riwayatTab.setAttribute("aria-selected", String(tabName === "riwayat"));
 
-      await loadData(state.activeYear, tabName);
+      if (tabName === "riwayat") {
+        renderRiwayatView();
+      } else {
+        await loadData(state.activeYear, tabName);
+      }
     }
 
     els.academicYearFilter.addEventListener("change", async () => {
       state.activeYear = els.academicYearFilter.value;
       state.page = 1;
       resetFilters();
-      await loadData(state.activeYear, state.activeTab);
+      if (state.activeTab === "riwayat") {
+        renderRiwayatView();
+      } else {
+        await loadData(state.activeYear, state.activeTab);
+      }
     });
 
     els.biodataTab.addEventListener("click", () => changeTab("biodata"));
     els.khifidzTab.addEventListener("click", () => changeTab("khifidz"));
+    els.prestasiTab.addEventListener("click", () => changeTab("prestasi"));
     els.pelanggaranTab.addEventListener("click", () => changeTab("pelanggaran"));
+    els.riwayatTab.addEventListener("click", () => changeTab("riwayat"));
 
     [els.search, els.classFilter, els.rombelFilter, els.semesterFilter].forEach(control => {
       control.addEventListener(control === els.search ? "input" : "change", () => {
         state.page = 1;
-        render();
+        if (state.activeTab === "riwayat") {
+          renderRiwayatView();
+        } else {
+          render();
+        }
       });
     });
 
@@ -2203,6 +2557,13 @@
     els.closeAddModalBtn.onclick = () => els.addModal.classList.add("hidden");
     els.cancelAddBtn.onclick = () => els.addModal.classList.add("hidden");
 
+    els.addPrestasiBtn.onclick = () => {
+      resetAddPrestasiFields();
+      els.addPrestasiModal.classList.remove("hidden");
+    };
+    els.closeAddPrestasiModalBtn.onclick = () => els.addPrestasiModal.classList.add("hidden");
+    els.cancelAddPrestasiBtn.onclick = () => els.addPrestasiModal.classList.add("hidden");
+
     els.addPelanggaranBtn.onclick = () => {
       resetAddPelanggaranFields();
       els.addPelanggaranModal.classList.remove("hidden");
@@ -2214,11 +2575,11 @@
     els.cancelCertBtn.onclick = () => els.certModal.classList.add("hidden");
     els.printCertBtn.onclick = () => window.print();
 
-    // PROSES SIMPAN EDIT PERBARUIAN (LENGKAP SEMUA VARIABEL KUNCI KAPITAL & KECIL)
     els.saveBtn.onclick = async () => {
       const formData = new FormData(els.editForm);
       let sheetTarget = "Biodata";
       if (state.activeTab === "khifidz") sheetTarget = "Khifidz";
+      if (state.activeTab === "prestasi") sheetTarget = "Prestasi";
       if (state.activeTab === "pelanggaran") sheetTarget = "Pelanggaran";
 
       const payload = {
@@ -2231,13 +2592,14 @@
         payload[key] = value;
       });
 
-      // Duplikasi key dengan huruf KAPITAL untuk menjamin kompabilitas Google Apps Script
       if (payload["No Induk"]) payload["NO INDUK"] = payload["No Induk"];
       if (payload["Nama"]) payload["NAMA"] = payload["Nama"];
       if (payload["Kelas"]) payload["KELAS"] = payload["Kelas"];
+      if (payload["Prestasi"]) payload["PRESTASI"] = payload["Prestasi"];
       if (payload["Pelanggaran"]) payload["PELANGGARAN"] = payload["Pelanggaran"];
       if (payload["Kategori"]) payload["KATEGORI"] = payload["Kategori"];
       if (payload["Kesantrian"]) payload["KESANTRIAN"] = payload["Kesantrian"];
+      if (payload["Semester"]) payload["SEMESTER"] = payload["Semester"];
       if (payload["Rombel"]) payload["ROMBEL"] = payload["Rombel"];
       if (payload["Tanggal"]) payload["TANGGAL"] = payload["Tanggal"];
 
@@ -2327,6 +2689,69 @@
       } finally {
         els.saveAddBtn.disabled = false;
         els.saveAddBtn.textContent = "Simpan Santri Khifidz";
+      }
+    };
+
+    els.saveAddPrestasiBtn.onclick = async () => {
+      if (!els.addPrestasiNoInduk.value || !els.addPrestasiNama.value) {
+        alert("Silakan masukkan No Induk santri yang valid!");
+        return;
+      }
+
+      if (!els.addPrestasiJenis.value || !els.addPrestasiSemester.value || !els.addPrestasiRombel.value) {
+        alert("Harap lengkapi semua pilihan dropdown (Prestasi, Semester, & Rombel)!");
+        return;
+      }
+
+      const payload = {
+        action: "add",
+        sheetTarget: "Prestasi",
+        tahunAjaran: state.activeYear,
+        
+        "NO INDUK": els.addPrestasiNoInduk.value,
+        "No Induk": els.addPrestasiNoInduk.value,
+        
+        "NAMA": els.addPrestasiNama.value,
+        "Nama": els.addPrestasiNama.value,
+        
+        "KELAS": els.addPrestasiKelas.value,
+        "Kelas": els.addPrestasiKelas.value,
+        
+        "PRESTASI": els.addPrestasiJenis.value,
+        "Prestasi": els.addPrestasiJenis.value,
+
+        "SEMESTER": els.addPrestasiSemester.value,
+        "Semester": els.addPrestasiSemester.value,
+
+        "ROMBEL": els.addPrestasiRombel.value,
+        "Rombel": els.addPrestasiRombel.value
+      };
+
+      els.saveAddPrestasiBtn.disabled = true;
+      els.saveAddPrestasiBtn.textContent = "Menyimpan...";
+
+      try {
+        const response = await fetch(WEB_APP_URL, {
+          method: "POST",
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (result.status === "success") {
+          alert(`Prestasi Santri berhasil ditambahkan ke Spreadsheet ${state.activeYear}!`);
+          els.addPrestasiModal.classList.add("hidden");
+          const prestasiCacheKey = `${state.activeYear}_prestasi`;
+          state.loaded[prestasiCacheKey] = false;
+          await loadData(state.activeYear, "prestasi");
+        } else {
+          alert("Gagal menambahkan: " + result.message);
+        }
+      } catch (error) {
+        alert("Terjadi kesalahan koneksi saat menambahkan data.");
+      } finally {
+        els.saveAddPrestasiBtn.disabled = false;
+        els.saveAddPrestasiBtn.textContent = "Simpan Prestasi";
       }
     };
 
