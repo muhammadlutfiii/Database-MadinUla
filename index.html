@@ -13,6 +13,9 @@
   
   <!-- SheetJS untuk Export Excel -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+  <!-- HTML5 QR Code Scanner Library -->
+  <script src="https://unpkg.com/html5-qrcode"></script>
   
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Fraunces:opsz,wght@9..144,600;9..144,700&amp;display=swap" rel="stylesheet">
   
@@ -311,7 +314,6 @@
         <i data-lucide="bookmark-check" width="17" height="17" aria-hidden="true"></i> 
         <span>Khifidz Santri</span> 
       </button>
-      <!-- TAB PRESTASI SANTRI -->
       <button id="prestasi-tab" type="button" data-template-id="prestasi-tab" class="canva-tabs tab-button flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold whitespace-nowrap" aria-selected="false"> 
         <i data-lucide="trophy" width="17" height="17" aria-hidden="true"></i> 
         <span>Prestasi Santri</span> 
@@ -340,7 +342,6 @@
             <span>Tambah Khifidz</span>
           </button>
 
-          <!-- BUTTON TAMBAH PRESTASI -->
           <button id="add-prestasi-button" type="button" class="hidden inline-flex items-center justify-center gap-2 rounded-xl bg-purple-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-purple-700 focus:outline-none focus:ring-4 focus:ring-purple-200">
             <i data-lucide="plus-circle" width="16" height="16" aria-hidden="true"></i>
             <span>Tambah Prestasi</span>
@@ -372,9 +373,15 @@
 
         <div class="md:col-span-1 xl:col-span-1">
          <label data-template-id="quick-label" class="canva-text mb-1.5 block text-xs font-bold uppercase tracking-wider text-[#173b2b]" for="quick-search">Pencarian Cepat</label>
-         <div class="relative">
-          <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 text-[#71907b]" width="18" height="18" aria-hidden="true"></i> 
-          <input id="quick-search" data-template-id="quick-input" class="canva-input filter-control pl-10 text-sm" type="search" placeholder="Nama atau No Induk..." autocomplete="off">
+         <div class="relative flex items-center gap-2">
+          <div class="relative flex-1">
+            <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 text-[#71907b]" width="18" height="18" aria-hidden="true"></i> 
+            <input id="quick-search" data-template-id="quick-input" class="canva-input filter-control pl-10 text-sm" type="search" placeholder="Nama atau No Induk..." autocomplete="off">
+          </div>
+          <!-- Tombol Trigger Scan QR Code -->
+          <button id="scan-qr-btn" type="button" class="inline-flex items-center justify-center p-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white transition shadow-sm" title="Scan QR Code No Induk">
+            <i data-lucide="qr-code" width="20" height="20"></i>
+          </button>
          </div>
         </div>
         
@@ -406,6 +413,49 @@
         </div>
        </div>
       </section>
+
+      <!-- KOTAK POIN RINGKASAN RIWAYAT -->
+      <div id="poin-summary-container" class="hidden mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4 shadow-sm flex items-center justify-between">
+          <div>
+            <p class="text-xs font-bold uppercase tracking-wider text-emerald-800">Poin Khifidz (+)</p>
+            <h3 id="poin-khifidz-val" class="text-2xl font-black text-emerald-700 mt-1">0</h3>
+          </div>
+          <div class="h-12 w-12 rounded-xl bg-emerald-200/60 flex items-center justify-center text-emerald-800">
+            <i data-lucide="bookmark-check" width="24" height="24"></i>
+          </div>
+        </div>
+
+        <div class="rounded-2xl border border-purple-200 bg-purple-50/70 p-4 shadow-sm flex items-center justify-between">
+          <div>
+            <p class="text-xs font-bold uppercase tracking-wider text-purple-800">Poin Prestasi (+)</p>
+            <h3 id="poin-prestasi-val" class="text-2xl font-black text-purple-700 mt-1">0</h3>
+          </div>
+          <div class="h-12 w-12 rounded-xl bg-purple-200/60 flex items-center justify-center text-purple-800">
+            <i data-lucide="trophy" width="24" height="24"></i>
+          </div>
+        </div>
+
+        <div class="rounded-2xl border border-red-200 bg-red-50/70 p-4 shadow-sm flex items-center justify-between">
+          <div>
+            <p class="text-xs font-bold uppercase tracking-wider text-red-800">Poin Pelanggaran (-)</p>
+            <h3 id="poin-pelanggaran-val" class="text-2xl font-black text-red-700 mt-1">0</h3>
+          </div>
+          <div class="h-12 w-12 rounded-xl bg-red-200/60 flex items-center justify-center text-red-800">
+            <i data-lucide="alert-triangle" width="24" height="24"></i>
+          </div>
+        </div>
+
+        <div class="rounded-2xl border border-blue-200 bg-blue-50/80 p-4 shadow-md flex items-center justify-between">
+          <div>
+            <p class="text-xs font-bold uppercase tracking-wider text-blue-900">Total Akumulasi Poin</p>
+            <h3 id="poin-total-val" class="text-3xl font-black text-blue-800 mt-1">0</h3>
+          </div>
+          <div class="h-12 w-12 rounded-xl bg-blue-200/70 flex items-center justify-center text-blue-900">
+            <i data-lucide="calculator" width="24" height="24"></i>
+          </div>
+        </div>
+      </div>
 
       <section class="mt-5" aria-labelledby="data-heading">
        <div class="mb-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -449,6 +499,23 @@
      </div>
     </section>
    </main>
+
+   <!-- MODAL SCANNER QR CODE -->
+   <div id="qr-modal" class="fixed inset-0 z-[110] hidden flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
+    <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl text-center">
+      <div class="mb-4 flex items-center justify-between border-b border-gray-200 pb-3">
+        <div class="flex items-center gap-2 text-[#173b2b]">
+          <i data-lucide="qr-code" width="20" height="20"></i>
+          <h3 class="text-lg font-bold">Scan QR Code Santri</h3>
+        </div>
+        <button type="button" id="close-qr-modal" class="rounded-lg p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600">&times;</button>
+      </div>
+
+      <div id="qr-reader" class="overflow-hidden rounded-xl border-2 border-dashed border-emerald-500 bg-gray-50 min-h-[250px]"></div>
+      
+      <p class="mt-3 text-xs text-gray-500">Arahkan kamera HP/Laptop Anda ke QR Code yang berisi No Induk Santri.</p>
+    </div>
+   </div>
 
    <!-- POP-UP MODAL EDIT DATA SANTRI -->
    <div id="edit-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
@@ -656,6 +723,15 @@
         </div>
 
         <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">Semester</label>
+          <select id="add-pelanggaran-semester" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none" required>
+            <option value="">Pilih Semester</option>
+            <option value="Semester 1">Semester 1</option>
+            <option value="Semester 2">Semester 2</option>
+          </select>
+        </div>
+
+        <div>
           <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">Kesantrian</label>
           <select id="add-pelanggaran-kesantrian" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-amber-500 focus:outline-none" required>
             <option value="">Pilih Rombel Terlebih Dahulu</option>
@@ -700,7 +776,7 @@
           </select>
         </div>
 
-        <div>
+        <div class="sm:col-span-2">
           <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Kategori</label>
           <input type="text" id="add-pelanggaran-kategori" class="w-full bg-gray-100 border border-gray-300 rounded-lg p-2 text-sm font-bold text-amber-900 cursor-not-allowed" readonly placeholder="Otomatis terisi..." />
         </div>
@@ -908,6 +984,58 @@
       "Ramadhan", "Syawwal", "Dzulqa'dah", "Dzulhijjah"
     ];
 
+    // MAP POIN KHIFIDZ
+    const KHIFIDZ_POIN_MAP = {
+      "alaa laa": 10,
+      "birrul walidaikum": 15,
+      "nahwu jawan": 25,
+      "aqidatul awam": 15,
+      "tuhfatul athfal": 15,
+      "awamilul jurjani": 15,
+      "tashrif ishthilahi": 20,
+      "tashrif lughowiy": 20,
+      "durrotul yatimah": 20,
+      "imrithi": 25,
+      "alfiyah ibnu malik": 50,
+      "jauharul maknun": 25,
+      "sullamul munawraq": 15
+    };
+
+    // MAP POIN PRESTASI
+    const PRESTASI_POIN_MAP = {
+      "juara 1": 50,
+      "juara 2": 45,
+      "juara 3": 40
+    };
+
+    // MAP POIN PELANGGARAN
+    const PELANGGARAN_POIN_MAP = {
+      "berat": 15,
+      "sedang": 5,
+      "ringan": 2
+    };
+
+    function getKhifidzPoin(nadzomanName) {
+      if (!nadzomanName) return 0;
+      const cleanName = String(nadzomanName).toLowerCase().trim().replace(/[^a-z0-9\s]/g, "");
+      for (const [key, val] of Object.entries(KHIFIDZ_POIN_MAP)) {
+        if (cleanName.includes(key)) return val;
+      }
+      return 0;
+    }
+
+    function getPrestasiPoin(prestasiName) {
+      if (!prestasiName) return 0;
+      const cleanName = String(prestasiName).toLowerCase().trim();
+      return PRESTASI_POIN_MAP[cleanName] || 0;
+    }
+
+    function getPelanggaranPoin(kategoriName) {
+      if (!kategoriName) return 0;
+      const cleanName = String(kategoriName).toLowerCase().trim();
+      return PELANGGARAN_POIN_MAP[cleanName] || 0;
+    }
+
     function formatBulan(val) {
       if (!val) return "";
       const num = parseInt(val, 10);
@@ -986,26 +1114,34 @@
 
     const NADZOMAN_OPTIONS = {
       "Semester 1": [
-        "Birrul Walidaikum",
-        "Nahwu Jawan",
-        "Tuhfatul Athfal",
-        "'Awamilul Jurjani",
-        "Durrotul Yatimah",
-        "'Imrithi",
-        "Alfiyah Ibnu Malik",
-        "Jauharul Maknun",
-        "Sullamul Munawraq"
+        "Nazham Birrul Walidaikum",
+        "Nazham Alaa Laa",
+        "Nazham Nahwu Jawan",
+        "Nazham Tuhfatul Athfal",
+        "Nazham 'Aqidatul Awam",
+        "Nazham 'Awamilul Jurjani",
+        "Nazham Tashrif Ishthilahi",
+        "Nazham Durrotul Yatimah",
+        "Nazham Tashrif Lughowiy",
+        "Nazham 'Imrithi",
+        "Nazham Alfiyah Ibnu Malik",
+        "Nazham Jauharul Maknun",
+        "Nazham Sullamul Munawraq"
       ],
       "Semester 2": [
-        "Alaa Laa",
-        "Nahwu Jawan",
-        "Aqidatul Awam",
-        "Tashrif Isthilahi",
-        "Tashrif Lughawy",
-        "'Imrithi",
-        "Alfiyah Ibnu Malik",
-        "Jauharul Maknun",
-        "Sullamul Munawraq"
+        "Nazham Birrul Walidaikum",
+        "Nazham Alaa Laa",
+        "Nazham Nahwu Jawan",
+        "Nazham Tuhfatul Athfal",
+        "Nazham 'Aqidatul Awam",
+        "Nazham 'Awamilul Jurjani",
+        "Nazham Tashrif Ishthilahi",
+        "Nazham Durrotul Yatimah",
+        "Nazham Tashrif Lughowiy",
+        "Nazham 'Imrithi",
+        "Nazham Alfiyah Ibnu Malik",
+        "Nazham Jauharul Maknun",
+        "Nazham Sullamul Munawraq"
       ]
     };
 
@@ -1067,7 +1203,7 @@
     ];
 
     const PELANGGARAN_DEFAULT_HEADERS = [
-      "TANGGAL", "NO INDUK", "NAMA", "KELAS", "PELANGGARAN", "KATEGORI", "KESANTRIAN", "ROMBEL"
+      "TANGGAL", "NO INDUK", "NAMA", "KELAS", "PELANGGARAN", "KATEGORI", "KESANTRIAN", "ROMBEL", "SEMESTER"
     ];
 
     const PRESTASI_DEFAULT_HEADERS = [
@@ -1120,6 +1256,12 @@
       cancelBtn: document.getElementById("cancel-btn"),
       saveBtn: document.getElementById("save-btn"),
       
+      poinContainer: document.getElementById("poin-summary-container"),
+      poinKhifidzVal: document.getElementById("poin-khifidz-val"),
+      poinPrestasiVal: document.getElementById("poin-prestasi-val"),
+      poinPelanggaranVal: document.getElementById("poin-pelanggaran-val"),
+      poinTotalVal: document.getElementById("poin-total-val"),
+
       addModal: document.getElementById("add-khifidz-modal"),
       addForm: document.getElementById("add-khifidz-form"),
       closeAddModalBtn: document.getElementById("close-add-modal"),
@@ -1159,6 +1301,7 @@
       addPelanggaranNama: document.getElementById("add-pelanggaran-nama"),
       addPelanggaranKelas: document.getElementById("add-pelanggaran-kelas"),
       addPelanggaranRombel: document.getElementById("add-pelanggaran-rombel"),
+      addPelanggaranSemester: document.getElementById("add-pelanggaran-semester"),
       addPelanggaranJenis: document.getElementById("add-pelanggaran-jenis"),
       addPelanggaranKategori: document.getElementById("add-pelanggaran-kategori"),
       addPelanggaranKesantrian: document.getElementById("add-pelanggaran-kesantrian"),
@@ -1202,6 +1345,66 @@
       printTtdPj: document.getElementById("print-ttd-pj"),
       printPenerimaNama: document.getElementById("print-penerima-nama")
     };
+
+    // ELEMEN UNTUK LOGIKA QR SCANNER
+    const qrEls = {
+      btn: document.getElementById("scan-qr-btn"),
+      modal: document.getElementById("qr-modal"),
+      closeBtn: document.getElementById("close-qr-modal"),
+      reader: "qr-reader"
+    };
+
+    let html5QrCode = null;
+
+    async function openQRScanner() {
+      qrEls.modal.classList.remove("hidden");
+      
+      if (!html5QrCode) {
+        html5QrCode = new Html5Qrcode(qrEls.reader);
+      }
+
+      const config = { fps: 10, qrbox: { width: 220, height: 220 } };
+
+      try {
+        await html5QrCode.start(
+          { facingMode: "environment" },
+          config,
+          onScanSuccess,
+          onScanFailure
+        );
+      } catch (err) {
+        alert("Gagal membuka kamera: " + err);
+        closeQRScanner();
+      }
+    }
+
+    function onScanSuccess(decodedText) {
+      const scannedNoInduk = String(decodedText).trim();
+      closeQRScanner();
+
+      els.search.value = scannedNoInduk;
+      state.page = 1;
+
+      if (state.activeTab === "riwayat") {
+        renderRiwayatView();
+      } else {
+        render();
+      }
+    }
+
+    function onScanFailure(error) {
+      // Abaikan error pembacaan per frame
+    }
+
+    async function closeQRScanner() {
+      if (html5QrCode && html5QrCode.isScanning) {
+        await html5QrCode.stop();
+      }
+      qrEls.modal.classList.add("hidden");
+    }
+
+    if (qrEls.btn) qrEls.btn.addEventListener("click", openQRScanner);
+    if (qrEls.closeBtn) qrEls.closeBtn.addEventListener("click", closeQRScanner);
 
     function initAcademicYearDropdown() {
       els.academicYearFilter.innerHTML = "";
@@ -1464,8 +1667,8 @@
         els.addPrestasiBtn.classList.remove("hidden");
         els.addPelanggaranBtn.classList.add("hidden");
       } else if (state.activeTab === "pelanggaran") {
-        els.rombelContainer.classList.add("hidden");
-        els.semesterContainer.classList.add("hidden");
+        els.rombelContainer.classList.remove("hidden");
+        els.semesterContainer.classList.remove("hidden");
         els.addKhifidzBtn.classList.add("hidden");
         els.addPrestasiBtn.classList.add("hidden");
         els.addPelanggaranBtn.classList.remove("hidden");
@@ -1498,13 +1701,13 @@
         const matchesClass = !els.classFilter.value || row[classHeader] === els.classFilter.value;
         
         let matchesRombel = true;
-        if ((state.activeTab === "khifidz" || state.activeTab === "prestasi") && els.rombelFilter.value && rombelHeader) {
+        if ((state.activeTab === "khifidz" || state.activeTab === "prestasi" || state.activeTab === "pelanggaran") && els.rombelFilter.value && rombelHeader) {
           const valRombel = String(row[rombelHeader] || "").trim();
           matchesRombel = valRombel.toLowerCase() === els.rombelFilter.value.toLowerCase();
         }
 
         let matchesSemester = true;
-        if ((state.activeTab === "khifidz" || state.activeTab === "prestasi") && els.semesterFilter.value && semesterHeader) {
+        if ((state.activeTab === "khifidz" || state.activeTab === "prestasi" || state.activeTab === "pelanggaran") && els.semesterFilter.value && semesterHeader) {
           const valSemester = String(row[semesterHeader] || "").trim();
           matchesSemester = valSemester === els.semesterFilter.value || valSemester.toLowerCase().includes(els.semesterFilter.value.toLowerCase());
         }
@@ -1534,6 +1737,8 @@
     }
 
     function render() {
+      if (els.poinContainer) els.poinContainer.classList.add("hidden");
+
       if (state.activeTab === "riwayat") {
         renderRiwayatView();
         return;
@@ -1578,7 +1783,6 @@
           tr.className = "";
         }
 
-        // Pengaturan kursor & event listener klik edit (Hanya aktif untuk tab Biodata)
         if (state.activeTab === "biodata") {
           tr.className += " cursor-pointer transition hover:brightness-95";
           tr.addEventListener("click", () => openEditModal(record));
@@ -1682,7 +1886,8 @@
       els.pageSummary.textContent = "";
 
       if (!query) {
-        setMessage("Cari Riwayat Santri", "Masukkan Nama atau No Induk santri pada kolom pencarian di atas untuk melihat riwayat lengkap.");
+        if (els.poinContainer) els.poinContainer.classList.add("hidden");
+        setMessage("Cari Riwayat Santri", "Masukkan Nama atau No Induk santri pada kolom pencarian di atas untuk melihat riwayat lengkap & akumulasi poin.");
         els.resultSummary.textContent = "Ketik No Induk / Nama untuk memulai pencarian.";
         return;
       }
@@ -1718,6 +1923,7 @@
       );
 
       if (matchedKhifidz.length === 0 && matchedPrestasi.length === 0 && matchedPelanggaran.length === 0) {
+        if (els.poinContainer) els.poinContainer.classList.add("hidden");
         setMessage("Data Tidak Ditemukan", `Tidak ada riwayat Khifidz, Prestasi, atau Pelanggaran untuk [${query}] pada TA ${state.activeYear}.`);
         els.resultSummary.textContent = "0 riwayat ditemukan.";
         return;
@@ -1725,8 +1931,45 @@
 
       hideMessage();
 
+      // HITUNG AKUMULASI POIN
+      let totalPoinKhifidz = 0;
+      let totalPoinPrestasi = 0;
+      let totalPoinPelanggaran = 0;
+
+      matchedKhifidz.forEach(r => {
+        const nadzoman = r[findHeader(khifidzHeaders, ["NADZOMAN", "Nadzoman"])] || "";
+        totalPoinKhifidz += getKhifidzPoin(nadzoman);
+      });
+
+      matchedPrestasi.forEach(r => {
+        const prest = r[findHeader(prestasiHeaders, ["PRESTASI", "Prestasi"])] || "";
+        totalPoinPrestasi += getPrestasiPoin(prest);
+      });
+
+      matchedPelanggaran.forEach(r => {
+        const kat = r[findHeader(pelanggaranHeaders, ["KATEGORI", "Kategori"])] || "";
+        totalPoinPelanggaran += getPelanggaranPoin(kat);
+      });
+
+      const grandTotalPoin = (totalPoinKhifidz + totalPoinPrestasi) - totalPoinPelanggaran;
+
+      // UPDATE TAMPILAN KOTAK POIN
+      els.poinKhifidzVal.textContent = `+${totalPoinKhifidz}`;
+      els.poinPrestasiVal.textContent = `+${totalPoinPrestasi}`;
+      els.poinPelanggaranVal.textContent = `-${totalPoinPelanggaran}`;
+      els.poinTotalVal.textContent = grandTotalPoin;
+
+      if (grandTotalPoin >= 0) {
+        els.poinTotalVal.className = "text-3xl font-black text-[#157347] mt-1";
+      } else {
+        els.poinTotalVal.className = "text-3xl font-black text-red-600 mt-1";
+      }
+
+      els.poinContainer.classList.remove("hidden");
+
+      // HEADER TABEL RIWAYAT
       const trHead = document.createElement("tr");
-      ["KATEGORI RIWAYAT", "NO INDUK", "NAMA", "KELAS", "KETERANGAN / CAPAIAN", "DETAIL / ROMBEL", "SEMESTER / TANGGAL"].forEach(h => {
+      ["KATEGORI RIWAYAT", "NO INDUK", "NAMA", "KELAS", "KETERANGAN / CAPAIAN", "ROMBEL", "SEMESTER", "POIN"].forEach(h => {
         const th = document.createElement("th");
         th.textContent = h;
         trHead.appendChild(th);
@@ -1742,8 +1985,9 @@
         tr.className = "bg-emerald-50/40 hover:bg-emerald-100/60";
 
         const nadzoman = r[findHeader(khifidzHeaders, ["NADZOMAN", "Nadzoman"])] || "—";
-        const penerima = r[findHeader(khifidzHeaders, ["PENERIMA", "Penerima"])] || "—";
-        const semester = r[findHeader(khifidzHeaders, ["SEMESTER", "Semester"])] || "—";
+        const rombel = r[findHeader(khifidzHeaders, ["ROMBEL", "Rombel"])] || "—";
+        const semester = r[findHeader(khifidzHeaders, ["SEMESTER", "Semester", "Smt"])] || "—";
+        const poinKhifidz = getKhifidzPoin(nadzoman);
 
         tr.innerHTML = `
           <td><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">KHIFIDZ</span></td>
@@ -1751,8 +1995,9 @@
           <td class="font-semibold">${r[khifidzNamaH] || "—"}</td>
           <td>${r[findHeader(khifidzHeaders, ["KELAS", "Kelas"])] || "—"}</td>
           <td class="font-bold text-emerald-900">${nadzoman}</td>
-          <td>${penerima}</td>
+          <td>${rombel}</td>
           <td>${semester}</td>
+          <td><span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-black bg-emerald-200 text-emerald-900">+${poinKhifidz}</span></td>
         `;
         els.tableBody.appendChild(tr);
       });
@@ -1765,7 +2010,8 @@
 
         const prestasi = r[findHeader(prestasiHeaders, ["PRESTASI", "Prestasi"])] || "—";
         const rombel = r[findHeader(prestasiHeaders, ["ROMBEL", "Rombel"])] || "—";
-        const semester = r[findHeader(prestasiHeaders, ["SEMESTER", "Semester"])] || "—";
+        const semester = r[findHeader(prestasiHeaders, ["SEMESTER", "Semester", "Smt"])] || "—";
+        const poinPrestasi = getPrestasiPoin(prestasi);
 
         let badgePrest = `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-purple-100 text-purple-800">${prestasi}</span>`;
         if (prestasi === "Juara 1") badgePrest = `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300">🥇 Juara 1</span>`;
@@ -1780,6 +2026,7 @@
           <td>${badgePrest}</td>
           <td>${rombel}</td>
           <td>${semester}</td>
+          <td><span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-black bg-purple-200 text-purple-900">+${poinPrestasi}</span></td>
         `;
         els.tableBody.appendChild(tr);
       });
@@ -1792,8 +2039,9 @@
 
         const jenisPel = r[findHeader(pelanggaranHeaders, ["PELANGGARAN", "Pelanggaran"])] || "—";
         const katPel = r[findHeader(pelanggaranHeaders, ["KATEGORI", "Kategori"])] || "—";
-        const kesantrian = r[findHeader(pelanggaranHeaders, ["KESANTRIAN", "Kesantrian"])] || "—";
-        const tgl = r[findHeader(pelanggaranHeaders, ["TANGGAL", "Tanggal"])] || "—";
+        const rombel = r[findHeader(pelanggaranHeaders, ["ROMBEL", "Rombel"])] || "—";
+        const semester = r[findHeader(pelanggaranHeaders, ["SEMESTER", "Semester", "Smt"])] || "—";
+        const poinPelanggaran = getPelanggaranPoin(katPel);
 
         let badgeKat = `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-amber-100 text-amber-800">${katPel}</span>`;
         if (katPel === "Ringan") badgeKat = `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-blue-100 text-blue-800">Ringan</span>`;
@@ -1805,13 +2053,15 @@
           <td class="font-semibold">${r[pelNamaH] || "—"}</td>
           <td>${r[findHeader(pelanggaranHeaders, ["KELAS", "Kelas"])] || "—"}</td>
           <td><span class="font-bold text-amber-950">${jenisPel}</span> ${badgeKat}</td>
-          <td>${kesantrian}</td>
-          <td>${tgl}</td>
+          <td>${rombel}</td>
+          <td>${semester}</td>
+          <td><span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-black bg-red-200 text-red-900">-${poinPelanggaran}</span></td>
         `;
         els.tableBody.appendChild(tr);
       });
 
       els.resultSummary.textContent = `Ditemukan ${totalCount} riwayat (${matchedKhifidz.length} Khifidz, ${matchedPrestasi.length} Prestasi, ${matchedPelanggaran.length} Pelanggaran) untuk "${query}".`;
+      lucide.createIcons();
     }
 
     function openCertificateModal(record) {
@@ -2017,6 +2267,7 @@
         const valNama = record[findHeader(headers, ["NAMA", "Nama"])] || "";
         const valKelas = record[findHeader(headers, ["KELAS", "Kelas"])] || "";
         const valRombel = record[findHeader(headers, ["ROMBEL", "Rombel"])] || "";
+        const valSemester = record[findHeader(headers, ["SEMESTER", "Semester"])] || "";
         const valKesantrian = record[findHeader(headers, ["KESANTRIAN", "Kesantrian"])] || "";
         const valPelanggaran = record[findHeader(headers, ["PELANGGARAN", "Pelanggaran"])] || "";
         const valKategori = record[findHeader(headers, ["KATEGORI", "Kategori"])] || (KATEGORI_PELANGGARAN_MAP[valPelanggaran] || "");
@@ -2052,6 +2303,15 @@
           </div>
 
           <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">Semester</label>
+            <select id="edit-pelanggaran-semester" name="Semester" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none" required>
+              <option value="">Pilih Semester</option>
+              <option value="Semester 1" ${valSemester === "Semester 1" ? "selected" : ""}>Semester 1</option>
+              <option value="Semester 2" ${valSemester === "Semester 2" ? "selected" : ""}>Semester 2</option>
+            </select>
+          </div>
+
+          <div>
             <label class="block text-xs font-bold uppercase tracking-wider text-[#173b2b] mb-1">Kesantrian</label>
             <select id="edit-pelanggaran-kesantrian" name="Kesantrian" class="w-full border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none" required>
               <option value="">Pilih Rombel Terlebih Dahulu</option>
@@ -2074,7 +2334,7 @@
             </select>
           </div>
 
-          <div>
+          <div class="sm:col-span-2">
             <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Kategori</label>
             <input type="text" id="edit-pelanggaran-kategori" name="Kategori" value="${valKategori}" readonly class="w-full bg-gray-100 border border-gray-300 rounded-lg p-2 text-sm font-bold text-amber-900 cursor-not-allowed" placeholder="Otomatis terisi..." />
           </div>
@@ -2408,6 +2668,7 @@
       els.addPelanggaranNama.value = "";
       els.addPelanggaranKelas.value = "";
       els.addPelanggaranRombel.value = "";
+      els.addPelanggaranSemester.value = "";
       els.addPelanggaranJenis.value = "";
       els.addPelanggaranKategori.value = "";
       els.addPelanggaranKesantrian.value = "";
@@ -2761,8 +3022,8 @@
         return;
       }
 
-      if (!els.addPelanggaranRombel.value || !els.addPelanggaranJenis.value || !els.addPelanggaranKesantrian.value) {
-        alert("Harap lengkapi semua pilihan dropdown (Rombel, Kesantrian, & Pelanggaran)!");
+      if (!els.addPelanggaranRombel.value || !els.addPelanggaranSemester.value || !els.addPelanggaranJenis.value || !els.addPelanggaranKesantrian.value) {
+        alert("Harap lengkapi semua pilihan dropdown (Rombel, Semester, Kesantrian, & Pelanggaran)!");
         return;
       }
 
@@ -2793,7 +3054,10 @@
         "Kesantrian": els.addPelanggaranKesantrian.value,
 
         "ROMBEL": els.addPelanggaranRombel.value,
-        "Rombel": els.addPelanggaranRombel.value
+        "Rombel": els.addPelanggaranRombel.value,
+
+        "SEMESTER": els.addPelanggaranSemester.value,
+        "Semester": els.addPelanggaranSemester.value
       };
 
       els.saveAddPelanggaranBtn.disabled = true;
